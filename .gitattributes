@@ -1,1 +1,4 @@
 * text=auto !eol
+/README.txt -text
+/bootstrap.py -text
+/buildout.cfg -text
