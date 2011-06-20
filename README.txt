@@ -6,7 +6,7 @@ Before using the Grape buildout, you need to have access to a MySQL database.
 
 Put the MySQL database connection information into your home folder::
 
-  $ vim /users/rg/myuser/.my.cnf
+  $ vim ~/.my.cnf
 
 This is the example configuration that you can adapt to your system. Change the host to
 your MySQL host::
