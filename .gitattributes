@@ -1,4 +1,7 @@
 * text=auto !eol
 /README.txt -text
+accessions/Test/db.cfg -text
 /bootstrap.py -text
 /buildout.cfg -text
+/prepare.py -text
+profiles/Test/db.cfg -text
