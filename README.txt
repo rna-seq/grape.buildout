@@ -12,11 +12,11 @@ This is the example configuration that you can adapt to your system. Change the 
 your MySQL host::
 
   [client]
-  host=pou
-  user=guest
-  password=guest
+  host=localhost
+  user=rnaguest
+  password=rnaguest
 
-Ask your database administrator for a login of the guest user and read/write access to 
+Ask your database administrator for a login of the rnaguest user and read/write access to 
 the following two databases on this host::
 
   - Test_RNAseqPipeline
@@ -24,7 +24,7 @@ the following two databases on this host::
 
 Check out the buildout from svn::
 
-  $ svn co --username guest --password guest svn://svn.crg.es/big/grape/grape.buildout/trunk grape.buildout
+  $ svn co --username rnaguest --password rnaguest svn://svn.crg.es/big/grape/grape.buildout/trunk grape.buildout
   $ cd grape.buildout
 
 Edit the buildout.cfg file to point to the location of the Java and Perl binaries:
@@ -61,6 +61,6 @@ Then execute the pipeline
 
 If you want to visualize the data in a web page, install the Raisin buildout available here:
 
-  $ svn co svn co --username guest --password guest svn://svn.crg.es/big/raisin/raisin.buildout/trunk raisin.buildout
+  $ svn co svn co --username rnaguest --password rnaguest svn://svn.crg.es/big/raisin/raisin.buildout/trunk raisin.buildout
   
 Enjoy!
