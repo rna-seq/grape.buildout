@@ -40,25 +40,22 @@ Get the testdata:
 Create a virtual environment and run the buildout::
 
   $ /path/to/your/python/bin/virtualenv --no-site-packages .
-  $ bin/easy_install RestrictedPython
   $ bin/python bootstrap.py
   $ bin/buildout
 
 After running buildout, the parts folder contains three folders with your RNASeq pipelines:
 
 [+] parts
-    [+] TestClusttrun
-    [+] TestLocaltrun
-    [+] TestTrunk
+    [+] TestRun
 
 Go to one of the RNASeq pipelines and start it:
  
   $ cd parts/TestTrunk
-  $./bin/start.sh
+  $ ./start.sh
 
 Then execute the pipeline
 
-  $ ./bin/execute.sh
+  $ ./execute.sh
 
 If you want to visualize the data in a web page, install the Raisin buildout available here:
 
