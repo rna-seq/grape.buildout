@@ -24,7 +24,7 @@ the following two databases on this host::
 
 Check out the buildout from svn::
 
-  $ svn co svn co --username guest --password guest svn://svn.crg.es/big/grape/grape.buildout/trunk grape.buildout
+  $ svn co --username guest --password guest svn://svn.crg.es/big/grape/grape.buildout/trunk grape.buildout
   $ cd grape.buildout
 
 Edit the buildout.cfg file to point to the location of the Java and Perl binaries:
