@@ -226,7 +226,8 @@ def install_pipeline_scripts(options, buildout, accession):
     command += " -cluster %s" % buildout[pipeline]['CLUSTER']
     command += " -database %s" % buildout[pipeline]['DB']
     command += " -commondb %s" % buildout[pipeline]['COMMONDB']
-    command += " -host %s" % buildout[pipeline]['HOST']
+    if buildout[pipeline].has_key('HOST'):
+        command += " -host %s" % buildout[pipeline]['HOST']
     command += " -mapper %s" % buildout[pipeline]['MAPPER']
     command += " -mismatches %s" % buildout[pipeline]['MISMATCHES']
     if options.has_key('description'):
