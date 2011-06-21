@@ -40,15 +40,17 @@ Get the testdata:
 Create a virtual environment and run the buildout::
 
   $ /path/to/your/python/bin/virtualenv --no-site-packages .
+  $ bin/easy_install RestrictedPython
   $ bin/python bootstrap.py
   $ bin/buildout
 
-After running buildout, the parts folder contains three folders with your RNASeq pipelines:
+After running buildout, the parts folder contains the fully configured RNASeq pipeline 
+inside the TestRun folder:
 
 [+] parts
     [+] TestRun
 
-Go to one of the RNASeq pipelines and start it:
+Go the TestRun RNASeq pipeline and start it:
  
   $ cd parts/TestTrunk
   $ ./start.sh
