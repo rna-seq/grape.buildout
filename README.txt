@@ -52,7 +52,7 @@ inside the TestRun folder:
 
 Go the TestRun RNASeq pipeline and start it:
  
-  $ cd parts/TestTrunk
+  $ cd parts/TestRun
   $ ./start.sh
 
 Then execute the pipeline
