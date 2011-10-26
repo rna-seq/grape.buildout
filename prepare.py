@@ -214,13 +214,21 @@ def install_pipeline_scripts(options, buildout, accession):
     command += " -experiment %s" % options['experiment_id']
     command += " -template %s" % buildout[pipeline]['TEMPLATE']
     # readType = 2x50 
+    # readType = 75D 
     # Extract the read length taking the value after the x
-    command += " -readlength %s" % accession['readType'].split('x')[1]
-    command += " -cellline %s" % accession['cell']
+    read_length = accession['readType']
+    if 'x' in read_length:
+        read_length = read_length.split('x')[1]
+    if 'D' in read_length:
+        read_length = read_length.split('D')[0]
+    if read_length.isdigit():
+        # read_length needs to be a number, otherwise don't pass it on
+        command += " -readlength %s" % read_length
+    command += " -cellline '%s'" % accession['cell']
     command += " -rnafrac %s" % accession['rnaExtract']
     command += " -compartment %s" % accession['localization']
     if accession.has_key('replicate'):
-        command += " -bioreplicate %s" % accession['replicate']    
+        command += " -bioreplicate %s" % accession['replicate']
     command += " -threads %s" % buildout[pipeline]['THREADS']
     command += " -qualities %s" % accession['qualities']
     command += " -cluster %s" % buildout[pipeline]['CLUSTER']
@@ -276,7 +284,16 @@ def install_read_list(options, buildout, accession):
         else:
             mate_id = buildout['labeling']['mate_id'].strip()
             if mate_id.startswith("python:"):
-                mate_id = run_python(mate_id[7:], accession)
+                # The mate id gets a postfix of ".1" and ".2"
+                mate_id = run_python(mate_id[7:], accession).strip()
+                if number_of_reads > 1:
+                    if accession.has_key('file_type'):
+                        # If file type is given (FASTQRD1, FASTQRD2), use this number
+                        mate_id = "%s.%s" % (mate_id,
+                                             accession['file_type'].split('\n')[number][-1])
+                    else:
+                        # In the absence of the file type, just number in order
+                        mate_id = "%s.%s" % (mate_id, number+1)
                         
         if accession.has_key('label'):
             label = accession['label'].split('\n')[number]
@@ -328,6 +345,13 @@ def main(options, buildout):
     except:
         print "Accession not found", options['accession']
         return
+
+
+    for key, value in accession.items():
+        if not key in ['pair_id', 'mate_id', 'label', 'file_location', 'file_type']:
+            if '\n' in accession[key]:
+                # Collapse the redundant values to make labeling easier
+                accession[key] = accession[key].split('\n')[0]
 
     # The part name is also the experiment id. As it is not given in the options, we need to 
     # extract it from the current location. Sigh.
