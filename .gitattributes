@@ -1,5 +1,5 @@
 * text=auto !eol
-/CHANGES.tst -text
+/CHANGES.txt -text
 /README.txt -text
 accessions/Test/db.cfg -text
 /bootstrap.py -text
