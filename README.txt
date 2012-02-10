@@ -27,7 +27,7 @@ Check out the buildout from svn::
   $ svn co --username rnaguest --password rnaguest svn://svn.crg.es/big/grape/grape.buildout/trunk grape.buildout
   $ cd grape.buildout
 
-Edit the buildout.cfg file to point to the location of the Java and Perl binaries:
+Edit the dependencies.cfg file to point to the location of the Java and Perl binaries:
 
   [settings]
   java = /soft/bin/java
