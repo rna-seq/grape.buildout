@@ -65,13 +65,17 @@ def run_python(code, accession):
 
 def install_bin_folder(options, buildout, bin_folder):
     """
+    The bin folder from src/pipeline/bin is copied to var/pipeline/lib
+    Then each part gets a soft link.
+
     The bin folder is made available globally to all pipelines
-    in var/pipeline
+    in var/pipeline/bin
     The shebang of all contained scripts has to be changed to use the Perl
     version defined in buildout.cfg
     """
     # Always start with a fresh installation, so remove the old bin folder in
     # var/pipeline
+    # XXX should be done only once
     shutil.rmtree(bin_folder, ignore_errors=True)
     # The original code comes from the SVN
     buildout_directory = buildout['buildout']['directory']
@@ -111,12 +115,17 @@ def install_bin_folder(options, buildout, bin_folder):
 
 
 def install_lib_folder(options, buildout, lib_folder):
+    """
+    The lib folder from src/pipeline/lib is copied to var/pipeline/lib
+    Then each part gets a soft link.
+    """
     buildout_directory = buildout['buildout']['directory']
     # Remove the old lib folder in var/pipeline
+    # XXX should be done only once!
     shutil.rmtree(lib_folder, ignore_errors=True)
     # The original lib folder is taken from the SVN
     pipeline_lib_folder = os.path.join(buildout_directory, 'src/pipeline/lib')
-    # Copy the lin folder over to var/pipeline
+    # Copy the lib folder over to var/pipeline
     shutil.copytree(pipeline_lib_folder, lib_folder)
     # Make a symbolic link in the part to the lib folder in var/pipeline
     target = os.path.join(options['location'], 'lib')
