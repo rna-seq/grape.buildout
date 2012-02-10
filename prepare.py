@@ -45,6 +45,7 @@ def run_python(code, accession):
     # The getter is needed so that attributes from the accession can be used
     # for the labels
     def mygetitem(obj, attr):
+        """Just get the attribute from the object"""
         return obj[attr]
 
     # The following globals are usable from the restricted Python code
@@ -81,9 +82,9 @@ def install_bin_folder(options, buildout, bin_folder):
     # Use the same shebang for all perl scripts
     for perlscript in os.listdir(bin_folder):
         if perlscript.endswith('.pl'):
-            file = open(os.path.join(bin_folder, perlscript), 'r')
+            perl_file = open(os.path.join(bin_folder, perlscript), 'r')
             # Just the read the first line, which is expected to be the shebang
-            shebang = file.readline()
+            shebang = perl_file.readline()
             # Make sure the shebang is as expected
             if not shebang.strip() in ['#!/soft/bin/perl', '#!/usr/bin/perl']:
                 print "All perl scripts are expected to start with"
@@ -91,16 +92,16 @@ def install_bin_folder(options, buildout, bin_folder):
                 print "This one (%s) starts with %s" % (perlscript, shebang)
                 raise AttributeError
             # Read the rest of the file only, omitting the shebang
-            content = file.read()
-            file.close()
+            content = perl_file.read()
+            perl_file.close()
             # Open the file again, this time for writing
-            file = open(os.path.join(bin_folder, perlscript), 'w')
+            perl_file = open(os.path.join(bin_folder, perlscript), 'w')
             # Write the new shebang using our own perl version as defined in
             # the buildout.cfg
-            file.write("#!%s\n" % buildout['settings']['perl'])
+            perl_file.write("#!%s\n" % buildout['settings']['perl'])
             # Write the rest of the content
-            file.write(content)
-            file.close()
+            perl_file.write(content)
+            perl_file.close()
 
 
 def install_lib_folder(options, buildout, bin_folder):
@@ -414,13 +415,7 @@ def main(options, buildout):
     gemindices_folder = os.path.join(buildout_directory, 'var/GEMIndices')
     install_gemindices_folder(options, buildout, gemindices_folder)
 
-    # Now check the availability of the files.
-    # If the file location is given as a URL, first try to see whether the file
-    # can be found locally.
-    # If the file is found locally, update the file_location with the local
-    # one.
-    # If the file is not found locally, print a warning.
-    # TODO It would be great to optionally download the file.
+    # Create a read folder with soft links to the read files
     install_read_folder(options, buildout, accession)
 
     # Install the flux, overlap and gem binaries
