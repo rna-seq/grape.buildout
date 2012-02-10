@@ -393,7 +393,7 @@ def main(options, buildout):
     # can be linked to
     try:
         accession = buildout[options['accession']]
-    except:
+    except KeyError:
         print "Accession not found", options['accession']
         return
 
