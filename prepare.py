@@ -27,6 +27,34 @@ from RestrictedPython.Guards import safe_builtins
 from RestrictedPython.PrintCollector import PrintCollector
 
 
+class InstallationState:
+    """
+    The var/pipeline/bin and var/pipeline/var folders have to be reinstalled
+    only once for the first part that gets installed. All of the following
+    parts do not have to reinstall the contents of these folders.
+    """
+
+    state = {}
+    
+    def __init__(self):
+        """Reset the installation state"""
+        self.state = {}
+    
+    def set_reinstall(self, path):
+        """Call when the path has been reinstalled"""
+        self.state[path] = True
+
+    def get_reinstall(self, path):
+        """Call when you need to know whether the path has been reinstalled."""
+        if self.state.has_key(path):
+            return self.state[path]
+        else:
+            return False
+
+
+INSTALLATION_STATE = InstallationState()
+
+
 def run_python(code, accession):
     """
     Run some restricted Python code for constructing the labels of accessions
@@ -65,7 +93,7 @@ def run_python(code, accession):
 
 def install_bin_folder(options, buildout, bin_folder):
     """
-    The bin folder from src/pipeline/bin is copied to var/pipeline/lib
+    The bin folder from src/pipeline/bin is copied to var/pipeline/bin
     Then each part gets a soft link.
 
     The bin folder is made available globally to all pipelines
@@ -73,15 +101,16 @@ def install_bin_folder(options, buildout, bin_folder):
     The shebang of all contained scripts has to be changed to use the Perl
     version defined in buildout.cfg
     """
-    # Always start with a fresh installation, so remove the old bin folder in
-    # var/pipeline
-    # XXX should be done only once
-    shutil.rmtree(bin_folder, ignore_errors=True)
-    # The original code comes from the SVN
-    buildout_directory = buildout['buildout']['directory']
-    pipeline_bin_folder = os.path.join(buildout_directory, 'src/pipeline/bin')
-    # The bin folder is populated from the SVN version of the bin folder
-    shutil.copytree(pipeline_bin_folder, bin_folder)
+    # Start with a fresh installation once
+    if INSTALLATION_STATE.get_reinstall(bin_folder):
+        shutil.rmtree(bin_folder, ignore_errors=True)
+        # The original code comes from the SVN
+        buildout_directory = buildout['buildout']['directory']
+        svn_folder = 'src/pipeline/bin'
+        pipeline_bin_folder = os.path.join(buildout_directory, svn_folder)
+        # The bin folder is populated from the SVN version of the bin folder
+        shutil.copytree(pipeline_bin_folder, bin_folder)
+    
     # The bin folder of the current part should point to the global bin folder
     target = os.path.join(options['location'], 'bin')
     if os.path.exists(target):
@@ -89,9 +118,11 @@ def install_bin_folder(options, buildout, bin_folder):
     # Make a symbolic link to the global bin folder in var/pipeline in the
     # part
     os.symlink(bin_folder, target)
-    # Use the same shebang for all perl scripts
-    for perlscript in os.listdir(bin_folder):
-        if perlscript.endswith('.pl'):
+    
+    if INSTALLATION_STATE.get_reinstall(bin_folder):
+        # Use the same shebang for all perl scripts
+        perlscripts = os.path.join(bin_folder, '*.pl')
+        for perlscript in glob.glob(perlscripts):
             perl_file = open(os.path.join(bin_folder, perlscript), 'r')
             # Just the read the first line, which is expected to be the shebang
             shebang = perl_file.readline()
@@ -121,12 +152,15 @@ def install_lib_folder(options, buildout, lib_folder):
     """
     buildout_directory = buildout['buildout']['directory']
     # Remove the old lib folder in var/pipeline
-    # XXX should be done only once!
-    shutil.rmtree(lib_folder, ignore_errors=True)
-    # The original lib folder is taken from the SVN
-    pipeline_lib_folder = os.path.join(buildout_directory, 'src/pipeline/lib')
-    # Copy the lib folder over to var/pipeline
-    shutil.copytree(pipeline_lib_folder, lib_folder)
+
+    if INSTALLATION_STATE.get_reinstall(lib_folder):
+        shutil.rmtree(lib_folder, ignore_errors=True)
+        # The original lib folder is taken from the SVN
+        svn_folder = 'src/pipeline/lib'
+        pipeline_lib_folder = os.path.join(buildout_directory, svn_folder)
+        # Copy the lib folder over to var/pipeline
+        shutil.copytree(pipeline_lib_folder, lib_folder)
+  
     # Make a symbolic link in the part to the lib folder in var/pipeline
     target = os.path.join(options['location'], 'lib')
     # Remove the old link
@@ -134,7 +168,7 @@ def install_lib_folder(options, buildout, lib_folder):
         os.remove(target)
     # And put in the new link
     os.symlink(lib_folder, target)
-    
+
 
 def install_results_folder(options, results_folder):
     """
@@ -457,9 +491,16 @@ def main(options, buildout):
 
     install_read_folder(options, accession)
 
-    install_dependencies(buildout, bin_folder)
+    if INSTALLATION_STATE.get_reinstall(bin_folder):
+        install_dependencies(buildout, bin_folder)
 
     install_pipeline_scripts(options, buildout, accession)
 
     # Install the read list file defining the labels of the reads
     install_read_list(options, buildout, accession)
+
+    # As a last step, set the lib and bin folder to the reinstalled state
+    INSTALLATION_STATE.set_reinstall(lib_folder)
+    INSTALLATION_STATE.set_reinstall(bin_folder)
+
+    
