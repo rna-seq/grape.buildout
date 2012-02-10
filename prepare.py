@@ -64,6 +64,12 @@ def run_python(code, accession):
 
 
 def install_bin_folder(options, buildout, bin_folder):
+    """
+    The bin folder is made available globally to all pipelines
+    in var/pipeline
+    The shebang of all contained scripts has to be changed to use the Perl
+    version defined in buildout.cfg
+    """
     # Always start with a fresh installation, so remove the old bin folder in
     # var/pipeline
     shutil.rmtree(bin_folder, ignore_errors=True)
@@ -149,6 +155,10 @@ def install_gemindices_folder(options, buildout, gemindices_folder):
 
 
 def install_read_folder(options, buildout, accession):
+    """
+    Create a read folder with soft links to the read files
+    """
+    
     # Create the read folder in the parts folder
     read_folder = os.path.join(options['location'], 'readData')
     # There are only soft links in this folder, so the whole folder is deleted
@@ -180,7 +190,10 @@ def install_read_folder(options, buildout, accession):
 
 
 def install_dependencies(options, buildout, bin_folder):
-
+    """
+    Install the flux, overlap and gem binaries.
+    """
+    
     # Remove any existing flux.sh in the pipeline bin folder
     buildout_directory = buildout['buildout']['directory']
     flux_sh = os.path.join(buildout_directory, 'var/pipeline/bin/flux.sh')
@@ -221,6 +234,10 @@ def install_dependencies(options, buildout, bin_folder):
 
 
 def install_pipeline_scripts(options, buildout, accession):
+    """
+    Install the start, execute and clean shell scripts
+    """
+    
     # The default pipeline section is called "pipeline"
     pipeline = {}
     if 'pipeline' in buildout:
@@ -397,10 +414,6 @@ def main(options, buildout):
     buildout_directory = buildout['buildout']['directory']
 
     bin_folder = os.path.join(buildout_directory, 'var/pipeline/bin')
-    # The bin folder is made available globally to all pipelines
-    # in var/pipeline
-    # The shebang of all contained scripts has to be changed to use the Perl
-    # version defined in buildout.cfg
     install_bin_folder(options, buildout, bin_folder)
 
     # The lib folder is copied to var/pipeline
@@ -414,13 +427,10 @@ def main(options, buildout):
     gemindices_folder = os.path.join(buildout_directory, 'var/GEMIndices')
     install_gemindices_folder(options, buildout, gemindices_folder)
 
-    # Create a read folder with soft links to the read files
     install_read_folder(options, buildout, accession)
 
-    # Install the flux, overlap and gem binaries
     install_dependencies(options, buildout, bin_folder)
 
-    # Install the start, execute and clean shell scripts
     install_pipeline_scripts(options, buildout, accession)
 
     # Install the read list file defining the labels of the reads
