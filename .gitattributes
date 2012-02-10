@@ -6,3 +6,4 @@ accessions/Test/db.cfg -text
 /buildout.cfg -text
 /prepare.py -text
 profiles/Test/db.cfg -text
+/version.txt -text
