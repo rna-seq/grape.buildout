@@ -4,6 +4,7 @@
 accessions/Test/db.cfg -text
 /bootstrap.py -text
 /buildout.cfg -text
+/dependencies.cfg -text
 /prepare.py -text
 profiles/Test/db.cfg -text
 /version.txt -text
