@@ -155,7 +155,7 @@ def install_gemindices_folder(options, buildout, gemindices_folder):
     os.symlink(gemindices_folder, target)
 
 
-def install_read_folder(options, buildout, accession):
+def install_read_folder(options, accession):
     """
     Create a read folder with soft links to the read files
     """
@@ -190,7 +190,7 @@ def install_read_folder(options, buildout, accession):
         os.symlink(file_location, target)
 
 
-def install_dependencies(options, buildout, bin_folder):
+def install_dependencies(buildout, bin_folder):
     """
     Install the flux, overlap and gem binaries.
     """
@@ -428,9 +428,9 @@ def main(options, buildout):
     gemindices_folder = os.path.join(buildout_directory, 'var/GEMIndices')
     install_gemindices_folder(options, buildout, gemindices_folder)
 
-    install_read_folder(options, buildout, accession)
+    install_read_folder(options, accession)
 
-    install_dependencies(options, buildout, bin_folder)
+    install_dependencies(buildout, bin_folder)
 
     install_pipeline_scripts(options, buildout, accession)
 
