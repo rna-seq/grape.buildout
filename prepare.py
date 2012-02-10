@@ -127,7 +127,7 @@ def install_lib_folder(options, buildout, lib_folder):
     os.symlink(lib_folder, target)
 
 
-def install_results_folder(options, buildout, results_folder):
+def install_results_folder(options, results_folder):
     # Create a results folder for the results of a pipeline run
     if os.path.exists(results_folder):
         pass
@@ -425,7 +425,7 @@ def main(options, buildout):
 
     experiment_id = options['experiment_id']
     results_folder = os.path.join(buildout_directory, 'var/%s' % experiment_id)
-    install_results_folder(options, buildout, results_folder)
+    install_results_folder(options, results_folder)
 
     gemindices_folder = os.path.join(buildout_directory, 'var/GEMIndices')
     install_gemindices_folder(options, gemindices_folder)
