@@ -104,10 +104,7 @@ def install_bin_folder(options, buildout, bin_folder):
             perl_file.close()
 
 
-def install_lib_folder(options, buildout, bin_folder):
-    # The lib folder is copied to var/pipeline
-    buildout_directory = buildout['buildout']['directory']
-    lib_folder = os.path.join(buildout_directory, 'var/pipeline/lib')
+def install_lib_folder(options, buildout, lib_folder):
     # Remove the old lib folder in var/pipeline
     shutil.rmtree(lib_folder, ignore_errors=True)
     # The original lib folder is taken from the SVN
@@ -406,7 +403,9 @@ def main(options, buildout):
     # version defined in buildout.cfg
     install_bin_folder(options, buildout, bin_folder)
 
-    install_lib_folder(options, buildout, bin_folder)
+    # The lib folder is copied to var/pipeline
+    lib_folder = os.path.join(buildout_directory, 'var/pipeline/lib')
+    install_lib_folder(options, buildout, lib_folder)
 
     experiment_id = options['experiment_id']
     results_folder = os.path.join(buildout_directory, 'var/%s' % experiment_id)
