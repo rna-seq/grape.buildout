@@ -389,9 +389,9 @@ def main(options, buildout):
                        'label',
                        'file_location',
                        'file_type']:
-            if '\n' in accession[key]:
+            if '\n' in value:
                 # Collapse the redundant values to make labeling easier
-                accession[key] = accession[key].split('\n')[0]
+                accession[key] = value.split('\n')[0]
 
     # The part name is also the experiment id. As it is not given in the
     # options, we need to extract it from the current location. Sigh.
