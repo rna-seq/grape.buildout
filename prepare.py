@@ -204,10 +204,10 @@ def install_read_folder(options, accession):
         os.symlink(file_location, target)
 
 
-
-
 def install_read_list(options, buildout, accession):
-    # Add a read.list.txt
+    """
+    Add a read.list.txt in the part that will be used by the pipeline.
+    """
     target = os.path.join(options['location'], 'read.list.txt')
     read_file = open(target, 'w')
     number_of_reads = len(accession['file_location'].split('\n'))
@@ -228,14 +228,8 @@ def install_read_list(options, buildout, accession):
                 # The mate id gets a postfix of ".1" and ".2"
                 mate_id = run_python(mate_id[7:], accession).strip()
                 if number_of_reads > 1:
-                    if 'file_type' in accession:
-                        # If file type is given (FASTQRD1, FASTQRD2), use
-                        # this number
-                        number = accession['file_type'].split('\n')[number][-1]
-                        mate_id = "%s.%s" % (mate_id, number)
-                    else:
-                        # In the absence of the file type, just number in order
-                        mate_id = "%s.%s" % (mate_id, number + 1)
+                    # In the absence of the file type, just number in order
+                    mate_id = "%s.%s" % (mate_id, number + 1)
 
         if 'label' in accession:
             label = accession['label'].split('\n')[number]
