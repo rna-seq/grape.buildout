@@ -141,8 +141,10 @@ def install_results_folder(options, buildout, results_folder):
     os.symlink(results_folder, target)
 
 
-def install_gemindices_folder(options, buildout, gemindices_folder):
-    # Create a GEMIndices folder for sharing the GEM Indices
+def install_gemindices_folder(options, gemindices_folder):
+    """
+    Create a GEMIndices folder for sharing the GEM Indices
+    """
     if os.path.exists(gemindices_folder):
         pass
     else:
@@ -426,7 +428,7 @@ def main(options, buildout):
     install_results_folder(options, buildout, results_folder)
 
     gemindices_folder = os.path.join(buildout_directory, 'var/GEMIndices')
-    install_gemindices_folder(options, buildout, gemindices_folder)
+    install_gemindices_folder(options, gemindices_folder)
 
     install_read_folder(options, accession)
 
