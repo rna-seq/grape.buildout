@@ -19,8 +19,8 @@ The pipeline attribute specifies the section defining the pipeline options.
 """
 
 import os
-from pprint import pprint
 import shutil
+import glob
 from subprocess import call
 from RestrictedPython import compile_restricted
 from RestrictedPython.Guards import safe_builtins
@@ -34,8 +34,7 @@ def run_python(code, accession):
     """
 
     if code.startswith("python:"):
-        # The python code should be stripped
-        raise AttributeError
+        raise AttributeError("Prefix python: should be removed")
 
     # In order to get the result of the Python code out, we have to wrap it
     # like this
@@ -88,7 +87,7 @@ def install_bin_folder(options, buildout, bin_folder):
             shebang = file.readline()
             # Make sure the shebang is as expected
             if not shebang.strip() in ['#!/soft/bin/perl', '#!/usr/bin/perl']:
-                print "All perl scripts are expeted to start with"
+                print "All perl scripts are expected to start with"
                 print "#!/soft/bin/perl or #!/usr/bin/perl"
                 print "This one (%s) starts with %s" % (perlscript, shebang)
                 raise AttributeError
@@ -138,13 +137,21 @@ def install_results_folder(options, buildout, results_folder):
     os.symlink(results_folder, target)
 
 
-def install_read_folder(options, buidout, accession):
-    # The URL is recognized if it starts like this:
-    url_start = ('http://hgdownload-test.cse.ucsc.edu'
-                 '/goldenPath/hg19/encodeDCC/')
-    # This is the local path we map to
-    path_start = ('/users/rg/projects/encode/scaling_up/'
-                 'whole_genome/encode_DCC_mirror/')
+def install_gemindices_folder(options, buildout, gemindices_folder):
+    # Create a GEMIndices folder for sharing the GEM Indices
+    if os.path.exists(gemindices_folder):
+        pass
+    else:
+        os.mkdir(gemindices_folder)
+    target = os.path.join(options['location'], 'GEMIndices')
+    # Remove the old link
+    if os.path.exists(target):
+        os.remove(target)
+    # And put in the new link
+    os.symlink(gemindices_folder, target)
+
+
+def install_read_folder(options, buildout, accession):
     # Create the read folder in the parts folder
     read_folder = os.path.join(options['location'], 'readData')
     # There are only soft links in this folder, so the whole folder is deleted
@@ -157,11 +164,7 @@ def install_read_folder(options, buidout, accession):
         # Get the file location from the accession
         file_location = accession['file_location'].split('\n')[number].strip()
         # Try to recognize the url
-        if file_location.startswith(url_start):
-            # Remove the url part and try to make a proper file system path
-            file_location = os.path.join(path_start,
-                                         file_location.replace(url_start, ''))
-        elif file_location.startswith("http://"):
+        if file_location.startswith("http://"):
             # Unrecognized
             raise AttributeError
         # Only accept a path if it is inside of the path we expect.
@@ -173,6 +176,9 @@ def install_read_folder(options, buidout, accession):
         filename = os.path.split(file_location)[1]
         # Combine the read folder with the filename to get the target
         target = os.path.join(read_folder, filename)
+        if os.path.exists(target):
+            template = "Duplicated read files: \n%s"
+            raise AttributeError(template % accession['file_location'])
         os.symlink(file_location, target)
 
 
@@ -199,22 +205,18 @@ def install_dependencies(options, buildout, bin_folder):
     retcode = call(command, shell=True)
     os.symlink(os.path.join(pipeline_bin, 'flux.sh'), flux_sh)
     if not os.path.exists(flux_sh):
-        raise AttributeError
+        raise AttributeError("Flux shell script not found", flush_sh)
 
-     # Make symbolic links to the overlap and flux tools
+    # Make symbolic links to the overlap and flux tools
     target = os.path.join(bin_folder, 'overlap')
     os.symlink(buildout['settings']['overlap'], target)
     if not os.path.exists(target):
         raise AttributeError("Overlap binary not found: %s" % target)
 
     # Make symbolic links to the gem binaries
-    for gem_binary in ['gem-2-sam',
-                       'gem-do-index',
-                       'gem-mappability',
-                       'gem-mapper',
-                       'gem-retriever',
-                       'gem-split-mapper']:
-        source = os.path.join(buildout['settings']['gem_folder'], gem_binary)
+    gem_binary_glob = os.path.join(buildout['settings']['gem_folder'], 'gem-*')
+    for source in glob.glob(gem_binary_glob):
+        gem_binary = os.path.split(source)[-1]
         target = os.path.join(bin_folder, gem_binary)
         os.symlink(source, target)
         if not os.path.exists(target):
@@ -223,18 +225,27 @@ def install_dependencies(options, buildout, bin_folder):
 
 def install_pipeline_scripts(options, buildout, accession):
     # The default pipeline section is called "pipeline"
-    # If the accession has a pipeline attribute, this overrides the default
-    # section name
-    pipeline = options.get('pipeline', 'pipeline')
+    pipeline = {}
+    if 'pipeline' in buildout:
+        pipeline = buildout['pipeline'].copy()
+
+    # If the accession has a pipeline attribute, this overrides the defaults
+    # of the pipeline section
+    if 'pipeline' in options:
+        if options['pipeline'] in buildout:
+            pipeline.update(buildout[options['pipeline']].copy())
+        else:
+            # The advertised pipeline configuration is not there
+            raise AttributeError
 
     command = "#!/bin/bash\n"
     command += "bin/start_RNAseq_pipeline.3.0.pl"
     command += " -species '%s'" % accession['species']
-    command += " -genome %s" % buildout[pipeline]['GENOMESEQ']
-    command += " -annotation %s" % buildout[pipeline]['ANNOTATION']
-    command += " -project %s" % buildout[pipeline]['PROJECTID']
+    command += " -genome %s" % pipeline['GENOMESEQ']
+    command += " -annotation %s" % pipeline['ANNOTATION']
+    command += " -project %s" % pipeline['PROJECTID']
     command += " -experiment %s" % options['experiment_id']
-    command += " -template %s" % buildout[pipeline]['TEMPLATE']
+    command += " -template %s" % pipeline['TEMPLATE']
     # readType = 2x50
     # readType = 75D
     # Extract the read length taking the value after the x
@@ -251,22 +262,26 @@ def install_pipeline_scripts(options, buildout, accession):
     command += " -compartment %s" % accession['localization']
     if 'replicate' in accession:
         command += " -bioreplicate %s" % accession['replicate']
-    command += " -threads %s" % buildout[pipeline]['THREADS']
+    command += " -threads %s" % pipeline['THREADS']
     command += " -qualities %s" % accession['qualities']
-    command += " -cluster %s" % buildout[pipeline]['CLUSTER']
-    command += " -database %s" % buildout[pipeline]['DB']
-    command += " -commondb %s" % buildout[pipeline]['COMMONDB']
-    if 'HOST' in buildout[pipeline]:
-        command += " -host %s" % buildout[pipeline]['HOST']
-    command += " -mapper %s" % buildout[pipeline]['MAPPER']
-    command += " -mismatches %s" % buildout[pipeline]['MISMATCHES']
+    if 'CLUSTER' in pipeline:
+        if str(pipeline['CLUSTER']).strip() == '':
+            raise AttributeError("CLUSTER has not been specified")
+        else:
+            command += " -cluster %s" % pipeline['CLUSTER']
+    command += " -database %s" % pipeline['DB']
+    command += " -commondb %s" % pipeline['COMMONDB']
+    if 'HOST' in pipeline:
+        command += " -host %s" % pipeline['HOST']
+    command += " -mapper %s" % pipeline['MAPPER']
+    command += " -mismatches %s" % pipeline['MISMATCHES']
     if 'description' in options:
         command += " -run_description '%s'" % options['description']
-    if 'PREPROCESS' in buildout[pipeline]:
-        command += " -preprocess '%s'" % buildout[pipeline]['PREPROCESS']
-    if 'PREPROCESS_TRIM_LENGTH' in buildout[pipeline]:
+    if 'PREPROCESS' in pipeline:
+        command += " -preprocess '%s'" % pipeline['PREPROCESS']
+    if 'PREPROCESS_TRIM_LENGTH' in pipeline:
         template = " -preprocess_trim_length %s"
-        command += template % buildout[pipeline]['PREPROCESS_TRIM_LENGTH']
+        command += template % pipeline['PREPROCESS_TRIM_LENGTH']
     target = os.path.join(options['location'], 'start.sh')
     f = open(target, 'w')
     f.write(command)
@@ -396,6 +411,9 @@ def main(options, buildout):
     experiment_id = options['experiment_id']
     results_folder = os.path.join(buildout_directory, 'var/%s' % experiment_id)
     install_results_folder(options, buildout, results_folder)
+
+    gemindices_folder = os.path.join(buildout_directory, 'var/GEMIndices')
+    install_gemindices_folder(options, buildout, gemindices_folder)
 
     # Now check the availability of the files.
     # If the file location is given as a URL, first try to see whether the file
