@@ -35,11 +35,11 @@ class InstallationState:
     """
 
     state = {}
-    
+
     def __init__(self):
         """Reset the installation state"""
         self.state = {}
-    
+
     def set_reinstall(self, path):
         """Call when the path has been reinstalled"""
         print "set_reinstall", path
@@ -107,7 +107,7 @@ def install_bin_folder(options, buildout, bin_folder):
         pipeline_bin_folder = os.path.join(buildout_directory, svn_folder)
         # The bin folder is populated from the SVN version of the bin folder
         shutil.copytree(pipeline_bin_folder, bin_folder)
-    
+
     # The bin folder of the current part should point to the global bin folder
     target = os.path.join(options['location'], 'bin')
     if os.path.exists(target):
@@ -115,7 +115,7 @@ def install_bin_folder(options, buildout, bin_folder):
     # Make a symbolic link to the global bin folder in var/pipeline in the
     # part
     os.symlink(bin_folder, target)
-    
+
     if INSTALLATION_STATE.get_reinstall(bin_folder):
         # Use the same shebang for all perl scripts
         perlscripts = os.path.join(bin_folder, '*.pl')
@@ -157,7 +157,7 @@ def install_lib_folder(options, buildout, lib_folder):
         pipeline_lib_folder = os.path.join(buildout_directory, svn_folder)
         # Copy the lib folder over to var/pipeline
         shutil.copytree(pipeline_lib_folder, lib_folder)
-  
+
     # Make a symbolic link in the part to the lib folder in var/pipeline
     target = os.path.join(options['location'], 'lib')
     # Remove the old link
@@ -204,7 +204,7 @@ def install_read_folder(options, accession):
     """
     Create a read folder with soft links to the read files
     """
-    
+
     # Create the read folder in the parts folder
     read_folder = os.path.join(options['location'], 'readData')
     # There are only soft links in this folder, so the whole folder is deleted
@@ -285,7 +285,7 @@ def install_dependencies(buildout, bin_folder):
     """
     Install the flux, overlap and gem binaries.
     """
-    
+
     # Remove any existing flux.sh in the pipeline bin folder
     buildout_directory = buildout['buildout']['directory']
     flux_sh = os.path.join(buildout_directory, 'var/pipeline/bin/flux.sh')
@@ -324,12 +324,13 @@ def install_dependencies(buildout, bin_folder):
         if not os.path.exists(target):
             raise AttributeError("Gem binary not found: %s" % target)
 
+
 def parse_read_length(accession):
     """
     Given a readType, parse the read length
 
     readType can be for example:
-    
+
     2x50, 75D, 2x76D, 1x70D, 2x75, 1x80, 1x40, 1x75D, 2x100
     2x96, 2x53, 2x76, 2x46, 2x35, 2x34, 100, 2x40, 2x50, 2x51
     2x54, 2x49, 2x36, 1x36, 2x37, 50, 75
@@ -344,6 +345,7 @@ def parse_read_length(accession):
         return read_length
     else:
         return None
+
 
 def get_pipeline_script_command(accession, pipeline, options):
     """
@@ -387,11 +389,12 @@ def get_pipeline_script_command(accession, pipeline, options):
         command += template % pipeline['PREPROCESS_TRIM_LENGTH']
     return command
 
+
 def install_pipeline_scripts(options, buildout, accession):
     """
     Install the start, execute and clean shell scripts
     """
-    
+
     # The default pipeline section is called "pipeline"
     pipeline = {}
     if 'pipeline' in buildout:
@@ -426,6 +429,7 @@ def install_pipeline_scripts(options, buildout, accession):
     target = os.path.join(options['location'], 'execute.sh')
     execute_file = open(target, 'w')
     execute_file.write(command)
+
 
 def main(options, buildout):
     """
@@ -499,5 +503,3 @@ def main(options, buildout):
     # As a last step, set the lib and bin folder to the reinstalled state
     INSTALLATION_STATE.set_reinstall(lib_folder)
     INSTALLATION_STATE.set_reinstall(bin_folder)
-
-    
