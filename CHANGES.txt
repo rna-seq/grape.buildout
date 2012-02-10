@@ -11,3 +11,8 @@ Features
 - mate_id now gets a postfix of .1 and .2
 
 - parameters given on multiple lines are collapsed to a single line
+
+Internal
+--------
+
+- Put dependencies into their own file and point to it from buildout.cfg
