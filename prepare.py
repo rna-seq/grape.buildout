@@ -314,25 +314,7 @@ def parse_read_length(accession):
     else:
         return None
 
-def install_pipeline_scripts(options, buildout, accession):
-    """
-    Install the start, execute and clean shell scripts
-    """
-    
-    # The default pipeline section is called "pipeline"
-    pipeline = {}
-    if 'pipeline' in buildout:
-        pipeline = buildout['pipeline'].copy()
-
-    # If the accession has a pipeline attribute, this overrides the defaults
-    # of the pipeline section
-    if 'pipeline' in options:
-        if options['pipeline'] in buildout:
-            pipeline.update(buildout[options['pipeline']].copy())
-        else:
-            # The advertised pipeline configuration is not there
-            raise AttributeError
-
+def get_pipeline_script_command(accession, pipeline, options):
     command = "#!/bin/bash\n"
     command += "bin/start_RNAseq_pipeline.3.0.pl"
     command += " -species '%s'" % accession['species']
@@ -369,6 +351,29 @@ def install_pipeline_scripts(options, buildout, accession):
     if 'PREPROCESS_TRIM_LENGTH' in pipeline:
         template = " -preprocess_trim_length %s"
         command += template % pipeline['PREPROCESS_TRIM_LENGTH']
+    return command
+
+def install_pipeline_scripts(options, buildout, accession):
+    """
+    Install the start, execute and clean shell scripts
+    """
+    
+    # The default pipeline section is called "pipeline"
+    pipeline = {}
+    if 'pipeline' in buildout:
+        pipeline = buildout['pipeline'].copy()
+
+    # If the accession has a pipeline attribute, this overrides the defaults
+    # of the pipeline section
+    if 'pipeline' in options:
+        if options['pipeline'] in buildout:
+            pipeline.update(buildout[options['pipeline']].copy())
+        else:
+            # The advertised pipeline configuration is not there
+            raise AttributeError
+
+    command = get_pipeline_script_command(accession, pipeline, options)
+
     target = os.path.join(options['location'], 'start.sh')
     start_file = open(target, 'w')
     start_file.write(command)
