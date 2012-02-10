@@ -293,7 +293,7 @@ def install_dependencies(buildout, bin_folder):
         if not os.path.exists(target):
             raise AttributeError("Gem binary not found: %s" % target)
 
-def parse_read_length(readType):
+def parse_read_length(accession):
     """
     Given a readType, parse the read length
 
@@ -303,7 +303,7 @@ def parse_read_length(readType):
     2x96, 2x53, 2x76, 2x46, 2x35, 2x34, 100, 2x40, 2x50, 2x51
     2x54, 2x49, 2x36, 1x36, 2x37, 50, 75
     """
-    read_length = readType
+    read_length = accession['readType']
     if 'D' in read_length:
         read_length = read_length.split('D')[0]
     if  'x' in read_length:
@@ -341,7 +341,7 @@ def install_pipeline_scripts(options, buildout, accession):
     command += " -project %s" % pipeline['PROJECTID']
     command += " -experiment %s" % options['experiment_id']
     command += " -template %s" % pipeline['TEMPLATE']
-    read_length = parse_read_length(accession['readType'])
+    read_length = parse_read_length(accession)
     if not read_length is None:
         command += " -readlength %s" % read_length
     command += " -cellline '%s'" % accession['cell']
