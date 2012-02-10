@@ -111,6 +111,7 @@ def install_bin_folder(options, buildout, bin_folder):
 
 
 def install_lib_folder(options, buildout, lib_folder):
+    buildout_directory = buildout['buildout']['directory']
     # Remove the old lib folder in var/pipeline
     shutil.rmtree(lib_folder, ignore_errors=True)
     # The original lib folder is taken from the SVN
