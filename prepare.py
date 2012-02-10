@@ -300,31 +300,31 @@ def install_pipeline_scripts(options, buildout, accession):
         template = " -preprocess_trim_length %s"
         command += template % pipeline['PREPROCESS_TRIM_LENGTH']
     target = os.path.join(options['location'], 'start.sh')
-    f = open(target, 'w')
-    f.write(command)
-    f.close()
+    start_file = open(target, 'w')
+    start_file.write(command)
+    start_file.close()
     os.chmod(target, 0755)
 
     target = os.path.join(options['location'], 'clean.sh')
     command += " -clean"
-    f = open(target, 'w')
-    f.write(command)
-    f.close()
+    clean_file = open(target, 'w')
+    clean_file.write(command)
+    clean_file.close()
     os.chmod(target, 0755)
 
     command = "#!/bin/bash\n"
     command += "bin/execute_RNAseq_pipeline3.0.pl all |tee -a pipeline.log"
     target = os.path.join(options['location'], 'execute.sh')
-    f = open(target, 'w')
-    f.write(command)
-    f.close()
+    execute_file = open(target, 'w')
+    execute_file.write(command)
+    execute_file.close()
     os.chmod(target, 0755)
 
 
 def install_read_list(options, buildout, accession):
     # Add a read.list.txt
     target = os.path.join(options['location'], 'read.list.txt')
-    f = open(target, 'w')
+    read_file = open(target, 'w')
     number_of_reads = len(accession['file_location'].split('\n'))
     for number in range(0, number_of_reads):
         file_location = accession['file_location'].split('\n')[number]
@@ -366,9 +366,9 @@ def install_read_list(options, buildout, accession):
                   pair_id.strip().replace(' ', ''),
                   mate_id.strip().replace(' ', ''),
                   label.strip().replace(' ', ''))
-        f.write('\t'.join(labels))
-        f.write('\n')
-    f.close()
+        read_file.write('\t'.join(labels))
+        read_file.write('\n')
+    read_file.close()
 
 
 def main(options, buildout):
