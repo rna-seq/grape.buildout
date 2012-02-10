@@ -293,6 +293,26 @@ def install_dependencies(buildout, bin_folder):
         if not os.path.exists(target):
             raise AttributeError("Gem binary not found: %s" % target)
 
+def parse_read_length(readType):
+    """
+    Given a readType, parse the read length
+
+    readType can be for example:
+    
+    2x50, 75D, 2x76D, 1x70D, 2x75, 1x80, 1x40, 1x75D, 2x100
+    2x96, 2x53, 2x76, 2x46, 2x35, 2x34, 100, 2x40, 2x50, 2x51
+    2x54, 2x49, 2x36, 1x36, 2x37, 50, 75
+    """
+    read_length = readType
+    if 'D' in read_length:
+        read_length = read_length.split('D')[0]
+    if  'x' in read_length:
+        # Extract the read length taking the value after the x
+        read_length = read_length.split('x')[1]
+    if read_length.isdigit():
+        return read_length
+    else:
+        return None
 
 def install_pipeline_scripts(options, buildout, accession):
     """
@@ -321,16 +341,8 @@ def install_pipeline_scripts(options, buildout, accession):
     command += " -project %s" % pipeline['PROJECTID']
     command += " -experiment %s" % options['experiment_id']
     command += " -template %s" % pipeline['TEMPLATE']
-    # readType = 2x50
-    # readType = 75D
-    # Extract the read length taking the value after the x
-    read_length = accession['readType']
-    if 'x' in read_length:
-        read_length = read_length.split('x')[1]
-    if 'D' in read_length:
-        read_length = read_length.split('D')[0]
-    if read_length.isdigit():
-        # read_length needs to be a number, otherwise don't pass it on
+    read_length = parse_read_length(accession['readType'])
+    if not read_length is None:
         command += " -readlength %s" % read_length
     command += " -cellline '%s'" % accession['cell']
     command += " -rnafrac %s" % accession['rnaExtract']
