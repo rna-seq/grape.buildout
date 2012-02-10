@@ -197,7 +197,7 @@ def install_read_folder(options, accession):
 def install_read_list(options, buildout, accession):
     # Add a read.list.txt
     target = os.path.join(options['location'], 'read.list.txt')
-    f = open(target, 'w')
+    read_file = open(target, 'w')
     number_of_reads = len(accession['file_location'].split('\n'))
     for number in range(0, number_of_reads):
         file_location = accession['file_location'].split('\n')[number]
@@ -239,9 +239,9 @@ def install_read_list(options, buildout, accession):
                   pair_id.strip().replace(' ', ''),
                   mate_id.strip().replace(' ', ''),
                   label.strip().replace(' ', ''))
-        f.write('\t'.join(labels))
-        f.write('\n')
-    f.close()
+        read_file.write('\t'.join(labels))
+        read_file.write('\n')
+    read_file.close()
 
 
 def install_dependencies(buildout, bin_folder):
