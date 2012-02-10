@@ -24,7 +24,6 @@ import glob
 from subprocess import call
 from RestrictedPython import compile_restricted
 from RestrictedPython.Guards import safe_builtins
-from RestrictedPython.Guards import full_write_guard
 from RestrictedPython.PrintCollector import PrintCollector
 
 
@@ -202,10 +201,10 @@ def install_dependencies(options, buildout, bin_folder):
     template = '%s -DwrapperDir="%s" -jar "%s" --install'
     command = template % (java, pipeline_bin, flux_jar)
     # Now we can creat the flux.sh file.
-    retcode = call(command, shell=True)
+    call(command, shell=True)
     os.symlink(os.path.join(pipeline_bin, 'flux.sh'), flux_sh)
     if not os.path.exists(flux_sh):
-        raise AttributeError("Flux shell script not found", flush_sh)
+        raise AttributeError("Flux shell script not found", flux_sh)
 
     # Make symbolic links to the overlap and flux tools
     target = os.path.join(bin_folder, 'overlap')
