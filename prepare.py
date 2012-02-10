@@ -315,6 +315,9 @@ def parse_read_length(accession):
         return None
 
 def get_pipeline_script_command(accession, pipeline, options):
+    """
+    Assemble the command line options for the start and clean scripts.
+    """
     command = "#!/bin/bash\n"
     command += "bin/start_RNAseq_pipeline.3.0.pl"
     command += " -species '%s'" % accession['species']
