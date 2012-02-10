@@ -137,7 +137,10 @@ def install_lib_folder(options, buildout, lib_folder):
     
 
 def install_results_folder(options, results_folder):
-    # Create a results folder for the results of a pipeline run
+    """
+    Create a results folder in var for keeping the results of a pipeline run,
+    and make a soft link to it in each part.
+    """
     if os.path.exists(results_folder):
         pass
     else:
