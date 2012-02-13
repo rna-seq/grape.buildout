@@ -15,4 +15,6 @@ Features
 Internal
 --------
 
+- Use grape.recipe.pipeline recipe instead of prepare.py script
+
 - Put dependencies into their own file and point to it from buildout.cfg
