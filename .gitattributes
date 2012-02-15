@@ -8,13 +8,6 @@ dashboards/static/css/forms.css -text
 dashboards/static/css/reset.css -text
 dashboards/static/css/styles.css -text
 dashboards/static/css/typography.css -text
-dashboards/static/generic/Projects/index.html -text
-dashboards/static/generic/dashboard.csv -text
-dashboards/static/project/CLL/dashboard.csv -text
-dashboards/static/project/CLL/gencode6.html -text
-dashboards/static/project/CLL/gencode7.html -text
-dashboards/static/project/Quantomics/dashboard.csv -text
-dashboards/static/project/Quantomics/overview.html -text
 /dependencies.cfg -text
 etc/connections/development.ini -text
 etc/databases/databases.ini -text
