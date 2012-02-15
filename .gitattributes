@@ -22,3 +22,4 @@ etc/restish/development.ini -text
 etc/restish/raisin.restish.ini -text
 profiles/Test/db.cfg -text
 /version.txt -text
+/versions.txt -text
