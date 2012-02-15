@@ -40,7 +40,6 @@ Get the testdata:
 Create a virtual environment and run the buildout::
 
   $ /path/to/your/python/bin/virtualenv --no-site-packages .
-  $ bin/easy_install RestrictedPython
   $ bin/python bootstrap.py
   $ bin/buildout
 
