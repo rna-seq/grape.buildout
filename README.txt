@@ -8,16 +8,16 @@ Put the MySQL database connection information into your home folder::
 
   $ vim ~/.my.cnf
 
-This is the example configuration that you can adapt to your system. Change the host to
-your MySQL host::
+This is the example configuration that you can adapt to your system. Change the
+host to your MySQL host::
 
   [client]
   host=localhost
   user=rnaguest
   password=rnaguest
 
-Ask your database administrator for a login of the rnaguest user and read/write access to 
-the following two databases on this host::
+Ask your database administrator for a login of the rnaguest user and read/write
+access to the following two databases on this host::
 
   - Test_RNAseqPipeline
   - Test_RNAseqPipelineCommon
@@ -27,7 +27,8 @@ Check out the buildout from svn::
   $ svn co --username rnaguest --password rnaguest svn://svn.crg.es/big/grape/grape.buildout/trunk grape.buildout
   $ cd grape.buildout
 
-Edit the dependencies.cfg file to point to the location of the Java and Perl binaries:
+Edit the dependencies.cfg file to point to the location of the Java and Perl 
+binaries:
 
   [settings]
   java = /soft/bin/java
@@ -43,8 +44,8 @@ Create a virtual environment and run the buildout::
   $ bin/python bootstrap.py
   $ bin/buildout
 
-After running buildout, the parts folder contains the fully configured RNASeq pipeline 
-inside the TestRun folder:
+After running buildout, the parts folder contains the fully configured RNASeq
+pipeline inside the TestRun folder:
 
 [+] parts
     [+] TestRun
@@ -58,8 +59,58 @@ Then execute the pipeline
 
   $ ./execute.sh
 
-If you want to visualize the data in a web page, install the Raisin buildout available here:
+===============================
+Get Started Quickly With Raisin
+===============================
 
-  $ svn co svn co --username rnaguest --password rnaguest svn://svn.crg.es/big/raisin/raisin.buildout/trunk raisin.buildout
-  
-Enjoy!
+Raisin expects a MySQL server with the following configuration:
+
+  [raisin]
+  port = 3306
+  server = 127.0.0.1
+  user = raisin
+  password = raisin
+
+You will probably have to change this for your configuration, and you can
+do so by changing the settigns in this file:
+
+  etc/connections/development.ini
+
+Run the Restish instance of Raisin using the Paste HTTP server in the
+foreground::
+
+  $ bin/paster serve etc/restish/development.ini
+
+Get a resource from the restish server::
+
+  $ curl -i -H "Accept:text/csv" 127.0.0.1:6464/projects
+
+Run the Pyramid instance of Raisin using the Paste HTTP server in the
+foreground::
+
+  $ bin/paster serve etc/pyramid/development.ini
+
+Visit the Pyramid test instance of Raisin at::
+
+  http://localhost:7777/
+
+Default login and password are admin/admin.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
