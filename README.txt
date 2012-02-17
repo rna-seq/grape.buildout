@@ -92,9 +92,13 @@ foreground::
 
 Visit the Pyramid test instance of Raisin at::
 
-  http://localhost:7777/
+    http://localhost:7777/project/Test/tab/experiments/
 
-Default login and password are admin/admin.
+Default login and password are:
+
+login: raisin
+password: raisin
+
 
 
 
