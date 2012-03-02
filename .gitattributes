@@ -6,17 +6,6 @@ dashboards/static/css/forms.css -text
 dashboards/static/css/reset.css -text
 dashboards/static/css/styles.css -text
 dashboards/static/css/typography.css -text
-etc/connections/development.ini -text
-etc/databases/databases.ini -text
-etc/misc/parameters.ini -text
-etc/misc/project_parameters.ini -text
-etc/projects/projects.ini -text
-etc/pyramid/development.ini -text
-etc/pyramid/production.ini -text
-etc/pyramid/projects.ini -text
-etc/pyramid/users.ini -text
-etc/restish/development.ini -text
-etc/restish/raisin.restish.ini -text
 profiles/Test/db.cfg -text
 /version.txt -text
 /versions.cfg -text
