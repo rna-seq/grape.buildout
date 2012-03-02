@@ -2,7 +2,6 @@
 /CHANGES.txt -text
 /README.txt -text
 accessions/Test/db.cfg -text
-/bootstrap.py -text
 dashboards/static/css/forms.css -text
 dashboards/static/css/reset.css -text
 dashboards/static/css/styles.css -text
