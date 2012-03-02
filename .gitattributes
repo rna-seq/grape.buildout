@@ -6,7 +6,6 @@ dashboards/static/css/forms.css -text
 dashboards/static/css/reset.css -text
 dashboards/static/css/styles.css -text
 dashboards/static/css/typography.css -text
-/dependencies.cfg -text
 etc/connections/development.ini -text
 etc/databases/databases.ini -text
 etc/misc/parameters.ini -text
