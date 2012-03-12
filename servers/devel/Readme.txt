@@ -8,8 +8,9 @@ Then install virtualenv like this:
 
     easy_install virtualenv
 
-Run virtualenv:
+Go to the devel folder and run virtualenv:
 
+    cd devel
     virtualenv --no-site-packages .
 
 Run the bootstrap.py file in your project:
@@ -24,21 +25,15 @@ like this:
 If there are any problems connecting to MySQL, check the settings in the
 following file:
 
-  etc/connections/development.ini
+    etc/connections/development.ini
 
-Run the Restish instance of Raisin using the Paste HTTP server in the
-foreground::
+Run supervisor in the foreground:
 
-  $ bin/paster serve etc/restish/development.ini
+    ./bin/supervisord -e debug -n -c etc/supervisor/supervisord.conf
 
-Try out if it is possible to get a resource from the restish server::
+If everything works fine, run supervisor in daemon mode:
 
-  $ curl -i -H "Accept:text/csv" 127.0.0.1:6464/projects
-
-Run the Pyramid instance of Raisin using the Paste HTTP server in the
-foreground::
-
-  $ bin/paster serve etc/pyramid/development.ini
+    ./bin/supervisord -c etc/supervisor/supervisord.conf
 
 Visit the Pyramid test instance of Raisin at::
 
