@@ -33,7 +33,7 @@ Raisin expects a MySQL server with the following configuration:
 You will probably have to change this for your configuration, and you can
 do so by changing the settings in this file:
 
-  etc/connections/development.ini
+  etc/connections/mysql.ini
 
 = Starting the servers =
 
