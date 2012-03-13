@@ -22,10 +22,18 @@ like this:
 
     ./bin/buildout
 
-If there are any problems connecting to MySQL, check the settings in the
-following file:
+Raisin expects a MySQL server with the following configuration:
 
-    etc/connections/development.ini
+  [raisin]
+  port = 3306
+  server = 127.0.0.1
+  user = raisin
+  password = raisin
+
+You will probably have to change this for your configuration, and you can
+do so by changing the settings in this file:
+
+  etc/connections/development.ini
 
 = Starting the servers =
 
@@ -75,7 +83,7 @@ You can start all servers
 
 Visit the Pyramid test instance of Raisin at::
 
-    http://localhost:7777/
+    http://localhost:7777/project/Test/tab/experiments/
 
 Default login and password are:
 
