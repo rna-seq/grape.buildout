@@ -2,105 +2,17 @@
 Get Started Quickly With Grape
 ==============================
 
-Before using the Grape buildout, you need to have access to a MySQL database.
+If you want to test Grape with a test dataset, go to the Test pipeline folder:
 
-Put the MySQL database connection information into your home folder::
+    cd pipelines/Test
 
-  $ vim ~/.my.cnf
+Then follow the README.txt
 
-This is the example configuration that you can adapt to your system. Change the
-host to your MySQL host::
+If you want to install the Grape web server, go the the devel server folder:
 
-  [client]
-  host=localhost
-  user=rnaguest
-  password=rnaguest
+    cd servers/devel
 
-Ask your database administrator for a login of the rnaguest user and read/write
-access to the following two databases on this host::
-
-  - Test_RNAseqPipeline
-  - Test_RNAseqPipelineCommon
-
-Check out the buildout from svn::
-
-  $ svn co --username rnaguest --password rnaguest svn://svn.crg.es/big/grape/grape.buildout/trunk grape.buildout
-  $ cd grape.buildout
-
-Edit the dependencies.cfg file to point to the location of the Java and Perl 
-binaries:
-
-  [settings]
-  java = /soft/bin/java
-  perl = /soft/bin/perl
-
-Get the testdata:
-
-  $ wget -m 'ftp://ftp.encode.crg.cat/pub/rnaseq/pipeline/testdata' --directory-prefix=src/testdata --no-directories
-
-Create a virtual environment and run the buildout::
-
-  $ /path/to/your/python/bin/virtualenv --no-site-packages .
-  $ bin/python bootstrap.py
-  $ bin/buildout
-
-After running buildout, the parts folder contains the fully configured RNASeq
-pipeline inside the TestRun folder:
-
-[+] parts
-    [+] TestRun
-
-Go the TestRun RNASeq pipeline and start it:
- 
-  $ cd parts/TestRun
-  $ ./start.sh
-
-Then execute the pipeline
-
-  $ ./execute.sh
-
-===============================
-Get Started Quickly With Raisin
-===============================
-
-Raisin expects a MySQL server with the following configuration:
-
-  [raisin]
-  port = 3306
-  server = 127.0.0.1
-  user = raisin
-  password = raisin
-
-You will probably have to change this for your configuration, and you can
-do so by changing the settigns in this file:
-
-  etc/connections/development.ini
-
-Run the Restish instance of Raisin using the Paste HTTP server in the
-foreground::
-
-  $ bin/paster serve etc/restish/development.ini
-
-Get a resource from the restish server::
-
-  $ curl -i -H "Accept:text/csv" 127.0.0.1:6464/projects
-
-Run the Pyramid instance of Raisin using the Paste HTTP server in the
-foreground::
-
-  $ bin/paster serve etc/pyramid/development.ini
-
-Visit the Pyramid test instance of Raisin at::
-
-    http://localhost:7777/project/Test/tab/experiments/
-
-Default login and password are:
-
-login: raisin
-password: raisin
-
-
-
+Then follow the README.txt
 
 
 
