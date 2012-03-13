@@ -79,6 +79,10 @@ You can start all servers
 
     ./bin/supervisorctl -c etc/supervisor/supervisord.conf start all
 
+You can also restart all servers:
+
+    ./bin/supervisorctl -c etc/supervisor/supervisord.conf restart all
+
 = Accessing the Pyramid server =
 
 Visit the Pyramid test instance of Raisin at::
@@ -87,8 +91,8 @@ Visit the Pyramid test instance of Raisin at::
 
 Default login and password are:
 
-login: raisin
-password: raisin
+    login: raisin
+    password: raisin
 
 = Accessing the restish server =
 
