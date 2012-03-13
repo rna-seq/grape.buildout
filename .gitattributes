@@ -6,5 +6,6 @@ dashboards/static/css/forms.css -text
 dashboards/static/css/reset.css -text
 dashboards/static/css/styles.css -text
 dashboards/static/css/typography.css -text
+pipelines/Test/README.txt -text
 profiles/Test/db.cfg -text
 /version.txt -text
