@@ -39,11 +39,11 @@ do so by changing the settings in this file:
 
 Run supervisor in the foreground:
 
-    ./bin/supervisord -e debug -n -c etc/supervisor/supervisord.conf
+    ./bin/supervisord -e debug -n -c etc/supervisor/development.conf
 
 If everything works fine, run supervisor in daemon mode:
 
-    ./bin/supervisord -c etc/supervisor/supervisord.conf
+    ./bin/supervisord -c etc/supervisor/development.conf
 
 You can access the supervisor status page here and stop and start servers:
 
@@ -51,37 +51,37 @@ You can access the supervisor status page here and stop and start servers:
 
 Or you can see the status on the command line:
 
-    ./bin/supervisorctl -c etc/supervisor/supervisord.conf status
+    ./bin/supervisorctl -c etc/supervisor/development.conf status
 
 And then do all the starting and stopping from the command line:
 
 You can stop the restish server:
 
-    ./bin/supervisorctl -c etc/supervisor/supervisord.conf stop restish
+    ./bin/supervisorctl -c etc/supervisor/development.conf stop restish
 
 You can stop the pyramid server
 
-    ./bin/supervisorctl -c etc/supervisor/supervisord.conf stop pyramid
+    ./bin/supervisorctl -c etc/supervisor/development.conf stop pyramid
 
 You can start the restish server:
 
-    ./bin/supervisorctl -c etc/supervisor/supervisord.conf start restish
+    ./bin/supervisorctl -c etc/supervisor/development.conf start restish
 
 You can start the pyramid server
 
-    ./bin/supervisorctl -c etc/supervisor/supervisord.conf start pyramid
+    ./bin/supervisorctl -c etc/supervisor/development.conf start pyramid
 
 You can stop all servers
 
-    ./bin/supervisorctl -c etc/supervisor/supervisord.conf stop all
+    ./bin/supervisorctl -c etc/supervisor/development.conf stop all
 
 You can start all servers
 
-    ./bin/supervisorctl -c etc/supervisor/supervisord.conf start all
+    ./bin/supervisorctl -c etc/supervisor/development.conf start all
 
 You can also restart all servers:
 
-    ./bin/supervisorctl -c etc/supervisor/supervisord.conf restart all
+    ./bin/supervisorctl -c etc/supervisor/development.conf restart all
 
 = Accessing the Pyramid server =
 
@@ -114,8 +114,8 @@ foreground::
 
 Run Restish in daemon mode:
 
-    ./bin/pserve etc/restish/production.ini --daemon --pid-file=restish.pid --log-file=restish.log 
+    ./bin/pserve etc/restish/development.ini --daemon --pid-file=restish.pid --log-file=restish.log 
 
 Run Pyramid in demon mode
     
-    ./bin/pserve etc/pyramid/production.ini --daemon --pid-file=pyramid.pid --log-file=pyramid.log 
+    ./bin/pserve etc/pyramid/development.ini --daemon --pid-file=pyramid.pid --log-file=pyramid.log 
