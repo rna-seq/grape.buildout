@@ -105,17 +105,17 @@ Try out if it is possible to get a resource from the restish server::
 Run the Restish instance of Raisin using the Paste HTTP server in the
 foreground::
 
-    ./bin/paster serve etc/restish/development.ini
+    ./bin/pserve etc/restish/development.ini
  
 Run the Pyramid instance of Raisin using the Paste HTTP server in the
 foreground::
 
-    ./bin/paster serve etc/pyramid/development.ini
+    ./bin/pserve etc/pyramid/development.ini
 
 Run Restish in daemon mode:
 
-    ./bin/paster serve etc/restish/production.ini --daemon --pid-file=restish.pid --log-file=restish.log 
+    ./bin/pserve etc/restish/production.ini --daemon --pid-file=restish.pid --log-file=restish.log 
 
 Run Pyramid in demon mode
     
-    ./bin/paster serve etc/pyramid/production.ini --daemon --pid-file=pyramid.pid --log-file=pyramid.log 
+    ./bin/pserve etc/pyramid/production.ini --daemon --pid-file=pyramid.pid --log-file=pyramid.log 
