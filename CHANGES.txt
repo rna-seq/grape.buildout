@@ -1,8 +1,13 @@
 Next release
 ============
 
-- Added pipelines for quickly running Grape for several species:
+1.1 (2012-03-29)
+================
+
+- Added a pipelines for quickly running Grape for several species:
   Homo sapiens, Mus musculus and Drosophila Melanogaster
+
+- Use grape.recipe.pipeline version 1.1, which included the quick run mode
 
 1.0 (2012-03-29)
 ================
