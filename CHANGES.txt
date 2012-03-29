@@ -4,6 +4,10 @@ Next release
 Features
 --------
 
+- Fix package versions to be used in depencies.cfg
+
+- Adding .eggs and .downloads folder for buildout cache
+
 - readType can now be decoded from shorthands 2x50 and 75D
 
 - cellline parameter for pipeline is now quoted
