@@ -1,7 +1,12 @@
 Next release
 ============
 
-Features
+1.0 (2012-03-29)
+================
+
+- First official release
+
+Internal
 --------
 
 - Fix package versions to be used in depencies.cfg
@@ -15,9 +20,6 @@ Features
 - mate_id now gets a postfix of .1 and .2
 
 - parameters given on multiple lines are collapsed to a single line
-
-Internal
---------
 
 - Upgrade to Pyramid 1.3
 
