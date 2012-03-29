@@ -6,14 +6,8 @@ dashboards/static/css/forms.css -text
 dashboards/static/css/reset.css -text
 dashboards/static/css/styles.css -text
 dashboards/static/css/typography.css -text
-pipelines/QCE/bootstrap.py -text
-pipelines/QCE/buildout.cfg -text
-pipelines/QDM/bootstrap.py -text
-pipelines/QDM/buildout.cfg -text
 pipelines/QHS/bootstrap.py -text
 pipelines/QHS/buildout.cfg -text
-pipelines/QMM/bootstrap.py -text
-pipelines/QMM/buildout.cfg -text
 pipelines/Test/README.txt -text
 profiles/Test/db.cfg -text
 servers/devel/README.txt -text
