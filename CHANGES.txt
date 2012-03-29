@@ -1,6 +1,9 @@
 Next release
 ============
 
+- Added pipelines for quickly running Grape for several species:
+  Homo sapiens, Mus musculus and Drosophila Melanogaster
+
 1.0 (2012-03-29)
 ================
 
