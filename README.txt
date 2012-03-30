@@ -1,6 +1,7 @@
-==========================================
-Grape RNAseq Analysis Pipeline Environment
-==========================================
+Grape RNAseq Analysis Pipeline Environment version 1.1.2
+--------------------------------------------------------
+
+See the CHANGES.txt file for differences to previous versions.
 
 High throughput sequencing technologies generate vast amounts of data that 
 require subsequent management, analysis and visualization.
@@ -20,3 +21,10 @@ the Google chart tools for display.
 For further information and downloading, please refer to the home page:
 
 http://big.crg.cat/services/grape
+
+Please read the copyright notice in the file LICENSE.txt!
+
+We need your feedback! Send your comments, suggestions, and questions to
+maikroeder@gmail.com
+
+Maik Röder Spring 2012
