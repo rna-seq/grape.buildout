@@ -1,6 +1,11 @@
 Next release
 ============
 
+1.1.1 (2012-03-30)
+==================
+
+- Added further setup instructions to the README.txt
+
 1.1 (2012-03-29)
 ================
 
