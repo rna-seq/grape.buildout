@@ -1,5 +1,6 @@
 * text=auto !eol
 /CHANGES.txt -text
+/INSTALL.txt -text
 /README.txt -text
 accessions/Test/db.cfg -text
 dashboards/static/css/forms.css -text
