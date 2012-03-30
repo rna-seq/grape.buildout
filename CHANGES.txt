@@ -1,6 +1,12 @@
 Next release
 ============
 
+1.1.2 (2012-03-30)
+==================
+
+- Moved the installation instructions to INSTALL.txt
+- Added README.txt to pipelines/Quick
+
 1.1.1 (2012-03-30)
 ==================
 
