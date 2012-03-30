@@ -117,7 +117,7 @@ cd grape
 cd pipelines
 cd Quick
 cd parts/
-cd parts/Female
+cd parts/Run
 ./start.sh
 </pre>
 
