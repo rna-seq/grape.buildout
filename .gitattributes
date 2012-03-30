@@ -7,6 +7,9 @@ dashboards/static/css/forms.css -text
 dashboards/static/css/reset.css -text
 dashboards/static/css/styles.css -text
 dashboards/static/css/typography.css -text
+pipelines/BenchDM/README.txt -text
+pipelines/BenchDM/bootstrap.py -text
+pipelines/BenchDM/buildout.cfg -text
 pipelines/Quick/README.txt -text
 pipelines/Quick/bootstrap.py -text
 pipelines/Quick/buildout.cfg -text
