@@ -1,15 +1,70 @@
+======
+Source
+======
+
+The development version of Grape is available here:
+
+svn co --username rnaguest --password rnaguest svn://svn.crg.es/big/grape/grape.buildout/trunk grape.buildout
+
+========
+Releases
+========
+
+Grape software packages are available from the Grape home page:
+
+http://big.crg.cat/services/grape
+
+=======
+Install
+=======
+
+After download the package, unpack it:
+
+tar xfvz grape.buildout-1.1.2.tar.gz
+cd grape.buildout-1.1.2
+
+If you want to test Grape with your own test dataset, go to the Quick pipeline
+folder:
+
+    cd pipelines/Quick
+
+Then follow the README.txt
+
+If you want to test Grape with a minimal test dataset, go to the Test pipeline
+folder:
+
+    cd pipelines/Test
+
+Then follow the README.txt
+
+If you want to install the Grape web server, go the the devel server folder:
+
+    cd servers/devel
+
+Then follow the README.txt
+
 ============
 Dependencies
 ============
 
-You need to have access to a MySQL database
+You need to have access to a MySQL database.
+
+    MySQL
+        - 5.1.45 or above
 
 Make sure to have the following standard programming languages installed:
 
-   Perl
-    Java
+    Perl 
+        - 5.10.1 or above
+    Java 
+        - A Java 1.6 compliant runtime environment is necessary.
+          It is recommended to employ the most recent Java Runtime Environment 
+          (JRE) available from the traditional Java project:
+          http://java.com/en/download/index.jsp
     R
+        - 2.13.0 or above
     Python
+        - 2.6.x
 
 The following Perl modules must be installed
 
@@ -23,60 +78,3 @@ The following Perl modules must be installed
 You need to have the following module installed in Python:
 
     virtualenv
-
-==============================
-Get Started Quickly With Grape
-==============================
-
-You can try out Grape with an example set of reads for the following species:
-
-    * Homo sapiens
-    * Mus musculus
-    * Drosophila Melanogaster
-
-Just download the genome and annotation for your species and follow the 
-instructions in the README.txt:
-
-For Homo Sapiens:
-
-    cd pipelines/Quick
-    wget http://genome.crg.es/~mroder/grape/gencode.v7.annotation.ok.gtf
-    wget http://genome.crg.es/~mroder/grape/H.sapiens.genome.hg19.main.fa
-    cp /path/to/a/set/of/read/files/*.fastq.gz .
-    cat README.txt
-
-For Mus musculus
-
-    cd pipelines/Quick
-    wget http://genome.crg.es/~mroder/grape/mm9_ucsc_UCSC_genes.gtf
-    wget http://genome.crg.es/~mroder/grape/M.musculus.genome.mm9.main.fa
-    cp /path/to/a/set/of/read/files/*.fastq.gz .
-    cat README.txt
-
-For Drosophila Melanogaster:
-
-    cd pipelines/Quick
-    wget http://genome.crg.es/~mroder/grape/flyBase.exons.genes_real.transcripts.gtf
-    wget http://genome.crg.es/~mroder/grape/D.melanogaster.genome.fa
-    cp /path/to/a/set/of/read/files/*.fastq.gz .
-    cat README.txt
-
-=============
-Testing Grape
-=============
-
-If you want to test Grape with a test dataset, go to the Test pipeline folder:
-
-    cd pipelines/Test
-
-Then follow the README.txt
-
-================
-Grape web server
-================
-
-If you want to install the Grape web server, go the the devel server folder:
-
-    cd servers/devel
-
-Then follow the README.txt
