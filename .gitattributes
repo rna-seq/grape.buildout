@@ -10,6 +10,9 @@ dashboards/static/css/typography.css -text
 pipelines/BenchDM/README.txt -text
 pipelines/BenchDM/bootstrap.py -text
 pipelines/BenchDM/buildout.cfg -text
+pipelines/BenchHS/README.txt -text
+pipelines/BenchHS/bootstrap.py -text
+pipelines/BenchHS/buildout.cfg -text
 pipelines/Quick/README.txt -text
 pipelines/Quick/bootstrap.py -text
 pipelines/Quick/buildout.cfg -text
