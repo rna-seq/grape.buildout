@@ -60,7 +60,7 @@ cd BenchDM
 cd parts/
 tree
 .
-|-- Run
+|-- BenchDMRun
     |-- start.sh
     |-- execute.sh
     `-- ...
@@ -76,7 +76,7 @@ cd grape
 cd pipelines
 cd BenchDM
 cd parts/
-cd parts/Run
+cd parts/BenchDMRun
 ./start.sh
 
 If you get errors, you can store them into an error.log file like this:
@@ -85,7 +85,7 @@ cd grape
 cd pipelines
 cd BenchDM
 cd parts/
-cd parts/Run
+cd parts/BenchDMRun
 ./start.sh 2> error.log
 
 In case everything worked ok, you can run the execute script:
@@ -94,5 +94,5 @@ cd grape
 cd pipelines
 cd BenchDM
 cd parts/
-cd parts/Run
+cd parts/BenchDMRun
 ./execute.sh
