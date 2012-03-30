@@ -3,6 +3,7 @@
 /INSTALL.txt -text
 /README.txt -text
 accessions/BenchDM/db.cfg -text
+accessions/BenchHS/db.cfg -text
 accessions/Test/db.cfg -text
 dashboards/static/css/forms.css -text
 dashboards/static/css/reset.css -text
