@@ -91,7 +91,6 @@ def print_header(procs_status):
     # physmem usage (on linux we include buffers and cached values
     # to match htop results)
     phymem = psutil.phymem_usage()
-    dashes, empty_dashes = get_dashes(phymem.percent)
     buffers = getattr(psutil, 'phymem_buffers', lambda: 0)()
     cached = getattr(psutil, 'cached_phymem', lambda: 0)()
     used = phymem.total - (phymem.free + buffers + cached)
