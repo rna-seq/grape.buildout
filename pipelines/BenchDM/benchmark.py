@@ -11,7 +11,7 @@
 """
 Extends top to make a benchmark.
 
-Author: Maik Roder maikroeder@gmail.com
+Author: Maik Roeder maikroeder@gmail.com
 """
 
 """
@@ -40,6 +40,12 @@ def tear_down():
     curses.nocbreak()
     curses.echo()
     curses.endwin()
+
+ 
+win = curses.initscr()
+atexit.register(tear_down)
+curses.endwin()
+lineno = 0
 
 BENCHMARK = []
 BENCHMARK_HEADER = []
@@ -291,10 +297,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if args.top == True:
         BENCHMARK_CURSES == True
-    if BENCHMARK_CURSES:
-        win = curses.initscr()
-        atexit.register(tear_down)
-        curses.endwin()
-        lineno = 0
-
     main()
