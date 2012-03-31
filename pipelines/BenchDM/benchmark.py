@@ -94,12 +94,6 @@ def print_header(procs_status):
     buffers = getattr(psutil, 'phymem_buffers', lambda: 0)()
     cached = getattr(psutil, 'cached_phymem', lambda: 0)()
     used = phymem.total - (phymem.free + buffers + cached)
-    line = " Mem   [%s%s] %5s%% %6s/%s" % (
-        dashes, empty_dashes,
-        phymem.percent,
-        str(int(used / 1024 / 1024)) + "M",
-        str(int(phymem.total / 1024 / 1024)) + "M"
-    )    
     if needs_header:
         BENCHMARK_HEADER.append('MemPercent')
         BENCHMARK_HEADER.append('MemUsed')
