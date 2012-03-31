@@ -11,6 +11,7 @@ dashboards/static/css/reset.css -text
 dashboards/static/css/styles.css -text
 dashboards/static/css/typography.css -text
 pipelines/BenchDM/README.txt -text
+pipelines/BenchDM/benchmark.py -text
 pipelines/BenchDM/bootstrap.py -text
 pipelines/BenchDM/buildout.cfg -text
 pipelines/BenchHS/README.txt -text
