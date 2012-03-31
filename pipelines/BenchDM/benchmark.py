@@ -231,14 +231,18 @@ def print_header(procs_status):
 
 def refresh_window(procs, procs_status):
     """Print results on screen by using curses."""
-    curses.endwin()
+    if BENCHMARK_CURSES:
+        curses.endwin()
+    
     templ = "%-6s %-8s %4s %5s %5s %6s %4s %9s  %2s"
-    win.erase()
+    if BENCHMARK_CURSES:
+        win.erase()
     header = templ % ("PID", "USER", "NI", "VIRT", "RES", "CPU%", "MEM%",
                       "TIME+", "NAME")
     print_header(procs_status)
-    print_line("")
-    print_line(header, highlight=True)
+    if BENCHMARK_CURSES:
+        print_line("")
+        print_line(header, highlight=True)
     for p in procs:
         # TIME+ column shows process CPU cumulative time and it
         # is expressed as: "mm:ss.ms"
@@ -256,11 +260,12 @@ def refresh_window(procs, procs_status):
                         ctime,
                         p._name,
                         )
-        try:
-            print_line(line)
-        except curses.error:
-            break
-        win.refresh()
+        if BENCHMARK_CURSES:
+            try:
+                print_line(line)
+            except curses.error:
+                break
+            win.refresh()
 
 
 def main():
