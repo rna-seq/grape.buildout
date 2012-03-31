@@ -193,6 +193,22 @@ def print_header(procs_status):
             st.append("%s=%s" % (x, y))
     st.sort(key=lambda x: x[:3] in ('run', 'sle'), reverse=1)
     print_line(" Processes: %s (%s)" % (len(procs), ' '.join(st)))
+    
+    if len(BENCHMARK[0]) == 0:
+        BENCHMARK_HEADER.append('Processes')
+        BENCHMARK_HEADER.append('Running')
+        BENCHMARK_HEADER.append('Sleeping')
+    BENCHMARK[-1].append("%s" % len(procs))
+    if 'running' in st:
+        BENCHMARK[-1].append("%s" % st.split(' ').split('=')[-1])
+    else:
+        BENCHMARK[-1].append("0")
+    if "sleeping" in st:
+        BENCHMARK[-1].append("%s" % st.split('=')[-1])
+    else:
+        BENCHMARK[-1].append("0")
+    
+    
     # load average, uptime
     uptime = datetime.now() - datetime.fromtimestamp(psutil.BOOT_TIME)
     av1, av2, av3 = os.getloadavg()
