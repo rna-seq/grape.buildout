@@ -30,7 +30,7 @@ import psutil
 
 BENCHMARK = []
 BENCHMARK_HEADER = []
-BENCHMARK_FILE = open("bench.log", "w")
+BENCHMARK_FILE = open("bench.log", "w", 0)
 BENCHMARK_START = datetime.now()
 BENCHMARK_CURSES = False
 
