@@ -104,13 +104,6 @@ def print_header(procs_status):
     
     # swap usage
     vmem = psutil.virtmem_usage()
-    dashes, empty_dashes = get_dashes(vmem.percent)
-    line = " Swap  [%s%s] %5s%% %6s/%s" % (
-        dashes, empty_dashes,
-        vmem.percent,
-        str(int(vmem.used / 1024 / 1024)) + "M",
-        str(int(vmem.total / 1024 / 1024)) + "M"
-    )
     if needs_header == 0:
         BENCHMARK_HEADER.append('SwapPercent')
         BENCHMARK_HEADER.append('SwapUsed')
