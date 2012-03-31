@@ -163,7 +163,7 @@ def main():
         while 1:
             args = poll(interval)
             refresh_window(*args)
-            interval = 5
+            interval = 1
     except (KeyboardInterrupt, SystemExit):
         pass
 
