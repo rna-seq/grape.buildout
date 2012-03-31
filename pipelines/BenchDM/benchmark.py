@@ -132,9 +132,9 @@ def print_header(procs_status):
                                               perc))
         # Add the header info to the BENCHMARK_HEADER
         if len(BENCHMARK[0]) == 0:
-            BENCHMARK_HEADER.append(cpu_num)
+            BENCHMARK_HEADER.append(str(cpu_num))
         # Add all percentages for the cpu usage
-        BENCHMARK[-1].append(perc)
+        BENCHMARK[-1].append(str(perc))
 
     # physmem usage (on linux we include buffers and cached values
     # to match htop results)
@@ -155,7 +155,7 @@ def print_header(procs_status):
         BENCHMARK_HEADER.append('MemPercent')
         BENCHMARK_HEADER.append('MemUsed')
         BENCHMARK_HEADER.append('MemTotal')
-    BENCHMARK[-1].append(phymem.percent)
+    BENCHMARK[-1].append(str(phymem.percent))
     BENCHMARK[-1].append(str(int(used / 1024 / 1024)))
     BENCHMARK[-1].append(str(int(phymem.total / 1024 / 1024)))
     
@@ -174,7 +174,7 @@ def print_header(procs_status):
         BENCHMARK_HEADER.append('SwapPercent')
         BENCHMARK_HEADER.append('SwapUsed')
         BENCHMARK_HEADER.append('SwapTotal')
-    BENCHMARK[-1].append(phymem.percent)
+    BENCHMARK[-1].append(str(phymem.percent))
     BENCHMARK[-1].append(str(int(vmem.used / 1024 / 1024)))
     BENCHMARK[-1].append(str(int(vmem.total / 1024 / 1024)))
 
