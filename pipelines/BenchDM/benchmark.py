@@ -30,10 +30,6 @@ import atexit
 from datetime import datetime, timedelta
 import argparse
 import psutil
-
-win = None
-lineno = 0
-
 # --- curses stuff
 def tear_down():
     win.keypad(0)
@@ -279,7 +275,8 @@ def refresh_window(procs, procs_status):
             except curses.error:
                 break
             win.refresh()
-
+        else:
+            break
 
 def main():
     try:

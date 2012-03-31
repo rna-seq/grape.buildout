@@ -100,3 +100,10 @@ cd BenchDM
 cd parts/
 cd parts/BenchDMRun
 ./execute.sh
+
+= Profiling =
+
+cd grape
+cd pipelines
+cd BenchDM
+./bin/easy_install psutil
