@@ -221,7 +221,7 @@ def print_header(procs_status):
         BENCHMARK_HEADER.append('Load2')
         BENCHMARK_HEADER.append('Load3')
         # Now write the header
-        benchmark.write("%s\n" % '\t'.join(BENCHMARK_HEADER))
+        BENCHMARK_FILE.write("%s\n" % '\t'.join(BENCHMARK_HEADER))
     BENCHMARK.append("%.2f" % av1)
     BENCHMARK.append("%.2f" % av2)
     BENCHMARK.append("%.2f" % av3)
