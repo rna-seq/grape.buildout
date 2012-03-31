@@ -269,7 +269,7 @@ def refresh_window(procs, procs_status):
                         )
         if BENCHMARK_CURSES:
             try:
-                s(line)
+                print_line(line)
             except curses.error:
                 break
             win.refresh()
