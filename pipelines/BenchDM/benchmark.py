@@ -226,7 +226,7 @@ def print_header(procs_status):
     BENCHMARK.append("%.2f" % av2)
     BENCHMARK.append("%.2f" % av3)
 
-    benchmark.write("%s\n" % '\t'.join(BENCHMARK))
+    BENCHMARK_FILE.write("%s\n" % '\t'.join(BENCHMARK))
 
 
 def refresh_window(procs, procs_status):
