@@ -136,7 +136,8 @@ def print_header(procs_status):
     # cpu usage
     for cpu_num, perc in enumerate(psutil.cpu_percent(interval=0, percpu=True)):
         dashes, empty_dashes = get_dashes(perc)
-        print_line(" CPU%-2s [%s%s] %5s%%" % (cpu_num, dashes, empty_dashes,
+        if BENCHMARK_CURSES:
+            print_line(" CPU%-2s [%s%s] %5s%%" % (cpu_num, dashes, empty_dashes,
                                               perc))
         # Add the header info to the BENCHMARK_HEADER
         if needs_header:
@@ -157,7 +158,8 @@ def print_header(procs_status):
         str(int(used / 1024 / 1024)) + "M",
         str(int(phymem.total / 1024 / 1024)) + "M"
     )
-    print_line(line)
+    if BENCHMARK_CURSES:
+        print_line(line)
     
     if needs_header:
         BENCHMARK_HEADER.append('MemPercent')
@@ -176,7 +178,8 @@ def print_header(procs_status):
         str(int(vmem.used / 1024 / 1024)) + "M",
         str(int(vmem.total / 1024 / 1024)) + "M"
     )
-    print_line(line)
+    if BENCHMARK_CURSES:
+        print_line(line)
 
     if needs_header == 0:
         BENCHMARK_HEADER.append('SwapPercent')
@@ -192,7 +195,8 @@ def print_header(procs_status):
         if y:
             st.append("%s=%s" % (x, y))
     st.sort(key=lambda x: x[:3] in ('run', 'sle'), reverse=1)
-    print_line(" Processes: %s (%s)" % (len(procs), ' '.join(st)))
+    if BENCHMARK_CURSES:
+        print_line(" Processes: %s (%s)" % (len(procs), ' '.join(st)))
     
     if needs_header:
         BENCHMARK_HEADER.append('Processes')
@@ -214,7 +218,8 @@ def print_header(procs_status):
     av1, av2, av3 = os.getloadavg()
     line = " Load average: %.2f %.2f %.2f  Uptime: %s" \
             % (av1, av2, av3, str(uptime).split('.')[0])
-    print_line(line)
+    if BENCHMARK_CURSES:
+        print_line(line)
 
     if needs_header:
         BENCHMARK_HEADER.append('Load1')
