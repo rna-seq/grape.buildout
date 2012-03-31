@@ -12,7 +12,7 @@
 Extends top to make a benchmark.
 
 Author: Maik Roder maikroeder@gmail.com
-""""
+"""
 
 """
 A clone of top / htop.
