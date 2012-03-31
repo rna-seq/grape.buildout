@@ -2,9 +2,17 @@
 #
 # $Id$
 #
+# Copyright (c) 2012, Maik Roeder.
+#
 # Copyright (c) 2009, Jay Loden, Giampaolo Rodola'. All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
+
+"""
+Extends top to make a benchmark.
+
+Author: Maik Roder maikroeder@gmail.com
+""""
 
 """
 A clone of top / htop.
@@ -134,7 +142,7 @@ def print_header(procs_status):
         if len(BENCHMARK[0]) == 0:
             BENCHMARK_HEADER.append(str(cpu_num))
         # Add all percentages for the cpu usage
-        BENCHMARK[-1].append("%5s" % perc))
+        BENCHMARK[-1].append("%5s" % perc)
 
     # physmem usage (on linux we include buffers and cached values
     # to match htop results)
