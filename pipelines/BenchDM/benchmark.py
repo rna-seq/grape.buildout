@@ -28,7 +28,7 @@ import time
 import curses
 import atexit
 from datetime import datetime, timedelta
-
+import argparse
 import psutil
 
 
@@ -39,15 +39,11 @@ def tear_down():
     curses.echo()
     curses.endwin()
 
-win = curses.initscr()
-atexit.register(tear_down)
-curses.endwin()
-lineno = 0
-
 BENCHMARK = []
 BENCHMARK_HEADER = []
 BENCHMARK_FILE = open("bench.log", "w")
 BENCHMARK_START = datetime.now()
+BENCHMARK_CURSES = False
 
 def print_line(line, highlight=False):
     """A thin wrapper around curses's addstr()."""
@@ -278,4 +274,15 @@ def main():
         pass
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Log top info')
+    parser.add_argument('--top', action='store_const', const=True)
+    args = parser.parse_args()
+    if args.top == True:
+        BENCHMARK_CURSES == True
+    if BENCHMARK_CURSES:
+        win = curses.initscr()
+        atexit.register(tear_down)
+        curses.endwin()
+        lineno = 0
+
     main()
