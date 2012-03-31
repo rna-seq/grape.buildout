@@ -31,6 +31,8 @@ from datetime import datetime, timedelta
 import argparse
 import psutil
 
+win = None
+lineno = 0
 
 # --- curses stuff
 def tear_down():
@@ -267,7 +269,7 @@ def refresh_window(procs, procs_status):
                         )
         if BENCHMARK_CURSES:
             try:
-                print_line(line)
+                s(line)
             except curses.error:
                 break
             win.refresh()
