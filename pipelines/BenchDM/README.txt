@@ -7,7 +7,11 @@ In order to run this benchmark, download the genome, annotation and read files:
     cd pipelines/BenchDM
     wget http://genome.crg.es/~mroder/grape/flyBase.exons.genes_real.transcripts.gtf
     wget http://genome.crg.es/~mroder/grape/D.melanogaster.genome.fa
-    wget ...
+    wget http://genome.crg.es/~mroder/grape/lane1_Larva_read1_qseq.fastq.gz
+    wget http://genome.crg.es/~mroder/grape/lane1_Larva_read2_qseq.fastq.gz
+
+The genome is 165MB, the annotation 14MB, and the two read files are 753MB and
+767MB respectively.
 
 == Create databases for your project ==
 
