@@ -47,6 +47,7 @@ lineno = 0
 BENCHMARK = []
 BENCHMARK_HEADER = []
 BENCHMARK_FILE = open("bench.log", "w")
+BENCHMARK_START = datetime.now()
 
 def print_line(line, highlight=False):
     """A thin wrapper around curses's addstr()."""
@@ -123,8 +124,11 @@ def print_header(procs_status):
     BENCHMARK = []
     if len(BENCHMARK_HEADER) == 0:
         needs_header = True
+        BENCHMARK_HEADER.append('Seconds')
     else:
         needs_header = False
+    timedelta = datetime.now() - BENCHMARK_START
+    BENCHMARK.append(timedelta * 24 * 60 * 60 + timedelta.seconds)
     
     # Store values for the benchmark that will be added to the BENCHMARK
     # global variable and saved as a CSV file at the end.
