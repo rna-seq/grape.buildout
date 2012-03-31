@@ -46,6 +46,7 @@ lineno = 0
 
 BENCHMARK = []
 BENCHMARK_HEADER = []
+BENCHMARK_FILE = open("bench.log", "w")
 
 def print_line(line, highlight=False):
     """A thin wrapper around curses's addstr()."""
@@ -119,15 +120,14 @@ def poll(interval):
 
 def print_header(procs_status):
     """Print system-related info, above the process list."""
-
+    BENCHMARK = []
+    if len(BENCHMARK_HEADER) == 0:
+        needs_header = True
+    else:
+        needs_header = False
+    
     # Store values for the benchmark that will be added to the BENCHMARK
     # global variable and saved as a CSV file at the end.
-    BENCHMARK.append([])
-    if len(BENCHMARK) == 1:
-        # Add another line and use the first for the header
-        BENCHMARK.append([])
-        
-
     def get_dashes(perc):
         dashes =  "|" * int((float(perc) / 10 * 4))
         empty_dashes = " " * (40 - len(dashes))
@@ -139,10 +139,10 @@ def print_header(procs_status):
         print_line(" CPU%-2s [%s%s] %5s%%" % (cpu_num, dashes, empty_dashes,
                                               perc))
         # Add the header info to the BENCHMARK_HEADER
-        if len(BENCHMARK[0]) == 0:
+        if needs_header:
             BENCHMARK_HEADER.append(str(cpu_num))
         # Add all percentages for the cpu usage
-        BENCHMARK[-1].append("%5s" % perc)
+        BENCHMARK.append("%5s" % perc)
 
     # physmem usage (on linux we include buffers and cached values
     # to match htop results)
@@ -159,13 +159,13 @@ def print_header(procs_status):
     )
     print_line(line)
     
-    if len(BENCHMARK[0]) == 0:
+    if needs_header:
         BENCHMARK_HEADER.append('MemPercent')
         BENCHMARK_HEADER.append('MemUsed')
         BENCHMARK_HEADER.append('MemTotal')
-    BENCHMARK[-1].append("%5s" % str(phymem.percent))
-    BENCHMARK[-1].append("%6s" % str(int(used / 1024 / 1024)))
-    BENCHMARK[-1].append("%s" % str(int(phymem.total / 1024 / 1024)))
+    BENCHMARK.append("%5s" % str(phymem.percent))
+    BENCHMARK.append("%6s" % str(int(used / 1024 / 1024)))
+    BENCHMARK.append("%s" % str(int(phymem.total / 1024 / 1024)))
     
     # swap usage
     vmem = psutil.virtmem_usage()
@@ -178,13 +178,13 @@ def print_header(procs_status):
     )
     print_line(line)
 
-    if len(BENCHMARK[0]) == 0:
+    if needs_header == 0:
         BENCHMARK_HEADER.append('SwapPercent')
         BENCHMARK_HEADER.append('SwapUsed')
         BENCHMARK_HEADER.append('SwapTotal')
-    BENCHMARK[-1].append("%5s" % str(vmem.percent))
-    BENCHMARK[-1].append("%6s" % str(int(vmem.used / 1024 / 1024)))
-    BENCHMARK[-1].append("%s" % str(int(vmem.total / 1024 / 1024)))
+    BENCHMARK.append("%5s" % str(vmem.percent))
+    BENCHMARK.append("%6s" % str(int(vmem.used / 1024 / 1024)))
+    BENCHMARK.append("%s" % str(int(vmem.total / 1024 / 1024)))
 
     # processes number and status
     st = []
@@ -194,19 +194,19 @@ def print_header(procs_status):
     st.sort(key=lambda x: x[:3] in ('run', 'sle'), reverse=1)
     print_line(" Processes: %s (%s)" % (len(procs), ' '.join(st)))
     
-    if len(BENCHMARK[0]) == 0:
+    if needs_header:
         BENCHMARK_HEADER.append('Processes')
         BENCHMARK_HEADER.append('Running')
         BENCHMARK_HEADER.append('Sleeping')
-    BENCHMARK[-1].append("%s" % len(procs))
+    BENCHMARK.append("%s" % len(procs))
     if 'running' in st:
-        BENCHMARK[-1].append("%s" % st.split(' ').split('=')[-1])
+        BENCHMARK.append("%s" % st.split(' ').split('=')[-1])
     else:
-        BENCHMARK[-1].append("0")
+        BENCHMARK.append("0")
     if "sleeping" in st:
-        BENCHMARK[-1].append("%s" % st.split('=')[-1])
+        BENCHMARK.append("%s" % st.split('=')[-1])
     else:
-        BENCHMARK[-1].append("0")
+        BENCHMARK.append("0")
     
     
     # load average, uptime
@@ -216,15 +216,17 @@ def print_header(procs_status):
             % (av1, av2, av3, str(uptime).split('.')[0])
     print_line(line)
 
-    if len(BENCHMARK[0]) == 0:
+    if needs_header:
         BENCHMARK_HEADER.append('Load1')
         BENCHMARK_HEADER.append('Load2')
         BENCHMARK_HEADER.append('Load3')
-        # Now store the header in the first line
-        BENCHMARK[0] = BENCHMARK_HEADER
-    BENCHMARK[-1].append("%.2f" % av1)
-    BENCHMARK[-1].append("%.2f" % av2)
-    BENCHMARK[-1].append("%.2f" % av3)
+        # Now write the header
+        benchmark.write("%s\n" % '\t'.join(BENCHMARK_HEADER))
+    BENCHMARK.append("%.2f" % av1)
+    BENCHMARK.append("%.2f" % av2)
+    BENCHMARK.append("%.2f" % av3)
+
+    benchmark.write("%s\n" % '\t'.join(BENCHMARK))
 
 
 def refresh_window(procs, procs_status):
@@ -269,9 +271,7 @@ def main():
             refresh_window(*args)
             interval = 1
     except (KeyboardInterrupt, SystemExit):
-        benchmark = open("bench.log", "w")
-        for line in BENCHMARK:
-            benchmark.write("%s\n" % '\t'.join(line))
+        pass
 
 if __name__ == '__main__':
     main()
