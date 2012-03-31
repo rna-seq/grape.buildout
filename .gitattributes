@@ -14,6 +14,7 @@ pipelines/BenchDM/README.txt -text
 pipelines/BenchDM/benchmark.py -text
 pipelines/BenchDM/bootstrap.py -text
 pipelines/BenchDM/buildout.cfg -text
+pipelines/BenchDM/top.py -text
 pipelines/BenchHS/README.txt -text
 pipelines/BenchHS/bootstrap.py -text
 pipelines/BenchHS/buildout.cfg -text
