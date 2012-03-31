@@ -128,7 +128,7 @@ def print_header(procs_status):
     else:
         needs_header = False
     timedelta = datetime.now() - BENCHMARK_START
-    BENCHMARK.append(timedelta.days * 24 * 60 * 60 + timedelta.seconds)
+    BENCHMARK.append(str(timedelta.days * 24 * 60 * 60 + timedelta.seconds))
     
     # Store values for the benchmark that will be added to the BENCHMARK
     # global variable and saved as a CSV file at the end.
