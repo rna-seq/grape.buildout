@@ -134,7 +134,7 @@ def print_header(procs_status):
         if len(BENCHMARK[0]) == 0:
             BENCHMARK_HEADER.append(str(cpu_num))
         # Add all percentages for the cpu usage
-        BENCHMARK[-1].append(str(perc))
+        BENCHMARK[-1].append("%5s" % perc))
 
     # physmem usage (on linux we include buffers and cached values
     # to match htop results)
@@ -155,9 +155,9 @@ def print_header(procs_status):
         BENCHMARK_HEADER.append('MemPercent')
         BENCHMARK_HEADER.append('MemUsed')
         BENCHMARK_HEADER.append('MemTotal')
-    BENCHMARK[-1].append(str(phymem.percent))
-    BENCHMARK[-1].append(str(int(used / 1024 / 1024)))
-    BENCHMARK[-1].append(str(int(phymem.total / 1024 / 1024)))
+    BENCHMARK[-1].append("%5s" % str(phymem.percent))
+    BENCHMARK[-1].append("%6s" % str(int(used / 1024 / 1024)))
+    BENCHMARK[-1].append("%s" % str(int(phymem.total / 1024 / 1024)))
     
     # swap usage
     vmem = psutil.virtmem_usage()
@@ -174,9 +174,9 @@ def print_header(procs_status):
         BENCHMARK_HEADER.append('SwapPercent')
         BENCHMARK_HEADER.append('SwapUsed')
         BENCHMARK_HEADER.append('SwapTotal')
-    BENCHMARK[-1].append(str(phymem.percent))
-    BENCHMARK[-1].append(str(int(vmem.used / 1024 / 1024)))
-    BENCHMARK[-1].append(str(int(vmem.total / 1024 / 1024)))
+    BENCHMARK[-1].append("%5s" % str(vmem.percent))
+    BENCHMARK[-1].append("%6s" % str(int(vmem.used / 1024 / 1024)))
+    BENCHMARK[-1].append("%s" % str(int(vmem.total / 1024 / 1024)))
 
     # processes number and status
     st = []
@@ -196,10 +196,11 @@ def print_header(procs_status):
         BENCHMARK_HEADER.append('Load1')
         BENCHMARK_HEADER.append('Load2')
         BENCHMARK_HEADER.append('Load3')
+        # Now store the header in the first line
         BENCHMARK[0] = BENCHMARK_HEADER
-    BENCHMARK[-1].append(av1)
-    BENCHMARK[-1].append(av2)
-    BENCHMARK[-1].append(av3)
+    BENCHMARK[-1].append("%.2f" % av1)
+    BENCHMARK[-1].append("%.2f" % av2)
+    BENCHMARK[-1].append("%.2f" % av3)
 
 
 def refresh_window(procs, procs_status):
