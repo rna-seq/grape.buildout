@@ -182,9 +182,4 @@ def main():
         pass
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Log top info')
-    parser.add_argument('--top', action='store_const', const=True)
-    args = parser.parse_args()
-    if args.top == True:
-        BENCHMARK_CURSES == True
     main()
