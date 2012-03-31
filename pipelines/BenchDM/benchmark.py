@@ -25,64 +25,14 @@ import sys
 if os.name != 'posix':
     sys.exit('platform not supported')
 import time
-import curses
-import atexit
 from datetime import datetime, timedelta
-import argparse
 import psutil
-# --- curses stuff
-def tear_down():
-    win.keypad(0)
-    curses.nocbreak()
-    curses.echo()
-    curses.endwin()
-
- 
-win = curses.initscr()
-atexit.register(tear_down)
-curses.endwin()
-lineno = 0
 
 BENCHMARK = []
 BENCHMARK_HEADER = []
 BENCHMARK_FILE = open("bench.log", "w")
 BENCHMARK_START = datetime.now()
 BENCHMARK_CURSES = False
-
-def print_line(line, highlight=False):
-    """A thin wrapper around curses's addstr()."""
-    global lineno
-    try:
-        if highlight:
-            line += " " * (win.getmaxyx()[1] - len(line))
-            win.addstr(lineno, 0, line, curses.A_REVERSE)
-        else:
-            win.addstr(lineno, 0, line, 0)
-    except curses.error:
-        lineno = 0
-        win.refresh()
-        raise
-    else:
-        lineno += 1
-# --- /curses stuff
-
-
-def bytes2human(n):
-    """
-    >>> bytes2human(10000)
-    '9K'
-    >>> bytes2human(100001221)
-    '95M'
-    """
-    symbols = ('K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
-    prefix = {}
-    for i, s in enumerate(symbols):
-        prefix[s] = 1 << (i+1)*10
-    for s in reversed(symbols):
-        if n >= prefix[s]:
-            value = int(float(n) / prefix[s])
-            return '%s%s' % (value, s)
-    return "%sB" % n
 
 procs = [p for p in psutil.process_iter()]  # the current process list
 
@@ -130,19 +80,8 @@ def print_header(procs_status):
     timedelta = datetime.now() - BENCHMARK_START
     BENCHMARK.append(str(timedelta.days * 24 * 60 * 60 + timedelta.seconds))
     
-    # Store values for the benchmark that will be added to the BENCHMARK
-    # global variable and saved as a CSV file at the end.
-    def get_dashes(perc):
-        dashes =  "|" * int((float(perc) / 10 * 4))
-        empty_dashes = " " * (40 - len(dashes))
-        return dashes, empty_dashes
-
     # cpu usage
     for cpu_num, perc in enumerate(psutil.cpu_percent(interval=0, percpu=True)):
-        dashes, empty_dashes = get_dashes(perc)
-        if BENCHMARK_CURSES:
-            print_line(" CPU%-2s [%s%s] %5s%%" % (cpu_num, dashes, empty_dashes,
-                                              perc))
         # Add the header info to the BENCHMARK_HEADER
         if needs_header:
             BENCHMARK_HEADER.append(str(cpu_num))
@@ -161,10 +100,7 @@ def print_header(procs_status):
         phymem.percent,
         str(int(used / 1024 / 1024)) + "M",
         str(int(phymem.total / 1024 / 1024)) + "M"
-    )
-    if BENCHMARK_CURSES:
-        print_line(line)
-    
+    )    
     if needs_header:
         BENCHMARK_HEADER.append('MemPercent')
         BENCHMARK_HEADER.append('MemUsed')
@@ -182,9 +118,6 @@ def print_header(procs_status):
         str(int(vmem.used / 1024 / 1024)) + "M",
         str(int(vmem.total / 1024 / 1024)) + "M"
     )
-    if BENCHMARK_CURSES:
-        print_line(line)
-
     if needs_header == 0:
         BENCHMARK_HEADER.append('SwapPercent')
         BENCHMARK_HEADER.append('SwapUsed')
@@ -199,8 +132,6 @@ def print_header(procs_status):
         if y:
             st.append("%s=%s" % (x, y))
     st.sort(key=lambda x: x[:3] in ('run', 'sle'), reverse=1)
-    if BENCHMARK_CURSES:
-        print_line(" Processes: %s (%s)" % (len(procs), ' '.join(st)))
     
     if needs_header:
         BENCHMARK_HEADER.append('Processes')
@@ -222,8 +153,6 @@ def print_header(procs_status):
     av1, av2, av3 = os.getloadavg()
     line = " Load average: %.2f %.2f %.2f  Uptime: %s" \
             % (av1, av2, av3, str(uptime).split('.')[0])
-    if BENCHMARK_CURSES:
-        print_line(line)
 
     if needs_header:
         BENCHMARK_HEADER.append('Load1')
@@ -240,43 +169,7 @@ def print_header(procs_status):
 
 def refresh_window(procs, procs_status):
     """Print results on screen by using curses."""
-    if BENCHMARK_CURSES:
-        curses.endwin()
-    
-    templ = "%-6s %-8s %4s %5s %5s %6s %4s %9s  %2s"
-    if BENCHMARK_CURSES:
-        win.erase()
-    header = templ % ("PID", "USER", "NI", "VIRT", "RES", "CPU%", "MEM%",
-                      "TIME+", "NAME")
     print_header(procs_status)
-    if BENCHMARK_CURSES:
-        print_line("")
-        print_line(header, highlight=True)
-    for p in procs:
-        # TIME+ column shows process CPU cumulative time and it
-        # is expressed as: "mm:ss.ms"
-        ctime = timedelta(seconds=sum(p._cpu_times))
-        ctime = "%s:%s.%s" % (ctime.seconds // 60 % 60,
-                              str((ctime.seconds % 60)).zfill(2),
-                              str(ctime.microseconds)[:2])
-        line = templ % (p.pid,
-                        p._username[:8],
-                        p._nice,
-                        bytes2human(p._meminfo.vms),
-                        bytes2human(p._meminfo.rss),
-                        p._cpu_percent,
-                        round(p._mempercent, 1),
-                        ctime,
-                        p._name,
-                        )
-        if BENCHMARK_CURSES:
-            try:
-                print_line(line)
-            except curses.error:
-                break
-            win.refresh()
-        else:
-            break
 
 def main():
     try:
