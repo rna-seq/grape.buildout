@@ -6,8 +6,11 @@ accessions/BenchDM/db.cfg -text
 accessions/BenchHS/db.cfg -text
 accessions/BenchMM/db.cfg -text
 accessions/Test/db.cfg -text
+benchmarks/BenchDM/D.melanogaster.genome.log -text
 benchmarks/BenchDM/GEMIndices.txt -text
 benchmarks/BenchDM/execute.log -text
+benchmarks/BenchDM/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.junctions.log -text
+benchmarks/BenchDM/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.transcriptome.log -text
 benchmarks/BenchDM/start.log -text
 dashboards/static/css/forms.css -text
 dashboards/static/css/reset.css -text
