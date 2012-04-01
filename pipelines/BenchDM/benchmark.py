@@ -34,6 +34,23 @@ BENCHMARK_FILE = open("bench.log", "w", 0)
 BENCHMARK_START = datetime.now()
 BENCHMARK_CURSES = False
 
+def bytes2human(n):
+    """
+    >>> bytes2human(10000)
+    '9K'
+    >>> bytes2human(100001221)
+    '95M'
+    """
+    symbols = ('K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
+    prefix = {}
+    for i, s in enumerate(symbols):
+        prefix[s] = 1 << (i+1)*10
+    for s in reversed(symbols):
+        if n >= prefix[s]:
+            value = int(float(n) / prefix[s])
+            return '%s%s' % (value, s)
+    return "%sB" % n
+
 procs = [p for p in psutil.process_iter()]  # the current process list
 
 def poll(interval):
@@ -71,14 +88,14 @@ def poll(interval):
 
 def print_header(procs_status):
     """Print system-related info, above the process list."""
-    BENCHMARK = []
+    benchmark = []
     if len(BENCHMARK_HEADER) == 0:
         needs_header = True
         BENCHMARK_HEADER.append('Seconds')
     else:
         needs_header = False
     timedelta = datetime.now() - BENCHMARK_START
-    BENCHMARK.append(str(timedelta.days * 24 * 60 * 60 + timedelta.seconds))
+    benchmark.append(str(timedelta.days * 24 * 60 * 60 + timedelta.seconds))
     
     # cpu usage
     for cpu_num, perc in enumerate(psutil.cpu_percent(interval=0, percpu=True)):
@@ -86,7 +103,7 @@ def print_header(procs_status):
         if needs_header:
             BENCHMARK_HEADER.append(str(cpu_num))
         # Add all percentages for the cpu usage
-        BENCHMARK.append("%5s" % perc)
+        benchmark.append("%5s" % perc)
 
     # physmem usage (on linux we include buffers and cached values
     # to match htop results)
@@ -98,9 +115,9 @@ def print_header(procs_status):
         BENCHMARK_HEADER.append('MemPercent')
         BENCHMARK_HEADER.append('MemUsed')
         BENCHMARK_HEADER.append('MemTotal')
-    BENCHMARK.append("%5s" % str(phymem.percent))
-    BENCHMARK.append("%6s" % str(int(used / 1024 / 1024)))
-    BENCHMARK.append("%s" % str(int(phymem.total / 1024 / 1024)))
+    benchmark.append("%5s" % str(phymem.percent))
+    benchmark.append("%6s" % str(int(used / 1024 / 1024)))
+    benchmark.append("%s" % str(int(phymem.total / 1024 / 1024)))
     
     # swap usage
     vmem = psutil.virtmem_usage()
@@ -108,9 +125,9 @@ def print_header(procs_status):
         BENCHMARK_HEADER.append('SwapPercent')
         BENCHMARK_HEADER.append('SwapUsed')
         BENCHMARK_HEADER.append('SwapTotal')
-    BENCHMARK.append("%5s" % str(vmem.percent))
-    BENCHMARK.append("%6s" % str(int(vmem.used / 1024 / 1024)))
-    BENCHMARK.append("%s" % str(int(vmem.total / 1024 / 1024)))
+    benchmark.append("%5s" % str(vmem.percent))
+    benchmark.append("%6s" % str(int(vmem.used / 1024 / 1024)))
+    benchmark.append("%s" % str(int(vmem.total / 1024 / 1024)))
 
     # processes number and status
     st = []
@@ -123,15 +140,15 @@ def print_header(procs_status):
         BENCHMARK_HEADER.append('Processes')
         BENCHMARK_HEADER.append('Running')
         BENCHMARK_HEADER.append('Sleeping')
-    BENCHMARK.append("%s" % len(procs))
+    benchmark.append("%s" % len(procs))
     if 'running' in st:
-        BENCHMARK.append("%s" % st.split(' ').split('=')[-1])
+        benchmark.append("%s" % st.split(' ').split('=')[-1])
     else:
-        BENCHMARK.append("0")
+        benchmark.append("0")
     if "sleeping" in st:
-        BENCHMARK.append("%s" % st.split('=')[-1])
+        benchmark.append("%s" % st.split('=')[-1])
     else:
-        BENCHMARK.append("0")
+        benchmark.append("0")
     
     
     # load average, uptime
@@ -144,18 +161,45 @@ def print_header(procs_status):
         BENCHMARK_HEADER.append('Load1')
         BENCHMARK_HEADER.append('Load2')
         BENCHMARK_HEADER.append('Load3')
+        BENCHMARK_HEADER.append('Processes')
         # Now write the header
         BENCHMARK_FILE.write("%s\n" % '\t'.join(BENCHMARK_HEADER))
-    BENCHMARK.append("%.2f" % av1)
-    BENCHMARK.append("%.2f" % av2)
-    BENCHMARK.append("%.2f" % av3)
+    benchmark.append("%.2f" % av1)
+    benchmark.append("%.2f" % av2)
+    benchmark.append("%.2f" % av3)
 
-    BENCHMARK_FILE.write("%s\n" % '\t'.join(BENCHMARK))
-
+    return benchmark
 
 def refresh_window(procs, procs_status):
     """Print results on screen by using curses."""
-    print_header(procs_status)
+    benchmark = print_header(procs_status)
+    processes = []
+    templ = "%-6s %-8s %4s %5s %5s %6s %4s %9s  %2s"
+    for p in procs:
+        # Only interested in this if it is using CPU
+        if p._cpu_percent:
+            # TIME+ column shows process CPU cumulative time and it
+            # is expressed as: "mm:ss.ms"
+            ctime = timedelta(seconds=sum(p._cpu_times))
+            ctime = "%s:%s.%s" % (ctime.seconds // 60 % 60,
+                                  str((ctime.seconds % 60)).zfill(2),
+                                  str(ctime.microseconds)[:2])
+            line = templ % (p.pid,
+                            p._username[:8],
+                            p._nice,
+                            bytes2human(p._meminfo.vms),
+                            bytes2human(p._meminfo.rss),
+                            p._cpu_percent,
+                            round(p._mempercent, 1),
+                            ctime,
+                            p._name,
+                            )
+            processes.append(line)
+        else:
+            break
+    benchmark.append(';'.join(processes))
+    BENCHMARK_FILE.write("%s\n" % '\t'.join(benchmark))
+
 
 def main():
     try:
