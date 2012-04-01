@@ -6,6 +6,8 @@ accessions/BenchDM/db.cfg -text
 accessions/BenchHS/db.cfg -text
 accessions/BenchMM/db.cfg -text
 accessions/Test/db.cfg -text
+benchmarks/BenchDM/execute.log -text
+benchmarks/BenchDM/start.log -text
 dashboards/static/css/forms.css -text
 dashboards/static/css/reset.css -text
 dashboards/static/css/styles.css -text
