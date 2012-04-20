@@ -1,6 +1,8 @@
 Grape RNAseq Analysis Pipeline Environment version 1.1.2
 --------------------------------------------------------
 
+See the INSTALL.txt file for installation instructions.
+
 See the CHANGES.txt file for differences to previous versions.
 
 High throughput sequencing technologies generate vast amounts of data that 
