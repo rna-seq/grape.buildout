@@ -1,6 +1,8 @@
 Next release
 ============
 
+- Add a pointer to the installation instructions to the README.txt
+
 1.1.2 (2012-03-30)
 ==================
 
