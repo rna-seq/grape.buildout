@@ -1,6 +1,9 @@
 Next release
 ============
 
+- Add troubleshooting information for the installation of the Bio::DB::Sam
+  package
+
 1.2 (2012-04-20)
 ================
 
