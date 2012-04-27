@@ -9,7 +9,7 @@
 # found in the LICENSE file.
 
 """
-Extends top to make a benchmark.
+Extends top.py from psutils/ to make a benchmark.
 
 Author: Maik Roeder maikroeder@gmail.com
 """
@@ -121,7 +121,7 @@ def print_header(procs_status):
     
     # swap usage
     vmem = psutil.virtmem_usage()
-    if needs_header == 0:
+    if needs_header:
         BENCHMARK_HEADER.append('SwapPercent')
         BENCHMARK_HEADER.append('SwapUsed')
         BENCHMARK_HEADER.append('SwapTotal')
