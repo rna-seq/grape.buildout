@@ -75,6 +75,9 @@ The following Perl modules must be installed
     Bio::Seq
     Bio::DB::Sam
 
+If you have trouble installing the Bio::DB::Sam package, you may have to
+edit the Makefile and add a -fPIC flag.
+
 You need to have the following module installed in Python:
 
     virtualenv
