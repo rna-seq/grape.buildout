@@ -50,7 +50,6 @@ benchmarks/BenchDM/intermediate/seconds_program_3.txt -text
 benchmarks/BenchDM/output/CPU_Cores.png -text
 benchmarks/BenchDM/output/GB_of_RAM.pdf -text
 benchmarks/BenchDM/output/GB_of_RAM.png -text
-benchmarks/BenchDM/output/Time_per_program.pdf -text
 benchmarks/BenchDM/output/Time_per_program.png -text
 benchmarks/BenchDM/start.log -text
 dashboards/static/css/forms.css -text
