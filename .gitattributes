@@ -39,8 +39,6 @@ benchmarks/BenchDM/execute_3/pipeline.log -text
 benchmarks/BenchDM/execute_3_ls_lh_var_BenchDMRun.txt -text
 benchmarks/BenchDM/execute_3_ls_lhr.txt -text
 benchmarks/BenchDM/execute_3_tree.txt -text
-benchmarks/BenchDM/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.junctions.log -text
-benchmarks/BenchDM/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.transcriptome.log -text
 benchmarks/BenchDM/input/execute_3.log -text
 benchmarks/BenchDM/intermediate/process_cumulative_seconds_3.txt -text
 benchmarks/BenchDM/intermediate/seconds_program_3.txt -text
