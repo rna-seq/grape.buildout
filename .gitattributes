@@ -48,7 +48,6 @@ benchmarks/BenchDM/input/execute_3.log -text
 benchmarks/BenchDM/intermediate/process_cumulative_seconds_3.txt -text
 benchmarks/BenchDM/intermediate/seconds_program_3.txt -text
 benchmarks/BenchDM/output/CPU_Cores.png -text
-benchmarks/BenchDM/output/GB_of_RAM.pdf -text
 benchmarks/BenchDM/output/GB_of_RAM.png -text
 benchmarks/BenchDM/output/Time_per_program.png -text
 benchmarks/BenchDM/start.log -text
