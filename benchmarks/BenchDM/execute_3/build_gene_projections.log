@@ -1,0 +1,6 @@
+Building genome/BenchDM_BenchDMRun.proj.gtf...
+Extracting exon lists from exons/BenchDM_BenchDMRun.exon.gtf...done
+606	Exons mapping to multiple genes removed
+66765	Exons obtained
+14011	Genes
+Calculating gene projections...done

@@ -1,0 +1,274 @@
+$ tree
+.
+|-- BenchDM_BenchDMRun.exon.rep.exons.gtf
+|-- GEMIndices -> /users/rg/mroder/grape/pipelines/BenchDM/var/GEMIndices
+|-- RNAseq_pipeline.txt
+|-- SAM
+|   |-- Larva.1.multi.merged.gem.map.gz
+|   |-- Larva.1.unique.merged.gem.map.gz
+|   |-- Larva.2.multi.merged.gem.map.gz
+|   |-- Larva.2.unique.merged.gem.map.gz
+|   |-- Larva.merged.bam
+|   `-- Larva.merged.bam.bai
+|-- bin -> /users/rg/mroder/grape/pipelines/BenchDM/var/pipeline/bin
+|-- build_gene_projections.log
+|-- build_read_stats.RNAseq.log
+|-- clean.sh
+|-- clusters
+|   |-- BenchDM.multi.genome.cluster.gtf.gz
+|   |-- BenchDM.multi.junctions.cluster.gtf.gz
+|   |-- BenchDM.multi.split.cluster.gtf.gz
+|   |-- BenchDM.unique.genome.cluster.gtf.gz
+|   |-- BenchDM.unique.junctions.cluster.gtf.gz
+|   `-- BenchDM.unique.split.cluster.gtf.gz
+|-- exclusion
+|-- execute.sh
+|-- execute_pipeline.err
+|-- exons
+|   |-- BenchDM_BenchDMRun.exon.gtf
+|   |-- Larva.exon.rpkm.pooled.txt.gz
+|   |-- Larva.inc.exc.reads.txt
+|   |-- Larva.inclusion.exclusion.pooled.txt
+|   |-- Larva.paired.exon.rpkm.txt.gz
+|   |-- Larva.paired.inclusion.exclusion.txt
+|   |-- Larva.paired.unique.gtf.exons.overlap.gz
+|   |-- Larva.paired.unique.gtf.overlap.gz
+|   `-- Larva.paired.unique.gtf.overlap.total
+|-- flyBase.exons.genes_real.transcripts.rep.exons.gtf
+|-- genome
+|   |-- BenchDM_BenchDMRun.gene.gtf
+|   |-- BenchDM_BenchDMRun.proj.gtf
+|   |-- Larva.gene.readcount.pooled.txt.gz
+|   |-- Larva.gene.rpkm.pooled.txt.gz
+|   |-- Larva.paired.gene.rpkm.txt.gz
+|   |-- Larva.paired.multi.gtf.gz
+|   |-- Larva.paired.pseudo.gtf.gz
+|   |-- Larva.paired.unique.gtf.genes.overlap.gz
+|   |-- Larva.paired.unique.gtf.gz
+|   |-- Larva.paired.unique.gtf.proj.overlap.gz
+|   |-- Larva.paired.unique.gtf.proj.overlap.total
+|   |-- lane1_Larva_read1_qseq.gem.map.gz
+|   `-- lane1_Larva_read2_qseq.gem.map.gz
+|-- graphs
+|   |-- BenchDM_BenchDMRun.Exons.detection.jpeg
+|   |-- BenchDM_BenchDMRun.Exons.detection.ps
+|   |-- BenchDM_BenchDMRun.Exons.split.jpeg
+|   |-- BenchDM_BenchDMRun.Exons.split.ps
+|   |-- BenchDM_BenchDMRun.Junctions.detection.ps
+|   |-- BenchDM_BenchDMRun.Junctions.split.ps
+|   |-- BenchDM_BenchDMRun.Proj.detection.jpeg
+|   |-- BenchDM_BenchDMRun.Proj.detection.ps
+|   |-- BenchDM_BenchDMRun.Proj.split.jpeg
+|   |-- BenchDM_BenchDMRun.Proj.split.ps
+|   |-- BenchDM_BenchDMRun_genome_mapping.ps
+|   |-- BenchDM_BenchDMRun_initial_clusters.jpeg
+|   |-- BenchDM_BenchDMRun_initial_clusters.ps
+|   |-- BenchDM_BenchDMRun_junctions_mapping.ps
+|   |-- BenchDM_BenchDMRun_recursive_mapping.ps
+|   |-- BenchDM_BenchDMRun_split_mapping.ps
+|   |-- BenchDM_BenchDMRun_transcriptome_mapping.ps
+|   |-- BenchDM_BenchDMRun_unique_maps_genome.ps
+|   |-- BenchDM_BenchDMRun_unique_maps_junctions.ps
+|   |-- BenchDM_BenchDMRun_unique_maps_split.ps
+|   |-- Exon.saturation.jpeg
+|   |-- Exon.saturation.ps
+|   |-- Junction.saturation.ps
+|   |-- Larva.paired.unique.gtf.gz.breakdown.stats.ps
+|   `-- Transcript.saturation.ps
+|-- junctions
+|   |-- Larva.1.single.multi.gtf.gz
+|   |-- Larva.1.single.unique.gtf.gz
+|   |-- Larva.1.single.unique.overlap.total
+|   |-- Larva.2.single.multi.gtf.gz
+|   |-- Larva.2.single.unique.gtf.gz
+|   |-- Larva.2.single.unique.overlap.total
+|   |-- Larva.paired.all.junc.class.pooled
+|   |-- Larva.paired.gene.overlap.total
+|   |-- lane1_Larva_read1_qseq.gem.map.gen.coords.gz
+|   |-- lane1_Larva_read1_qseq.gem.map.gz
+|   |-- lane1_Larva_read2_qseq.gem.map.gen.coords.gz
+|   `-- lane1_Larva_read2_qseq.gem.map.gz
+|-- lib -> /users/rg/mroder/grape/pipelines/BenchDM/var/pipeline/lib
+|-- logs
+|   |-- build_dataset.RNAseq.log
+|   |-- build_detected_genes.RNAseq.log
+|   |-- build_detected_transcripts.RNAseq.log
+|   |-- build_exon_junctions.RNAseq.log
+|   |-- build_exon_seqs.RNAseq.log
+|   |-- build_genes.RNAseq.log
+|   |-- build_read_stats.RNAseq.log
+|   |-- build_register_results.RNAseq.log
+|   |-- build_store_reads.RNAseq.log
+|   |-- build_transcript_expression_levels.RNAseq.log
+|   |-- build_transcripts.RNAseq.log
+|   |-- check_prerequisites.RNAseq.log
+|   |-- get_fusion_transcripts.RNAseq.log
+|   |-- prepare_files.RNAseq.log
+|   |-- rec.mapping.log
+|   |-- run_flux.RNAseq.log
+|   |-- run_flux_pooled.RNAseq.log
+|   |-- run_recursive_mapper.log
+|   `-- start_RNAseq_pipeline.log
+|-- mysql
+|   |-- table_build
+|   |   |-- BenchDM_BenchDMRun_EJEI.sql
+|   |   |-- BenchDM_BenchDMRun_all_junctions_class.sql
+|   |   |-- BenchDM_BenchDMRun_all_junctions_class_pooled.sql
+|   |   |-- BenchDM_BenchDMRun_ambiguous.sql
+|   |   |-- BenchDM_BenchDMRun_bed_files.sql
+|   |   |-- BenchDM_BenchDMRun_completion_status.sql
+|   |   |-- BenchDM_BenchDMRun_dataset.sql
+|   |   |-- BenchDM_BenchDMRun_detected_genes.sql
+|   |   |-- BenchDM_BenchDMRun_detected_transcripts.sql
+|   |   |-- BenchDM_BenchDMRun_exon_RPKM.sql
+|   |   |-- BenchDM_BenchDMRun_exon_RPKM_pooled.sql
+|   |   |-- BenchDM_BenchDMRun_exon_RPKM_pooled_flux.sql
+|   |   |-- BenchDM_BenchDMRun_exon_classification.sql
+|   |   |-- BenchDM_BenchDMRun_exon_coverage.sql
+|   |   |-- BenchDM_BenchDMRun_exon_inclusion.sql
+|   |   |-- BenchDM_BenchDMRun_exon_inclusion_pooled.sql
+|   |   |-- BenchDM_BenchDMRun_exon_inclusion_reads.sql
+|   |   |-- BenchDM_BenchDMRun_exon_seqs.sql
+|   |   |-- BenchDM_BenchDMRun_extract_annotation.sql
+|   |   |-- BenchDM_BenchDMRun_fusion_transcripts.sql
+|   |   |-- BenchDM_BenchDMRun_fusion_transcripts_support.sql
+|   |   |-- BenchDM_BenchDMRun_gene_RPKM.sql
+|   |   |-- BenchDM_BenchDMRun_gene_RPKM_dist.sql
+|   |   |-- BenchDM_BenchDMRun_gene_RPKM_pooled.sql
+|   |   |-- BenchDM_BenchDMRun_gene_RPKM_pooled_flux.sql
+|   |   |-- BenchDM_BenchDMRun_gene_coverage.sql
+|   |   |-- BenchDM_BenchDMRun_gene_readcount_pooled.sql
+|   |   |-- BenchDM_BenchDMRun_genes.sql
+|   |   |-- BenchDM_BenchDMRun_genome_mapping.sql
+|   |   |-- BenchDM_BenchDMRun_inclusion_correlation.sql
+|   |   |-- BenchDM_BenchDMRun_inclusion_dist.sql
+|   |   |-- BenchDM_BenchDMRun_indices.sql
+|   |   |-- BenchDM_BenchDMRun_initial_clusters.sql
+|   |   |-- BenchDM_BenchDMRun_junction_classification.sql
+|   |   |-- BenchDM_BenchDMRun_junction_coverage.sql
+|   |   |-- BenchDM_BenchDMRun_junction_maps_class.sql
+|   |   |-- BenchDM_BenchDMRun_junction_seqs.sql
+|   |   |-- BenchDM_BenchDMRun_junctions.sql
+|   |   |-- BenchDM_BenchDMRun_junctions_mapping.sql
+|   |   |-- BenchDM_BenchDMRun_merged_SAM.sql
+|   |   |-- BenchDM_BenchDMRun_merged_mapping.sql
+|   |   |-- BenchDM_BenchDMRun_novel_junctions_summary.sql
+|   |   |-- BenchDM_BenchDMRun_proj_coverage.sql
+|   |   |-- BenchDM_BenchDMRun_qualitiespos.sql
+|   |   |-- BenchDM_BenchDMRun_read_classification.sql
+|   |   |-- BenchDM_BenchDMRun_read_dist_transcripts.sql
+|   |   |-- BenchDM_BenchDMRun_read_stats.sql
+|   |   |-- BenchDM_BenchDMRun_recursive_mapping.sql
+|   |   |-- BenchDM_BenchDMRun_register_results.sql
+|   |   |-- BenchDM_BenchDMRun_splicing_summary.sql
+|   |   |-- BenchDM_BenchDMRun_split_mapping.sql
+|   |   |-- BenchDM_BenchDMRun_split_mapping_breakdown.sql
+|   |   |-- BenchDM_BenchDMRun_start.sql
+|   |   |-- BenchDM_BenchDMRun_store_reads.sql
+|   |   |-- BenchDM_BenchDMRun_summaries.sql
+|   |   |-- BenchDM_BenchDMRun_transcript_expression_levels.sql
+|   |   |-- BenchDM_BenchDMRun_transcript_expression_levels_pooled.sql
+|   |   |-- BenchDM_BenchDMRun_transcript_seqs.sql
+|   |   |-- BenchDM_BenchDMRun_transcriptome_mapping.sql
+|   |   |-- BenchDM_BenchDMRun_transcripts.sql
+|   |   |-- BenchDM_BenchDMRun_unique_maps_genome.sql
+|   |   |-- BenchDM_BenchDMRun_unique_maps_junctions.sql
+|   |   |-- BenchDM_BenchDMRun_unique_maps_split.sql
+|   |   |-- BenchDM_BenchDMRun_unique_maps_transcripts.sql
+|   |   `-- BenchDM_BenchDMRun_unmapped_reads.sql
+|   `-- table_data
+|       |-- BenchDM_BenchDMRun_all_junctions_class_pooled.txt.gz
+|       |-- BenchDM_BenchDMRun_ambiguous.txt.gz
+|       |-- BenchDM_BenchDMRun_bed_files.txt.gz
+|       |-- BenchDM_BenchDMRun_dataset.txt.gz
+|       |-- BenchDM_BenchDMRun_detected_genes.txt.gz
+|       |-- BenchDM_BenchDMRun_detected_transcripts.txt.gz
+|       |-- BenchDM_BenchDMRun_exon_RPKM.txt.gz
+|       |-- BenchDM_BenchDMRun_exon_RPKM_pooled.txt.gz
+|       |-- BenchDM_BenchDMRun_exon_RPKM_pooled_flux.txt.gz
+|       |-- BenchDM_BenchDMRun_exon_classification.txt.gz
+|       |-- BenchDM_BenchDMRun_exon_coverage.txt.gz
+|       |-- BenchDM_BenchDMRun_exon_inclusion.txt.gz
+|       |-- BenchDM_BenchDMRun_exon_inclusion_pooled.txt.gz
+|       |-- BenchDM_BenchDMRun_exon_inclusion_reads.txt.gz
+|       |-- BenchDM_BenchDMRun_exon_seqs.txt.gz
+|       |-- BenchDM_BenchDMRun_extract_annotation.txt.gz
+|       |-- BenchDM_BenchDMRun_fusion_transcripts.txt.gz
+|       |-- BenchDM_BenchDMRun_gene_RPKM.txt.gz
+|       |-- BenchDM_BenchDMRun_gene_RPKM_dist.txt.gz
+|       |-- BenchDM_BenchDMRun_gene_RPKM_pooled.txt.gz
+|       |-- BenchDM_BenchDMRun_gene_RPKM_pooled_flux.txt.gz
+|       |-- BenchDM_BenchDMRun_gene_readcount_pooled.txt.gz
+|       |-- BenchDM_BenchDMRun_genes.txt.gz
+|       |-- BenchDM_BenchDMRun_genome_mapping.txt.gz
+|       |-- BenchDM_BenchDMRun_inclusion_correlation.txt.gz
+|       |-- BenchDM_BenchDMRun_inclusion_dist.txt.gz
+|       |-- BenchDM_BenchDMRun_indices.txt.gz
+|       |-- BenchDM_BenchDMRun_initial_clusters.txt.gz
+|       |-- BenchDM_BenchDMRun_junction_classification.txt.gz
+|       |-- BenchDM_BenchDMRun_junction_coverage.txt.gz
+|       |-- BenchDM_BenchDMRun_junction_maps_class.txt.gz
+|       |-- BenchDM_BenchDMRun_junction_seqs.txt.gz
+|       |-- BenchDM_BenchDMRun_junctions.txt.gz
+|       |-- BenchDM_BenchDMRun_junctions_mapping.txt.gz
+|       |-- BenchDM_BenchDMRun_merged_SAM.txt.gz
+|       |-- BenchDM_BenchDMRun_merged_mapping.txt.gz
+|       |-- BenchDM_BenchDMRun_novel_junctions_summary.txt.gz
+|       |-- BenchDM_BenchDMRun_proj_coverage.txt.gz
+|       |-- BenchDM_BenchDMRun_qualitiespos.txt.gz
+|       |-- BenchDM_BenchDMRun_read_classification.txt.gz
+|       |-- BenchDM_BenchDMRun_read_dist_transcripts.txt.gz
+|       |-- BenchDM_BenchDMRun_read_stats.txt.gz
+|       |-- BenchDM_BenchDMRun_recursive_mapping.txt.gz
+|       |-- BenchDM_BenchDMRun_register_results.txt.gz
+|       |-- BenchDM_BenchDMRun_splicing_summary.txt.gz
+|       |-- BenchDM_BenchDMRun_split_mapping.txt.gz
+|       |-- BenchDM_BenchDMRun_split_mapping_breakdown.txt.gz
+|       |-- BenchDM_BenchDMRun_start.txt.gz
+|       |-- BenchDM_BenchDMRun_store_reads.txt.gz
+|       |-- BenchDM_BenchDMRun_summaries.txt.gz
+|       |-- BenchDM_BenchDMRun_transcript_expression_levels.txt.gz
+|       |-- BenchDM_BenchDMRun_transcript_expression_levels_pooled.txt.gz
+|       |-- BenchDM_BenchDMRun_transcript_seqs.txt.gz
+|       |-- BenchDM_BenchDMRun_transcriptome_mapping.txt.gz
+|       |-- BenchDM_BenchDMRun_transcripts.txt.gz
+|       |-- BenchDM_BenchDMRun_unique_maps_genome.txt.gz
+|       |-- BenchDM_BenchDMRun_unique_maps_junctions.txt.gz
+|       |-- BenchDM_BenchDMRun_unique_maps_split.txt.gz
+|       |-- BenchDM_BenchDMRun_unique_maps_transcripts.txt.gz
+|       `-- BenchDM_BenchDMRun_unmapped_reads.txt.gz
+|-- nohup.out
+|-- pipeline.log
+|-- project_config.txt
+|-- read.list.txt
+|-- readData
+|   |-- lane1_Larva_read1_qseq.fastq.gz -> /users/rg/mroder/grape/pipelines/BenchDM/lane1_Larva_read1_qseq.fastq.gz
+|   `-- lane1_Larva_read2_qseq.fastq.gz -> /users/rg/mroder/grape/pipelines/BenchDM/lane1_Larva_read2_qseq.fastq.gz
+|-- recursivemap
+|   |-- Larva.1.unmapped.gem.split-map.gz.recursive.map
+|   `-- Larva.2.unmapped.gem.split-map.gz.recursive.map
+|-- rep.exons.txt
+|-- results -> /users/rg/mroder/grape/pipelines/BenchDM/var/BenchDMRun
+|-- sequence
+|-- splitmapping
+|   |-- Larva.1.single.multi.gtf.gz
+|   |-- Larva.1.single.unique.breakdown.gtf.gz
+|   |-- Larva.1.single.unique.gtf.gz
+|   |-- Larva.1.unmapped.fa
+|   |-- Larva.1.unmapped.gem.split-map.gz
+|   |-- Larva.2.single.multi.gtf.gz
+|   |-- Larva.2.single.unique.breakdown.gtf.gz
+|   |-- Larva.2.single.unique.gtf.gz
+|   |-- Larva.2.unmapped.fa
+|   `-- Larva.2.unmapped.gem.split-map.gz
+|-- start.sh
+|-- transcriptome
+|   |-- Larva.paired.multi.gtf.gz
+|   |-- Larva.paired.trans.fusions.txt.gz
+|   |-- Larva.paired.unique.gtf.gz
+|   |-- lane1_Larva_read1_qseq.gem.map.gz
+|   |-- lane1_Larva_read2_qseq.gem.map.gz
+|   `-- transcript.lengths
+`-- trimmedReads
+
+21 directories, 249 files

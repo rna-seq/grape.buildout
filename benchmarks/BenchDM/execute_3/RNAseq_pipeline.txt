@@ -1,0 +1,605 @@
+# -*-makefile-*-
+
+# RNAseq pipeline control file template
+
+#BASEDIR = /users/rg/projects/NGS/Projects/RNAseqPipeline
+PROJECT = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun
+DB = BenchDM_RNAseqPipeline
+COMMONDB = BenchDM_RNAseqPipelineCommon
+TABLES = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/mysql/table_build
+BIN = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/bin
+LOGS = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/logs
+TAB_DAT = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/mysql/table_data
+GRAPHS = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/graphs
+READDIR = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/readData
+GRAPHS = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/graphs
+TRANSDIR = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/transcriptome
+EXONDIR = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/exons
+JUNCTIONSDIR = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/junctions
+SPLITMAPDIR = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/splitmapping
+RECMAPDIR = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/recursivemap
+GENOMEDIR = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/genome
+GEMINDICES = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices
+SEQUENCEDIR = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/sequence
+CLUSTERDIR = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/clusters
+SAMDIR = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/SAM
+SPECIES = Drosophila melanogaster
+PROJECTID = BenchDM
+EXPID = BenchDMRun
+PREFIX = BenchDM_BenchDMRun
+ANNOTATION = /users/rg/dgonzalez/ReferenceAnnotations/D.melanogaster/flyBase.exons.genes_real.transcripts.gtf
+GENOMESEQ = /users/rg/dgonzalez/ReferenceGenomes/D.melanogaster/D.melanogaster.genome.fa
+MISMATCHES = 2
+LOCALDIR = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/work
+GENOMEINDEX = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/D.melanogaster.genome
+TRANSCRIPTOMEINDEX = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.transcriptome
+JUNCTIONSINDEX = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.junctions
+PAIRED = 0
+EXCLUSIONFILE = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.exclusion
+STRANDED = 0
+READLENGTH = 54
+GENECLASSTABLE = 1_flyBase_exons_genes_real_trans_geneclass
+TRANSCLASSTABLE = 1_flyBase_exons_genes_real_trans_transclass
+JUNCTIONSTABLE = 1_flyBase_exons_genes_real_trans_junct
+JUNCTIONSCLASSTABLE = 1_flyBase_exons_genes_real_trans_junctclass
+EXONSCLASSTABLE = 1_flyBase_exons_genes_real_trans_exclass
+FILELIST = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/read.list.txt
+EXONSFASTA = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.exons.fa
+JUNCTIONSFASTA = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.junctions.fa
+TRANSCRIPTOMEFASTA = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.transcripts.fa
+THREADS = 8
+MAPPER = GEM
+LOCALPARALLEL = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/work
+CLUSTER = -
+QUALITIES = phred
+PREPROCESS = zcat
+RESULTS = /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/results
+
+# PHONY rules always execute as they do not build a table if they are in the
+# prerequisites of another rule
+.PHONY: status preprocess QC annotation_info mapping mapping_summary exon_inclusion html_report encode all browser
+status: @
+	mysql $DB -e 'SHOW TABLE STATUS'
+
+BenchDM_BenchDMRun_start:	@
+	check_prerequisites.RNAseq.pl
+	all_no_log_table
+	mv start_RNAseq_pipeline.log check_prerequisites.RNAseq.log $LOGS
+
+# This rule will be a preprocessing step to change the format of the seq.txt
+# or qseq.txt files into fasta or fastq respectively as well as organizing the
+# and filtering if required however it cannot be standardized because there
+# are continually different cases appearing
+preprocess: BenchDM_BenchDMRun_start
+	$BIN/preprocess.RNAseq.pl
+	mv preprocess.RNAseq.log $LOGS
+
+# This rule will extract the initial raw sequences from the _seq.txt file
+# output by the solexa sequencing, it will also filter those sequences
+# removing the ones that have more ambiguous nucleotides that the allowed
+# mismatches (as this will be discarded later in any case)
+# This has to allow for the usage of reads with quality scores or multifasta
+# files where the reads have alrady been selected
+### TODO
+# Add a script to check that the number of sequences is correct after the
+# read_stats (this can be done by just checking that the number is the same
+# for each of the two files in a paired end lane
+BenchDM_BenchDMRun_read_stats: BenchDM_BenchDMRun_start
+	cluster_run.RNAseq.pl prepare_files.RNAseq.pl	
+	cluster_run.RNAseq.pl build_read_stats.RNAseq.pl
+	mv prepare_files.RNAseq.log build_read_stats.RNAseq.log $LOGS
+	all_no_log_table
+
+# Load the average quality per position into the database
+BenchDM_BenchDMRun_qualitiespos: BenchDM_BenchDMRun_read_stats
+	all_no_log_table
+
+# Load the number of ambiguous bases per position into the database
+BenchDM_BenchDMRun_ambiguous: BenchDM_BenchDMRun_qualitiespos
+	all_no_log_table
+
+# Create a table that reflects the read_list file
+BenchDM_BenchDMRun_dataset: BenchDM_BenchDMRun_ambiguous
+	build_dataset.RNAseq.pl > BenchDM_BenchDMRun_dataset.txt
+	mv build_dataset.RNAseq.log $LOGS
+	all_no_log_table
+
+QC: BenchDM_BenchDMRun_dataset
+
+######
+# Get the genome sequence location and the annotation files and extract all the
+# Transcripts, exons and junctions in multifasta format
+# After this build an index for each of these files
+# This step is quite long, it takes several hours because of the need to
+# retrieve sequences from the genome, if this could be done from the index
+# it would be much faster. In any case because of this it will only be executed
+# if forced
+BenchDM_BenchDMRun_junctions: BenchDM_BenchDMRun_start
+	$BIN/build_exon_junctions.RNAseq.pl
+	mv build_exon_junctions.RNAseq.log $LOGS
+	all_no_log_table
+
+# This step is the bottleneck in the process of generating sequences
+### TO DO make a script to check for the existence of log files and store them
+# if present without crashing if absent
+BenchDM_BenchDMRun_exon_seqs: BenchDM_BenchDMRun_start
+	$BIN/build_exon_sequences.RNAseq.pl
+	mv build_exon_seqs.RNAseq.log $LOGS
+	all_no_log_table
+
+BenchDM_BenchDMRun_junction_seqs: BenchDM_BenchDMRun_junctions BenchDM_BenchDMRun_exon_seqs
+	$BIN/build_junction_sequences.RNAseq.pl
+	all_no_log_table
+
+BenchDM_BenchDMRun_transcript_seqs: BenchDM_BenchDMRun_exon_seqs
+	$BIN/build_transcript_sequences.RNAseq.pl
+	all_no_log_table
+
+### Build the indices for each of the files
+BenchDM_BenchDMRun_indices: BenchDM_BenchDMRun_junction_seqs BenchDM_BenchDMRun_transcript_seqs
+	$BIN/build_indices.RNAseq.pl
+	all_no_log_table
+
+### Extract some necessary information from the annotation
+# Once the mapping steps and the summary of these is done we will determine the
+# maps that hit the annotatied genes and exons, and use this to determine the
+# correlation between lanes.
+
+# This rule should parse the gff file and build a table with the genes and any
+# information attached to them in it (basically type and status)
+BenchDM_BenchDMRun_genes: BenchDM_BenchDMRun_indices
+	$BIN/build_genes.RNAseq.pl
+	mv build_genes.RNAseq.log $LOGS
+	all_no_log_table
+
+# This rule should parse the gff file and build a table with the transcripts and
+# information attached to them in it
+BenchDM_BenchDMRun_transcripts: BenchDM_BenchDMRun_indices
+	$BIN/build_transcripts.RNAseq.pl
+	mv build_transcripts.RNAseq.log $LOGS
+	all_no_log_table
+
+# First we need to get the files containing exons and gene annotations We will
+# Build a file with the gene and exon annotations in gtf format. This step will
+# also build a file with the projection of all exons for each of the genes
+BenchDM_BenchDMRun_extract_annotation: BenchDM_BenchDMRun_genes BenchDM_BenchDMRun_transcripts
+	split_gtf_annotation.RNAseq.pl > BenchDM_BenchDMRun_extract_annotation.txt
+	build_gene_projections.RNAseq.pl >> BenchDM_BenchDMRun_extract_annotation.txt
+	all_no_log_table
+
+# Build a table that contains for every annotated exon and exon junction which
+# transcript and gene it belongs to. This will allow us to extract a set of
+# exons and junctions that are constitutive and a set of exons and junctions
+# that are alternative, as well as the transcript to which they correspond.
+# This step depends on the annotation only, so it does not need to be repeated
+# necessarily.
+# The Overlaps field in the table corresponds to the number of exons that
+# overlap this exon
+BenchDM_BenchDMRun_exon_classification: BenchDM_BenchDMRun_extract_annotation
+	build_exon_spliceform_distribution.RNAseq.pl
+	[[ -r $PREFIX.exons.overlap.gz ]] && rm $PREFIX.exons.overlap.gz || echo "Both tables present"
+	all_no_log_table
+
+BenchDM_BenchDMRun_junction_classification: BenchDM_BenchDMRun_exon_classification
+	all_no_log_table
+
+annotation_info: BenchDM_BenchDMRun_junction_classification
+
+##############
+# Mapping info
+# After generating the indices we want to generate the mapping results for
+# each of them. The following steps will each perform the mapping to one of the
+# indices and extract a number of statistics from these mappings
+# The mapping to the exons could be useful, but is not at the moment implemented
+BenchDM_BenchDMRun_genome_mapping: BenchDM_BenchDMRun_dataset BenchDM_BenchDMRun_indices
+	run_mapper_cluster.RNAseq.pl -index $GENOMEINDEX -o $GENOMEDIR
+	build_mapping_stats.RNAseq.pl `ls $GENOMEDIR/* | grep '.gem.map'` > BenchDM_BenchDMRun_genome_mapping.txt
+	plot_mapping_graph.RNAseq.pl -graph BenchDM_BenchDMRun_genome_mapping -type 'Genome'
+	mv BenchDM_BenchDMRun_genome_mapping.ps $GRAPHS
+	all_no_log_table
+	check_mappings.RNAseq.pl -type BenchDM_BenchDMRun_genome_mapping
+
+BenchDM_BenchDMRun_transcriptome_mapping: BenchDM_BenchDMRun_dataset BenchDM_BenchDMRun_indices
+	run_mapper_cluster.RNAseq.pl -index $TRANSCRIPTOMEINDEX -o $TRANSDIR
+	build_mapping_stats.RNAseq.pl `ls $TRANSDIR/* | grep '.gem.map'` > BenchDM_BenchDMRun_transcriptome_mapping.txt
+	plot_mapping_graph.RNAseq.pl -graph BenchDM_BenchDMRun_transcriptome_mapping -type 'Transcriptome'
+	mv BenchDM_BenchDMRun_transcriptome_mapping.ps $GRAPHS
+	all_no_log_table
+	check_mappings.RNAseq.pl -type BenchDM_BenchDMRun_transcriptome_mapping
+
+### TO DO find a better way to remove the .fa with sed (or something else)
+BenchDM_BenchDMRun_junctions_mapping: BenchDM_BenchDMRun_dataset BenchDM_BenchDMRun_indices
+	run_mapper_cluster.RNAseq.pl -index $JUNCTIONSINDEX -o $JUNCTIONSDIR
+	for file in `cat $FILELIST |gawk '{print $1}' |sed 's/\.fastq$//'| sed 's/\.fa$//'`; do gemjunc2gemsplit.RNAseq.pl -i $JUNCTIONSDIR/$file.gem.map* -o $JUNCTIONSDIR/$file.gem.map.gen.coords.gz; done
+	build_mapping_stats.RNAseq.pl `ls $JUNCTIONSDIR/* | grep '.gem.map' |grep -v 'coords'` > BenchDM_BenchDMRun_junctions_mapping.txt
+	plot_mapping_graph.RNAseq.pl -graph BenchDM_BenchDMRun_junctions_mapping -type 'Junctions'
+	mv BenchDM_BenchDMRun_junctions_mapping.ps $GRAPHS
+	all_no_log_table
+	check_mappings.RNAseq.pl -type BenchDM_BenchDMRun_junctions_mapping
+
+# After doing these mappings we will extract those reads that do not map to any
+# of the sets and we will try to map them using the splitmapper
+BenchDM_BenchDMRun_unmapped_reads: BenchDM_BenchDMRun_genome_mapping BenchDM_BenchDMRun_transcriptome_mapping BenchDM_BenchDMRun_junctions_mapping
+	cluster_run.RNAseq.pl get_unmapped_reads.RNAseq.pl
+	grep -c '^>' $SPLITMAPDIR/*unmapped.fa |sed 's/^.*\///' |gawk -F":" '{print $1"\t"$2}' > BenchDM_BenchDMRun_unmapped_reads.txt
+	all_no_log_table
+
+# split map those reads with no hits We will use conservative settings in order
+# to get only those cases that follow the consensus
+# consensusStr=\"GT\"+\"AG\",\"CT\"+\"AC\",\"GC\"+\"AG\",\"CT\"+\"GC\",\"ATATC\"+\"A.\",\".T\"+\"GATAT\",\"GTATC\"+\"AT\",\"AT\"+\"GATAC\"
+BenchDM_BenchDMRun_split_mapping: BenchDM_BenchDMRun_unmapped_reads
+	cd $SPLITMAPDIR; if [[ `ls *.unmapped.fa.gz` ]]; then gunzip -f -v *.unmapped.fa.gz; fi
+	run_split_mapper_cluster.RNAseq.pl -index $GENOMEINDEX -o $SPLITMAPDIR
+	build_mapping_stats.RNAseq.pl `ls $SPLITMAPDIR/* | grep '.split-map' |grep -v '.log'` > BenchDM_BenchDMRun_split_mapping.txt
+	plot_mapping_graph.RNAseq.pl -graph BenchDM_BenchDMRun_split_mapping -type 'Split-mapper'
+	mv BenchDM_BenchDMRun_split_mapping.ps $GRAPHS
+	if [[ `ls $SPLITMAPDIR/*.log` ]]; then mv $SPLITMAPDIR/*.log $LOGS; fi 
+	all_no_log_table
+
+### TO DO
+# Add an unfiltered split mapping of the reads that are still unmapped
+
+# Map recursively those reads that we are unable to map
+BenchDM_BenchDMRun_recursive_mapping: BenchDM_BenchDMRun_split_mapping
+	run_recursive_mapper_cluster.RNAseq.pl -index $GENOMEINDEX -o $LOCALDIR
+	build_mapping_stats.RNAseq.pl `ls $RECMAPDIR/* |grep '.map' |grep -v '.log'` > BenchDM_BenchDMRun_recursive_mapping.txt
+	plot_mapping_graph.RNAseq.pl -graph BenchDM_BenchDMRun_recursive_mapping -type 'Recursive-map'
+	mv BenchDM_BenchDMRun_recursive_mapping.ps $GRAPHS
+	if [[ `ls run_recursive_mapper.log` ]]; then mv run_recursive_mapper.log $LOGS; fi
+	if [[ `ls $RECMAPDIR/*.log` ]]; then mv $RECMAPDIR/*.log $LOGS; fi
+	all_no_log_table
+
+### TO DO add the recursive mapping to the merged mappings
+BenchDM_BenchDMRun_merged_mapping: BenchDM_BenchDMRun_recursive_mapping
+	cluster_run.RNAseq.pl merge_mappings.RNAseq.pl
+	build_mapping_stats.RNAseq.pl `ls $SAMDIR/* | grep 'unique.merged.gem.map'` > BenchDM_BenchDMRun_merged_mapping.txt
+	all_no_log_table
+
+### Build SAM/BAM files from the mappings
+# Once all the mappings are done we will build a bamfile with the results of
+# all the mappings combined
+# Build BAM and SAM files for all the mapping files after merging them
+BenchDM_BenchDMRun_merged_SAM: BenchDM_BenchDMRun_merged_mapping
+	run_gem2sam.RNAseq.pl > BenchDM_BenchDMRun_merged_SAM.txt
+	all_no_log_table
+
+mapping: BenchDM_BenchDMRun_merged_mapping BenchDM_BenchDMRun_recursive_mapping
+
+### Extract some stats from the mappings as well as the unique reads to be used
+# in downstream analyses
+# Once the initial mapping is done we need to extract those reads we are
+# interested in. These are in principle the unique reads with up to $MISMATCH
+# mismatches
+# We will do this for each of the directories
+# This will also generate a table with the distribution of the reads in each
+# of the files across the chromosomes
+
+# First we will look at the genomic unique matches and generate the distribution
+# of hits accross the chromosomes. This should be done in a different way if
+# the reads are paired, as we have more information
+# When mapping with closest $MISMATCHES and -unique_strict we can use the
+# mappability information
+BenchDM_BenchDMRun_unique_maps_genome: BenchDM_BenchDMRun_genome_mapping BenchDM_BenchDMRun_junctions_mapping
+	cluster_run.RNAseq.pl gem2gff_genome.RNAseq.pl
+	plot_gff_genome_distribution.RNAseq.pl
+	mv BenchDM_BenchDMRun_unique_maps_genome.ps $GRAPHS
+	cd $GENOMEDIR; gzip_files.RNAseq.pl gem.map
+	all_no_log_table
+
+# Removed the plotting of the transcript distribution
+BenchDM_BenchDMRun_unique_maps_transcripts: BenchDM_BenchDMRun_transcriptome_mapping
+	cluster_run.RNAseq.pl gem2gff_transcriptome.RNAseq.pl
+	cluster_run.RNAseq.pl get_transcript_lengths.RNAseq.pl
+	plot_gff_transcript_coverage.RNAseq.pl
+        mysql $DB < $TABLES/$(echo $PREFIX)_read_dist_transcripts.sql
+        mysqlimport -L $DB BenchDM_BenchDMRun_read_dist_transcripts.txt
+        gzip -9 BenchDM_BenchDMRun_read_dist_transcripts.txt
+        mv BenchDM_BenchDMRun_read_dist_transcripts.txt.gz $TAB_DAT
+	mv *.gtf.gz $TRANSDIR
+	plot_transcript_saturation.RNAseq.pl
+	mv *.ps $GRAPHS
+	cd $TRANSDIR; gzip_files.RNAseq.pl gem.map
+	all_no_log_table
+
+BenchDM_BenchDMRun_unique_maps_junctions: BenchDM_BenchDMRun_junctions_mapping
+	cluster_run.RNAseq.pl gem2gff_junctions.RNAseq.pl -multi
+	plot_gff_junctions_distribution.RNAseq.pl
+        mysql $DB < $TABLES/$(echo $PREFIX)_junction_maps_class.sql
+        mysqlimport -L $DB BenchDM_BenchDMRun_junction_maps_class.txt
+        gzip -9 BenchDM_BenchDMRun_junction_maps_class.txt
+        mv BenchDM_BenchDMRun_junction_maps_class.txt.gz $TAB_DAT
+	mv *.gtf.gz $JUNCTIONSDIR
+	mv *.ps $GRAPHS
+	cd $JUNCTIONSDIR; gzip_files.RNAseq.pl gem.map
+	cd $JUNCTIONSDIR; gzip_files.RNAseq.pl gen.coords
+	all_no_log_table
+
+BenchDM_BenchDMRun_novel_junctions_summary: BenchDM_BenchDMRun_unique_maps_junctions
+	build_novel_junctions_summary.pl > BenchDM_BenchDMRun_novel_junctions_summary.txt
+	all_no_log_table
+
+BenchDM_BenchDMRun_unique_maps_split: BenchDM_BenchDMRun_split_mapping
+	gem2gff_split.RNAseq.pl -multi
+	plot_gff_split_distribution.RNAseq.pl
+	mv *.gtf.gz $SPLITMAPDIR
+	mv *.ps $GRAPHS
+	cd $SPLITMAPDIR; gzip_files.RNAseq.pl split-map
+	all_no_log_table
+
+
+### Build clusters of reads
+# Here we have to add a step to plot the length distribution and number of reads
+# by adding a -threshold we can change the minimum number of reads required for
+# a cluster to be built. The default is 1
+# TO DO Here we need to also estimate the nt coverage of the genome.
+BenchDM_BenchDMRun_initial_clusters: BenchDM_BenchDMRun_unique_maps_genome BenchDM_BenchDMRun_unique_maps_junctions BenchDM_BenchDMRun_unique_maps_transcripts BenchDM_BenchDMRun_unique_maps_split
+	build_clusters.RNAseq.pl -staggered
+	plot_gff_cluster_distributions.RNAseq.pl
+	mv *.cluster.gtf.gz $CLUSTERDIR
+	mv BenchDM_BenchDMRun_initial_clusters.ps BenchDM_BenchDMRun_initial_clusters.jpeg $GRAPHS
+	all_no_log_table
+
+# Here the splits are classified int interchromosomal, close which means both
+# halves hit the same fragment when all the splits are projected, and far,which
+# means both splits hit two different projected fragments.
+BenchDM_BenchDMRun_split_mapping_breakdown: BenchDM_BenchDMRun_initial_clusters
+	get_split_coverage.RNAseq.pl -t 3 > BenchDM_BenchDMRun_split_mapping_breakdown.txt
+	all_no_log_table
+
+# Here we will take all the maps that split to jucntions or splitmaps and
+# put them into one file counting the number of reads mapping to each
+# independently of the strand
+BenchDM_BenchDMRun_all_junctions_class: BenchDM_BenchDMRun_split_mapping_breakdown
+	cluster_run.RNAseq.pl get_junction_classification_all.RNAseq.pl
+	cat $JUNCTIONSDIR/*.all.junc.class > BenchDM_BenchDMRun_all_junctions_class.txt
+	all_no_log_table
+
+BenchDM_BenchDMRun_all_junctions_class_pooled: BenchDM_BenchDMRun_split_mapping_breakdown
+	cluster_run.RNAseq.pl get_junction_classification_all_pooled.RNAseq.pl
+	cat $JUNCTIONSDIR/*.all.junc.class.pooled > BenchDM_BenchDMRun_all_junctions_class_pooled.txt
+	all_no_log_table
+
+############
+### Get information on the read coverage for different features
+# Determine the coverage of the genes by using overlap to decide if a read is
+# included or not in the genic region
+# This will count only those cases where the read is completely included in the
+# gene or exon
+# In this step we will also compress the map file
+# Here we will also get an estimation of the coverage of the genes and exons
+# from the overlap.total files
+### TO DO delete the gene_overlaps_cluster file
+
+# TO DO we have to insert the number of detected genes here as well as the gene
+# saturation
+BenchDM_BenchDMRun_proj_coverage: BenchDM_BenchDMRun_junction_classification BenchDM_BenchDMRun_unique_maps_genome
+	get_proj_overlaps_cluster.RNAseq.pl
+	cd $GENOMEDIR; for file in `ls *proj.overlap.gz | sed 's/\/.*\///' | sed 's/.gz$//'`; do get_proj_total_inclusion.RNAseq.pl $file.gz > $file.total; done
+	plot_proj_detection.RNAseq.pl; mv $PREFIX.Proj.*.ps $PREFIX.Proj.*.jpeg $GRAPHS
+	cd $GENOMEDIR; wc -l *.proj.overlap.total |gawk '{if ($2 !~/^total$/) {print $2"\t"$1}}' > BenchDM_BenchDMRun_proj_coverage.txt; mv BenchDM_BenchDMRun_proj_coverage.txt $PROJECT
+	all_no_log_table
+
+# This has to be fixed so the get_exon_total_inclusion script does not take the
+# files from the command line
+BenchDM_BenchDMRun_exon_coverage: BenchDM_BenchDMRun_junction_classification BenchDM_BenchDMRun_unique_maps_genome
+	get_exon_overlaps_cluster.RNAseq.pl
+	cd $EXONDIR; for file in `ls *.gtf.overlap.gz | sed 's/\/.*\///' |sed 's/.gz//'`; do get_exon_total_inclusion.RNAseq.pl $file.gz > $file.total; done
+	plot_exon_detection.RNAseq.pl; mv $PREFIX.Exons.*.ps $PREFIX.Exons.*.jpeg $GRAPHS
+	plot_exon_saturation.RNAseq.pl; mv Exon.saturation.ps Exon.saturation.jpeg $GRAPHS
+	cd $EXONDIR; wc -l *.overlap.total |gawk '{if ($2 !~/^total$/) {print $2"\t"$1}}' > BenchDM_BenchDMRun_exon_coverage.txt; mv BenchDM_BenchDMRun_exon_coverage.txt $PROJECT
+	all_no_log_table
+
+BenchDM_BenchDMRun_junction_coverage: BenchDM_BenchDMRun_junction_classification BenchDM_BenchDMRun_unique_maps_junctions
+	for file in `ls $JUNCTIONSDIR/*.unique.gtf.gz | sed 's/\/.*\///'| sed 's/.gtf.gz//'`; do get_junction_total_inclusion.RNAseq.pl $JUNCTIONSDIR/$file.gtf.gz > $file.overlap.total; done
+	wc -l *.overlap.total |gawk '{if ($2 !~/^total$/) {print $2"\t"$1}}' > BenchDM_BenchDMRun_junction_coverage.txt;
+	mv *.overlap.total $JUNCTIONSDIR
+	get_junction_read_contributions.RNAseq.pl
+	plot_junction_detection.RNAseq.pl; mv $PREFIX.Junctions.*.ps $GRAPHS
+	plot_junction_saturation.RNAseq.pl; mv Junction.saturation.ps $GRAPHS
+	all_no_log_table
+
+BenchDM_BenchDMRun_splicing_summary: BenchDM_BenchDMRun_junction_coverage BenchDM_BenchDMRun_split_mapping_breakdown
+	get_splicing_summary.RNAseq.pl > BenchDM_BenchDMRun_splicing_summary.txt
+	all_no_log_table
+
+################
+# Exon RPKM info
+BenchDM_BenchDMRun_exon_RPKM: BenchDM_BenchDMRun_exon_coverage BenchDM_BenchDMRun_junction_coverage
+	cluster_run.RNAseq.pl get_exon_rpkm.RNAseq.pl
+	zcat $EXONDIR/*.exon.rpkm.txt.gz > BenchDM_BenchDMRun_exon_RPKM.txt
+	all_no_log_table
+
+BenchDM_BenchDMRun_exon_RPKM_pooled: BenchDM_BenchDMRun_exon_coverage BenchDM_BenchDMRun_junction_coverage
+	cluster_run.RNAseq.pl get_exon_rpkm_pooled.RNAseq.pl
+	zcat $EXONDIR/*.exon.rpkm.pooled.txt.gz > BenchDM_BenchDMRun_exon_RPKM_pooled.txt
+	all_no_log_table
+
+BenchDM_BenchDMRun_exon_readcount_pooled: BenchDM_BenchDMRun_exon_RPKM_pooled
+	cluster_run.RNAseq.pl get_exon_readcount_pooled.RNAseq.pl
+	zcat $EXONDIR/*.exon.rpkm.pooled.txt.gz > BenchDM_BenchDMRun_exon_RPKM_pooled.txt
+	all_no_log_table
+
+################
+# Gene RPKM info
+BenchDM_BenchDMRun_gene_RPKM: BenchDM_BenchDMRun_proj_coverage BenchDM_BenchDMRun_junction_coverage
+	cluster_run.RNAseq.pl get_gene_rpkm.RNAseq.pl
+	zcat $GENOMEDIR/*.gene.rpkm.txt.gz > BenchDM_BenchDMRun_gene_RPKM.txt
+	all_no_log_table
+
+BenchDM_BenchDMRun_gene_RPKM_pooled: BenchDM_BenchDMRun_proj_coverage BenchDM_BenchDMRun_junction_coverage
+	cluster_run.RNAseq.pl get_gene_rpkm_pooled.RNAseq.pl
+	zcat $GENOMEDIR/*.gene.rpkm.pooled.txt.gz > BenchDM_BenchDMRun_gene_RPKM_pooled.txt
+	all_no_log_table
+
+BenchDM_BenchDMRun_gene_readcount_pooled: BenchDM_BenchDMRun_proj_coverage BenchDM_BenchDMRun_junction_coverage
+	cluster_run.RNAseq.pl get_gene_readcount_pooled.RNAseq.pl
+	zcat $GENOMEDIR/*.gene.readcount.pooled.txt.gz > BenchDM_BenchDMRun_gene_readcount_pooled.txt
+	all_no_log_table
+
+BenchDM_BenchDMRun_detected_genes: BenchDM_BenchDMRun_gene_RPKM_pooled BenchDM_BenchDMRun_gene_readcount_pooled
+	cluster_run.RNAseq.pl build_detected_genes.RNAseq.pl
+	mv build_detected_genes.RNAseq.log $LOGS
+	all_no_log_table
+
+BenchDM_BenchDMRun_gene_RPKM_dist: BenchDM_BenchDMRun_gene_RPKM BenchDM_BenchDMRun_detected_genes
+	build_gene_rpkm_dist.RNAseq.pl > BenchDM_BenchDMRun_gene_RPKM_dist.txt
+	all_no_log_table
+
+
+### TO DO 
+# Add the mappable info
+# This is no longer necessary with the RPKMs calculaed by the flux
+
+### TO DO
+# This should be calculated from the merged mappings (the SAM files)
+# Get exonic intronic and intergenic reads
+# This has to be recalculated based on the bed file
+BenchDM_BenchDMRun_read_classification: BenchDM_BenchDMRun_unique_maps_genome
+	classify_mapped_read.RNAseq.pl > BenchDM_BenchDMRun_read_classification.txt
+	all_no_log_table
+
+##########
+# Get info on the exons exclusion
+# Calculate for each exon in the genome an inclusion and exclusion rate
+BenchDM_BenchDMRun_exon_inclusion: BenchDM_BenchDMRun_exon_coverage BenchDM_BenchDMRun_junction_coverage
+	cluster_run.RNAseq.pl build_inclusion_exclusion_table.RNAseq.pl
+	cluster_run.RNAseq.pl get_exon_inclusion_exclusion_rates.RNAseq.pl
+	cat $EXONDIR/*.inclusion.exclusion.txt > BenchDM_BenchDMRun_exon_inclusion.txt
+	all_no_log_table
+
+BenchDM_BenchDMRun_exon_inclusion_pooled: BenchDM_BenchDMRun_exon_coverage BenchDM_BenchDMRun_junction_coverage
+	cluster_run.RNAseq.pl get_pooled_exon_inclusion_rates.RNAseq.pl
+	cat $EXONDIR/*.inclusion.exclusion.pooled.txt > BenchDM_BenchDMRun_exon_inclusion_pooled.txt
+	all_no_log_table
+
+BenchDM_BenchDMRun_exon_inclusion_reads: BenchDM_BenchDMRun_exon_inclusion_pooled
+	cluster_run.RNAseq.pl build_reads_supporting_inclusions.RNAseq.pl
+	cat $EXONDIR/*.inc.exc.reads.txt > BenchDM_BenchDMRun_exon_inclusion_reads.txt
+	all_no_log_table
+
+BenchDM_BenchDMRun_inclusion_correlation: BenchDM_BenchDMRun_exon_inclusion_reads
+	build_inclusion_correlation.RNAseq.pl |sort |uniq > BenchDM_BenchDMRun_inclusion_correlation.txt
+	all_no_log_table
+
+BenchDM_BenchDMRun_inclusion_dist: BenchDM_BenchDMRun_exon_inclusion BenchDM_BenchDMRun_inclusion_correlation
+	build_inclusion_dist.RNAseq.pl > BenchDM_BenchDMRun_inclusion_dist.txt
+	all_no_log_table
+
+###########
+# Test some different measures for exon inclusion
+# Calculate for each exon in the genome an exon junction expression index (EJEI)
+BenchDM_BenchDMRun_EJEI: BenchDM_BenchDMRun_junction_coverage
+	build_EJEI.RNAseq.pl
+	zcat $JUNCTIONSDIR/*.EJEI.txt.gz > BenchDM_BenchDMRun_EJEI.txt
+	all_no_log_table
+
+####################################
+# Get the transcript expression info
+# First build some bed files
+### TO DO we need to add to these files the ones from the split mapping and
+# from the recursive mapping
+BenchDM_BenchDMRun_bed_files: BenchDM_BenchDMRun_merged_mapping BenchDM_BenchDMRun_recursive_mapping
+	cluster_run.RNAseq.pl gem2bed_combined_cluster.RNAseq.pl
+	wc -l $LOCALDIR/*.combined.bed |gawk '{if ($2 !~/^total$/) {print $2"\t"$1}}' > BenchDM_BenchDMRun_bed_files.txt;
+	all_no_log_table
+
+### TO DO fix the flux to run on the cluster in parallel
+# Run the flux
+BenchDM_BenchDMRun_transcript_expression_levels: BenchDM_BenchDMRun_junction_classification BenchDM_BenchDMRun_bed_files
+	cluster_run.RNAseq.pl run_flux.RNAseq.pl
+	build_transcript_expression_levels.RNAseq.pl > BenchDM_BenchDMRun_transcript_expression_levels.txt
+	mv run_flux.RNAseq.log build_transcript_expression_levels.RNAseq.log $LOGS
+	all_no_log_table
+
+BenchDM_BenchDMRun_transcript_expression_levels_pooled: BenchDM_BenchDMRun_junction_classification BenchDM_BenchDMRun_bed_files BenchDM_BenchDMRun_junction_classification
+	cluster_run.RNAseq.pl run_flux_pooled.RNAseq.pl
+	build_transcript_expression_levels_pooled.RNAseq.pl > BenchDM_BenchDMRun_transcript_expression_levels_pooled.txt
+	mv run_flux_pooled.RNAseq.log $LOGS
+	all_no_log_table
+
+BenchDM_BenchDMRun_detected_transcripts: BenchDM_BenchDMRun_transcript_expression_levels_pooled BenchDM_BenchDMRun_transcript_expression_levels
+	cluster_run.RNAseq.pl build_detected_transcripts.RNAseq.pl
+	mv build_detected_transcripts.RNAseq.log $LOGS
+	all_no_log_table
+
+#######################
+# Calculate gene RPKM from the flux capacitor results
+BenchDM_BenchDMRun_gene_RPKM_pooled_flux: BenchDM_BenchDMRun_transcript_expression_levels_pooled
+	get_gene_rpkm_pooled_flux.RNAseq.pl > BenchDM_BenchDMRun_gene_RPKM_pooled_flux.txt
+	all_no_log_table
+
+BenchDM_BenchDMRun_exon_RPKM_pooled_flux: BenchDM_BenchDMRun_transcript_expression_levels_pooled
+	get_exon_rpkm_pooled_flux.RNAseq.pl > BenchDM_BenchDMRun_exon_RPKM_pooled_flux.txt
+	all_no_log_table
+
+RPKMs_flux: BenchDM_BenchDMRun_gene_RPKM_pooled_flux BenchDM_BenchDMRun_exon_RPKM_pooled_flux
+
+# #####################
+# Get fusion transcripts
+BenchDM_BenchDMRun_fusion_transcripts: BenchDM_BenchDMRun_transcriptome_mapping BenchDM_BenchDMRun_gene_RPKM
+	cluster_run.RNAseq.pl get_fusion_transcripts.RNAseq.pl
+	zcat $TRANSDIR/*.trans.fusions.txt.gz > BenchDM_BenchDMRun_fusion_transcripts.txt
+	mv get_fusion_transcripts.RNAseq.log $LOGS
+	all_no_log_table
+
+#######################
+# Get some summary info
+# Build a summary of the detected genes/transcripts and exons, as well as
+# a summary of the detected junctions. this table will contain the completion
+# status of these two steps (it is only here to run the two scripts as they
+# both generate their own tables ad load them
+BenchDM_BenchDMRun_summaries: BenchDM_BenchDMRun_exon_RPKM_pooled BenchDM_BenchDMRun_gene_RPKM_dist BenchDM_BenchDMRun_inclusion_dist BenchDM_BenchDMRun_detected_transcripts BenchDM_BenchDMRun_splicing_summary BenchDM_BenchDMRun_novel_junctions_summary BenchDM_BenchDMRun_exon_RPKM
+	build_expression_summary.RNAseq.pl > BenchDM_BenchDMRun_summaries.txt
+	build_top_genes.RNAseq.pl >> BenchDM_BenchDMRun_summaries.txt
+	build_top_transcripts.RNAseq.pl >> BenchDM_BenchDMRun_summaries.txt
+	build_top_exons.RNAseq.pl >> BenchDM_BenchDMRun_summaries.txt
+	all_no_log_table
+### TO DO
+# Build multi map bed files including the junction mappings
+
+# Random subsampling of the mapped reads and after this we will see if the 
+# flux capacitor is consistent
+
+### TO DO
+# Build a summary of all the steps using R and Latex
+#mapping_summary: _transcript_expression_levels
+#	build_mapping_summary.pl
+
+
+#####################
+# Check of what steps have been completed
+BenchDM_BenchDMRun_completion_status: @
+	completed.RNAseq.pl > BenchDM_BenchDMRun_completion_status.txt
+	all_no_log_table
+
+# Get the md5sum form all the unzipped fastq or fasta files as well as a global
+# md5sum which will be provided as the md5sum of the sorted concatenation of the
+# individual md5sums
+BenchDM_BenchDMRun_store_reads: BenchDM_BenchDMRun_merged_SAM
+	build_store_reads.RNAseq.pl > BenchDM_BenchDMRun_store_reads.txt
+	mv build_store_reads.RNAseq.log $LOGS
+	all_no_log_table
+
+# ENCODE info we should add the transcript expression from the flux
+encode: BenchDM_BenchDMRun_summaries BenchDM_BenchDMRun_all_junctions_class_pooled mapping BenchDM_BenchDMRun_read_classification RPKMs_flux
+
+# Save the results in the results folder and remove the temporary directory
+# We probably would want to remove more files once we have discussed which ones
+# are worth keeping
+BenchDM_BenchDMRun_register_results: encode BenchDM_BenchDMRun_store_reads BenchDM_BenchDMRun_fusion_transcripts
+	build_register_results.RNAseq.pl > BenchDM_BenchDMRun_register_results.txt
+	mv build_register_results.RNAseq.log $LOGS
+	rm -r $LOCALDIR
+	all_no_log_table
+
+# This rule should execute all the steps in the pipeline
+all: BenchDM_BenchDMRun_register_results
+
+# ####
+## Test rules
+BenchDM_BenchDMRun_fusion_transcripts_support: BenchDM_BenchDMRun_fusion_transcripts
+	build_fusion_clusters.RNAseq.pl
+	build_fusion_cluster_support.RNAseq.pl -filetype genome > genome_fusion_cluster_support.txt
+	build_fusion_cluster_support.RNAseq.pl -filetype trans > transcript_fusion_cluster_support.txt
+	cat genome_fusion_cluster_support.txt transcript_fusion_cluster_support.txt > BenchDM_BenchDMRun_fusion_transcripts_support.txt
+	all_no_log_table

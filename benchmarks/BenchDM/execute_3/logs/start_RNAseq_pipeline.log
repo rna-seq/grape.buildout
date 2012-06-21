@@ -1,0 +1,496 @@
+Executing: start_RNAseq_pipeline.3.0.pl -species Drosophila melanogaster -genome /users/rg/mroder/grape/pipelines/BenchDM/D.melanogaster.genome.fa -annotation /users/rg/mroder/grape/pipelines/BenchDM/flyBase.exons.genes_real.transcripts.gtf -project BenchDM -experiment BenchDMRun -template /users/rg/mroder/grape/pipelines/BenchDM/src/pipeline/template3.0.txt -readlength 54 -cellline CELL -rnafrac UNKNOWN -compartment CELL -bioreplicate 1 -threads 8 -qualities phred -database BenchDM_RNAseqPipeline -commondb BenchDM_RNAseqPipelineCommon -mapper GEM -mismatches 2
+Checking options for unadvisable characters...
+Option mapper => GEM OK
+Option files =>  OK
+Option compartment => CELL OK
+Option debug =>  OK
+Option mismatches => 2 OK
+Option preprocess =>  OK
+Option template => /users/rg/mroder/grape/pipelines/BenchDM/src/pipeline/template3.0.txt OK
+Option clean =>  OK
+Option junctionstable =>  OK
+Option localdir => /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/work OK
+Option transcriptomeindex =>  OK
+Option annotation => /users/rg/mroder/grape/pipelines/BenchDM/flyBase.exons.genes_real.transcripts.gtf OK
+Option paired =>  OK
+Option rnafrac => UNKNOWN OK
+Option projdesc =>  OK
+Option cellline => CELL OK
+Option genomeindex =>  OK
+Option exclusionfile =>  OK
+Option genome => /users/rg/mroder/grape/pipelines/BenchDM/D.melanogaster.genome.fa OK
+Option transcriptomefasta =>  OK
+Option help =>  OK
+Option junctionsindex =>  OK
+Option run_description =>  OK
+Option cluster =>  OK
+Option transclass =>  OK
+Option junctionsclass =>  OK
+Option species => Drosophila melanogaster OK
+Option exonsclass =>  OK
+Option threads => 8 OK
+Option host =>  OK
+Option database => BenchDM_RNAseqPipeline OK
+Option stranded =>  OK
+Option man =>  OK
+Option readlength => 54 OK
+Option commondb => BenchDM_RNAseqPipelineCommon OK
+Option bioreplicate => 1 OK
+Option geneclass =>  OK
+Option exonsfasta =>  OK
+Option junctionsfasta =>  OK
+done
+Print checking options for common problems...
+done
+/users/rg/mroder/grape/pipelines/BenchDM/flyBase.exons.genes_real.transcripts.gtf is present and readable
+/users/rg/mroder/grape/pipelines/BenchDM/D.melanogaster.genome.fa is present and readable
+Checking the common tables...
+protocol_info	Present
+CREATE TABLE IF NOT EXISTS protocol_info (
+       protocol_id mediumint unsigned NOT NULL AUTO_INCREMENT,
+       abbreviation varchar(20) NOT NULL,
+       description varchar(100) NOT NULL,
+       PRIMARY KEY (protocol_id)
+);
+projects	Present
+CREATE TABLE IF NOT EXISTS projects (
+       project_id varchar(50) NOT NULL,
+       species varchar(50) NOT NULL,
+       proj_description mediumtext,
+       secret varchar(50) NULL,
+       PRIMARY KEY (project_id)
+);
+annotation_tables	Present
+CREATE TABLE IF NOT EXISTS annotation_tables (
+       genome_id mediumint unsigned NOT NULL REFERENCES genome_files(genome_id),
+       annotation_id mediumint unsigned NOT NULL REFERENCES annotation_files(annotation_id),
+       type varchar(20) NOT NULL,
+       table_name varchar(100) NOT NULL,
+       index idx_genome (genome_id),
+       index idx_annotation (annotation_id),
+       index idx_type (type)
+#       FOREIGN KEY (annotation_id)
+#         REFERENCES annotation_files(annotation_id) 
+#         ON UPDATE CASCADE ON DELETE RESTRICT,
+#       FOREIGN KEY (genome_id) 
+#         REFERENCES genome_files(genome_id) 
+#         ON UPDATE CASCADE ON DELETE RESTRICT
+) ENGINE=INNODB;
+mappabilities	Present
+CREATE TABLE IF NOT EXISTS mappabilities (
+       mappability_id mediumint unsigned NOT NULL AUTO_INCREMENT,
+       index_id mediumint unsigned NOT NULL,
+       genome_id mediumint unsigned NOT NULL REFERENCES genome_files(genome_id),
+       read_length smallint unsigned NOT NULL,
+       mismatches smallint unsigned NOT NULL,
+       location varchar(200) NOT NULL,
+       PRIMARY KEY (mappability_id)
+);
+experiments	Present
+CREATE TABLE IF NOT EXISTS experiments (
+       experiment_id varchar(50) NOT NULL,
+       project_id varchar(50) NOT NULL REFERENCES projects(project_id),
+       species_id mediumint unsigned NOT NULL REFERENCES species_info(species_id),
+       genome_id mediumint unsigned NOT NULL REFERENCES genome_files(genome_id),
+       annotation_id mediumint unsigned NOT NULL REFERENCES annotation_files(annotation_id),
+       template_file varchar(200) NOT NULL,
+       read_length smallint unsigned NULL,
+       mismatches smallint unsigned NOT NULL,
+       exp_description mediumtext,
+       expDate date NULL,
+       CellType varchar(50) NULL,
+       RNAType varchar(50) NULL,
+       Compartment varchar(50) NOT NULL DEFAULT "CELL",
+       Bioreplicate varchar(10) DEFAULT 1,
+       partition varchar(50) NULL,
+       md5sum varchar(45) NULL,
+       Preprocessing varchar(45) NULL,
+       annotation_version varchar(45) NULL,
+       genome_assembly varchar(45) NULL,
+       paired bit(1) DEFAULT 1, 
+       lab varchar(45) NULL,
+       protocol_id mediumint unsigned DEFAULT 1,
+       PRIMARY KEY (project_id,experiment_id)
+);
+exclusion_files	Present
+CREATE TABLE IF NOT EXISTS exclusion_files (
+       exclusion_id mediumint unsigned NOT NULL AUTO_INCREMENT,
+       species_id mediumint unsigned NOT NULL REFERENCES species_info(species_id),
+       annotation_id mediumint unsigned NOT NULL REFERENCES annotation_files(annotation_id),
+       location varchar(200) NOT NULL,
+       PRIMARY KEY (exclusion_id)
+#       FOREIGN KEY (annotation_id) 
+#         REFERENCES annotation_files(annotation_id) 
+#         ON UPDATE CASCADE ON DELETE RESTRICT,
+#       FOREIGN KEY (species_id) 
+#         REFERENCES species_info(species_id) 
+#         ON UPDATE CASCADE ON DELETE RESTRICT
+);
+indices	Present
+CREATE TABLE IF NOT EXISTS indices (
+       index_id mediumint unsigned NOT NULL AUTO_INCREMENT,
+       genome_id mediumint unsigned NOT NULL REFERENCES genome_files(genome_id),
+       annotation_id mediumint unsigned NOT NULL REFERENCES annotation_files(annotation_id),
+       species_id mediumint unsigned NOT NULL REFERENCES species_info(species_id),
+       type varchar(100) NOT NULL,
+       location varchar(200) NOT NULL,
+       PRIMARY KEY (index_id)
+#       FOREIGN KEY (annotation_id) 
+#         REFERENCES annotation_files(annotation_id)
+#         ON UPDATE CASCADE ON DELETE RESTRICT,
+#       FOREIGN KEY (genome_id) 
+#         REFERENCES genome_files(genome_id)
+#         ON UPDATE CASCADE ON DELETE RESTRICT,
+#       FOREIGN KEY (species_id) 
+#         REFERENCES species_info(species_id)
+#         ON UPDATE CASCADE ON DELETE RESTRICT
+) ENGINE=INNODB;
+species_info	Present
+CREATE TABLE IF NOT EXISTS species_info (
+       species_id mediumint unsigned NOT NULL AUTO_INCREMENT,
+       species varchar(200) NOT NULL,
+       genus varchar(100) NOT NULL,
+       sp_alias varchar(100) NOT NULL,
+       abbreviation varchar(20) NOT NULL,
+       PRIMARY KEY (species_id),
+       index idx_alias (sp_alias)
+);
+genome_files	Present
+CREATE TABLE IF NOT EXISTS genome_files (
+       genome_id mediumint unsigned NOT NULL AUTO_INCREMENT,
+       species_id mediumint unsigned NOT NULL REFERENCES species_info(species_id),
+       genome varchar(60) NOT NULL,
+       location varchar(200) NOT NULL,
+       assembly varchar(50) NULL,
+       source mediumtext NULL,
+       gender varchar(20) NULL,
+       index idx_genome (genome),
+       PRIMARY KEY (genome_id)
+);
+annotation_files	Present
+CREATE TABLE IF NOT EXISTS annotation_files (
+       annotation_id mediumint unsigned NOT NULL AUTO_INCREMENT,
+       species_id mediumint unsigned NOT NULL REFERENCES species_info(species_id),
+       annotation varchar(60) NOT NULL,
+       location varchar(200) NOT NULL,
+       version varchar(50) NULL,
+       source mediumtext NULL,
+       index idx_annotation (annotation),
+       PRIMARY KEY (annotation_id)
+#       FOREIGN KEY (species_id) 
+#         REFERENCES species_info(species_id) 
+#         ON UPDATE CASCADE ON DELETE RESTRICT
+) ENGINE=INNODB;
+fasta_files	Present
+CREATE TABLE IF NOT EXISTS fasta_files (
+       genome_id mediumint unsigned NOT NULL REFERENCES genome_files(genome_id),
+       annotation_id mediumint unsigned NOT NULL REFERENCES annotation_files(annotation_id),
+       filetype varchar(20) NOT NULL,
+       file_name varchar(200) NOT NULL,
+       index idx_genome (genome_id),
+       index idx_annotation (annotation_id),
+       index idx_type (filetype),
+       PRIMARY KEY (genome_id,annotation_id,filetype)
+#       FOREIGN KEY (annotation_id) 
+#         REFERENCES annotation_files(annotation_id) 
+#         ON UPDATE CASCADE ON DELETE RESTRICT,
+#       FOREIGN KEY (genome_id) 
+#         REFERENCES genome_files(genome_id) 
+#         ON UPDATE CASCADE ON DELETE RESTRICT
+);
+Found 1 entries in species_info for Drosophila melanogaster
+species: 1 obtained from species_info for Drosophila melanogaster
+Found 1 entries in genome_files for /users/rg/mroder/grape/pipelines/BenchDM/D.melanogaster.genome.fa
+genome: 1 obtained from genome_files for /users/rg/mroder/grape/pipelines/BenchDM/D.melanogaster.genome.fa
+Found 1 entries in annotation_files for /users/rg/mroder/grape/pipelines/BenchDM/flyBase.exons.genes_real.transcripts.gtf
+annotation: 1 obtained from annotation_files for /users/rg/mroder/grape/pipelines/BenchDM/flyBase.exons.genes_real.transcripts.gtf
+Guessing run_description ...
+Haven't heard of run_description
+done
+Guessing transclass ...
+Table present at 1_flyBase_exons_genes_real_trans_transclass
+done
+Guessing projdesc ...
+Haven't heard of projdesc
+done
+Guessing junctionsclass ...
+Table present at 1_flyBase_exons_genes_real_trans_junctclass
+done
+Guessing genomeindex ...
+File present at /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/D.melanogaster.genome
+done
+Guessing exonsclass ...
+Table present at 1_flyBase_exons_genes_real_trans_exclass
+done
+Guessing exclusionfile ...
+File present at /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.exclusion
+done
+Guessing host ...
+Haven't heard of host
+done
+Guessing junctionstable ...
+Table present at 1_flyBase_exons_genes_real_trans_junct
+done
+Guessing transcriptomefasta ...
+File present at /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.transcripts.fa
+done
+Guessing exonsfasta ...
+File present at /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.exons.fa
+done
+Guessing geneclass ...
+Table present at 1_flyBase_exons_genes_real_trans_geneclass
+done
+Guessing junctionsfasta ...
+File present at /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.junctions.fa
+done
+Guessing transcriptomeindex ...
+File present at /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.transcriptome
+done
+Guessing junctionsindex ...
+File present at /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.junctions
+done
+Cluster set ot '-'. Running locally
+All necessary information seems present.
+Building pipeline for:
+Drosophila melanogaster
+BenchDM:BenchDMRun
+Species Abbreviation will be: Dmel
+Id string: BenchDM_BenchDMRun
+Table for this rule is: BenchDM_BenchDMRun_start.txt
+I will try to build the following tables
+BenchDM_BenchDMRun_transcript_expression_levels_pooled
+BenchDM_BenchDMRun_genes
+BenchDM_BenchDMRun_splicing_summary
+BenchDM_BenchDMRun_fusion_transcripts_support
+BenchDM_BenchDMRun_unique_maps_genome
+BenchDM_BenchDMRun_unmapped_reads
+BenchDM_BenchDMRun_exon_coverage
+BenchDM_BenchDMRun_indices
+BenchDM_BenchDMRun_all_junctions_class_pooled
+BenchDM_BenchDMRun_unique_maps_transcripts
+BenchDM_BenchDMRun_detected_transcripts
+BenchDM_BenchDMRun_transcript_expression_levels
+BenchDM_BenchDMRun_initial_clusters
+BenchDM_BenchDMRun_unique_maps_junctions
+BenchDM_BenchDMRun_exon_inclusion_reads
+BenchDM_BenchDMRun_merged_SAM
+BenchDM_BenchDMRun_exon_classification
+BenchDM_BenchDMRun_inclusion_dist
+BenchDM_BenchDMRun_gene_RPKM_dist
+BenchDM_BenchDMRun_gene_coverage
+BenchDM_BenchDMRun_transcriptome_mapping
+BenchDM_BenchDMRun_extract_annotation
+BenchDM_BenchDMRun_fusion_transcripts
+BenchDM_BenchDMRun_exon_seqs
+BenchDM_BenchDMRun_read_dist_transcripts
+BenchDM_BenchDMRun_exon_RPKM
+BenchDM_BenchDMRun_EJEI
+BenchDM_BenchDMRun_exon_inclusion_pooled
+BenchDM_BenchDMRun_register_results
+BenchDM_BenchDMRun_merged_mapping
+BenchDM_BenchDMRun_inclusion_correlation
+BenchDM_BenchDMRun_all_junctions_class
+BenchDM_BenchDMRun_recursive_mapping
+BenchDM_BenchDMRun_completion_status
+BenchDM_BenchDMRun_dataset
+BenchDM_BenchDMRun_exon_RPKM_pooled
+BenchDM_BenchDMRun_store_reads
+BenchDM_BenchDMRun_junctions
+BenchDM_BenchDMRun_qualitiespos
+BenchDM_BenchDMRun_gene_RPKM_pooled
+BenchDM_BenchDMRun_start
+BenchDM_BenchDMRun_junction_seqs
+BenchDM_BenchDMRun_unique_maps_split
+BenchDM_BenchDMRun_junction_coverage
+BenchDM_BenchDMRun_gene_readcount_pooled
+BenchDM_BenchDMRun_transcript_seqs
+BenchDM_BenchDMRun_read_stats
+BenchDM_BenchDMRun_junctions_mapping
+BenchDM_BenchDMRun_split_mapping_breakdown
+BenchDM_BenchDMRun_transcripts
+BenchDM_BenchDMRun_proj_coverage
+BenchDM_BenchDMRun_summaries
+BenchDM_BenchDMRun_gene_RPKM
+BenchDM_BenchDMRun_gene_RPKM_pooled_flux
+BenchDM_BenchDMRun_novel_junctions_summary
+BenchDM_BenchDMRun_detected_genes
+BenchDM_BenchDMRun_ambiguous
+BenchDM_BenchDMRun_read_classification
+BenchDM_BenchDMRun_junction_maps_class
+BenchDM_BenchDMRun_exon_inclusion
+BenchDM_BenchDMRun_junction_classification
+BenchDM_BenchDMRun_split_mapping
+BenchDM_BenchDMRun_bed_files
+BenchDM_BenchDMRun_genome_mapping
+Checking directory structure and attempting creation of missing dirs...
+Setting localdir as: /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/work
+Using dir: /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun
+Checking mysql...
+Creating dir mysql
+Executing: chmod g+x mysql
+
+Checking mysql/table_build...
+Creating dir mysql/table_build
+Executing: chmod g+x mysql/table_build
+
+Checking mysql/table_data...
+Creating dir mysql/table_data
+Executing: chmod g+x mysql/table_data
+
+Checking bin...
+bin already exists
+Skipping
+Executing: chmod g+x bin
+
+Checking GEMIndices...
+GEMIndices already exists
+Skipping
+Executing: chmod g+x GEMIndices
+
+Checking genome...
+Creating dir genome
+Executing: chmod g+x genome
+
+Checking sequence...
+Creating dir sequence
+Executing: chmod g+x sequence
+
+Checking transcriptome...
+Creating dir transcriptome
+Executing: chmod g+x transcriptome
+
+Checking junctions...
+Creating dir junctions
+Executing: chmod g+x junctions
+
+Checking splitmapping...
+Creating dir splitmapping
+Executing: chmod g+x splitmapping
+
+Checking recursivemap...
+Creating dir recursivemap
+Executing: chmod g+x recursivemap
+
+Checking exons...
+Creating dir exons
+Executing: chmod g+x exons
+
+Checking readData...
+readData already exists
+Skipping
+Executing: chmod g+x readData
+
+Checking trimmedReads...
+Creating dir trimmedReads
+Executing: chmod g+x trimmedReads
+
+Checking graphs...
+Creating dir graphs
+Executing: chmod g+x graphs
+
+Checking logs...
+Creating dir logs
+Executing: chmod g+x logs
+
+Checking /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/work...
+Creating dir /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/work
+Executing: chmod g+x /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/work
+
+Checking clusters...
+Creating dir clusters
+Executing: chmod g+x clusters
+
+Checking exclusion...
+Creating dir exclusion
+Executing: chmod g+x exclusion
+
+Checking results...
+results already exists
+Skipping
+Executing: chmod g+x results
+
+Checking SAM...
+Creating dir SAM
+Executing: chmod g+x SAM
+
+Checking work...
+work already exists
+Skipping
+Executing: chmod g+x work
+
+done
+Creating the master file at RNAseq_pipeline.txt...PROJECT	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun
+DB	BenchDM_RNAseqPipeline
+COMMONDB	BenchDM_RNAseqPipelineCommon
+TABLES	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/mysql/table_build
+BIN	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/bin
+LOGS	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/logs
+TAB_DAT	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/mysql/table_data
+GRAPHS	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/graphs
+READDIR	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/readData
+GRAPHS	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/graphs
+TRANSDIR	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/transcriptome
+EXONDIR	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/exons
+JUNCTIONSDIR	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/junctions
+SPLITMAPDIR	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/splitmapping
+RECMAPDIR	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/recursivemap
+GENOMEDIR	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/genome
+GEMINDICES	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices
+SEQUENCEDIR	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/sequence
+CLUSTERDIR	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/clusters
+SAMDIR	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/SAM
+SPECIES	Drosophila melanogaster
+PROJECTID	BenchDM
+EXPID	BenchDMRun
+PREFIX	BenchDM_BenchDMRun
+ANNOTATION	/users/rg/dgonzalez/ReferenceAnnotations/D.melanogaster/flyBase.exons.genes_real.transcripts.gtf
+GENOMESEQ	/users/rg/dgonzalez/ReferenceGenomes/D.melanogaster/D.melanogaster.genome.fa
+MISMATCHES	2
+LOCALDIR	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/work
+GENOMEINDEX	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/D.melanogaster.genome
+TRANSCRIPTOMEINDEX	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.transcriptome
+JUNCTIONSINDEX	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.junctions
+PAIRED	0
+EXCLUSIONFILE	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.exclusion
+STRANDED	0
+READLENGTH	54
+GENECLASSTABLE	1_flyBase_exons_genes_real_trans_geneclass
+TRANSCLASSTABLE	1_flyBase_exons_genes_real_trans_transclass
+JUNCTIONSTABLE	1_flyBase_exons_genes_real_trans_junct
+JUNCTIONSCLASSTABLE	1_flyBase_exons_genes_real_trans_junctclass
+EXONSCLASSTABLE	1_flyBase_exons_genes_real_trans_exclass
+FILELIST	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/read.list.txt
+EXONSFASTA	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.exons.fa
+JUNCTIONSFASTA	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.junctions.fa
+TRANSCRIPTOMEFASTA	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.transcripts.fa
+THREADS	8
+MAPPER	GEM
+LOCALPARALLEL	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/work
+CLUSTER	-
+QUALITIES	phred
+PREPROCESS	zcat
+RESULTS	/users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/results
+done
+Creating the configuration file at project_config.txt...done
+Ckecking read.list.txt...
+done
+Checking for the presence of BenchDM in the database...
+BenchDM is not present in the database
+Adding a new entry
+Executing: INSERT INTO projects SET species = ? , project_id = ?
+No project description supplied
+Found 1 entries in species_info for Drosophila melanogaster
+species: 1 obtained from species_info for Drosophila melanogaster
+Found 1 entries in genome_files for /users/rg/mroder/grape/pipelines/BenchDM/D.melanogaster.genome.fa
+genome: 1 obtained from genome_files for /users/rg/mroder/grape/pipelines/BenchDM/D.melanogaster.genome.fa
+Found 1 entries in annotation_files for /users/rg/mroder/grape/pipelines/BenchDM/flyBase.exons.genes_real.transcripts.gtf
+annotation: 1 obtained from annotation_files for /users/rg/mroder/grape/pipelines/BenchDM/flyBase.exons.genes_real.transcripts.gtf
+Checking for the presence of BenchDMRun in the database...
+BenchDMRun is not present in the database for BenchDM
+Adding a new entry
+Executing: INSERT INTO experiments SET species_id = ?,genome_id = ?, annotation_id = ?, template_file = ?,read_length = ?, mismatches = ?, experiment_id = ?,project_id = ?
+No exp_description supplied form BenchDMRun
+Setting RNAType for experiment BenchDMRun from BenchDM to UNKNOWN 
+Executing: UPDATE experiments SET RNAType = ? WHERE project_id = ? and experiment_id = ?
+Setting CellType for experiment BenchDMRun from BenchDM to CELL 
+Executing: UPDATE experiments SET CellType = ? WHERE project_id = ? and experiment_id = ?

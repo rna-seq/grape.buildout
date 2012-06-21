@@ -1,0 +1,8 @@
+Processing lane1_Larva_read1_qseq.fastq
+readData/lane1_Larva_read1_qseq.fastq	Is gzipped. Inflating...
+Executing: gunzip readData/lane1_Larva_read1_qseq.fastq.gz -c > /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/work/lane1_Larva_read1_qseq.fastq
+
+Processing lane1_Larva_read2_qseq.fastq
+readData/lane1_Larva_read2_qseq.fastq	Is gzipped. Inflating...
+Executing: gunzip readData/lane1_Larva_read2_qseq.fastq.gz -c > /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/work/lane1_Larva_read2_qseq.fastq
+

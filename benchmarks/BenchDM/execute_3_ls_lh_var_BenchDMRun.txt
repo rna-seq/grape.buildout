@@ -1,0 +1,51 @@
+$ ls -l /users/rg/mroder/grape/pipelines/BenchDM/var/BenchDMRun
+total 5313952
+-rw-r--r-- 1 mroder rguigo  755218805 Apr  3 23:05 Larva.1.unique.merged.gem.map.gz
+-rw-r--r-- 1 mroder rguigo  767675402 Apr  3 23:05 Larva.2.unique.merged.gem.map.gz
+-rw-r--r-- 1 mroder rguigo  750645040 Apr  3 23:06 Larva.combined.bed.gz
+-rw-r--r-- 1 mroder rguigo 1038120228 Apr  3 23:05 Larva.merged.bam
+-rw-r--r-- 1 mroder rguigo     212812 Apr  3 23:06 clusters.BenchDM.multi.genome.cluster.gtf.gz
+-rw-r--r-- 1 mroder rguigo         20 Apr  3 23:06 clusters.BenchDM.multi.junctions.cluster.gtf.gz
+-rw-r--r-- 1 mroder rguigo    3559655 Apr  3 23:06 clusters.BenchDM.multi.split.cluster.gtf.gz
+-rw-r--r-- 1 mroder rguigo    1654104 Apr  3 23:06 clusters.BenchDM.unique.genome.cluster.gtf.gz
+-rw-r--r-- 1 mroder rguigo     653230 Apr  3 23:06 clusters.BenchDM.unique.junctions.cluster.gtf.gz
+-rw-r--r-- 1 mroder rguigo     814917 Apr  3 23:06 clusters.BenchDM.unique.split.cluster.gtf.gz
+-rw-r--r-- 1 mroder rguigo   62336873 Apr  3 23:05 genome.Larva.paired.multi.gtf.gz
+-rw-r--r-- 1 mroder rguigo    6648451 Apr  3 23:05 genome.Larva.paired.pseudo.gtf.gz
+-rw-r--r-- 1 mroder rguigo  494259847 Apr  3 23:05 genome.Larva.paired.unique.gtf.gz
+-rw-r--r-- 1 mroder rguigo         20 Apr  3 23:06 junctions.Larva.1.single.multi.gtf.gz
+-rw-r--r-- 1 mroder rguigo   41643051 Apr  3 23:06 junctions.Larva.1.single.unique.gtf.gz
+-rw-r--r-- 1 mroder rguigo         20 Apr  3 23:06 junctions.Larva.2.single.multi.gtf.gz
+-rw-r--r-- 1 mroder rguigo   41209679 Apr  3 23:06 junctions.Larva.2.single.unique.gtf.gz
+-rw-r--r-- 1 mroder rguigo    8334343 Apr  3 23:06 splitmapping.Larva.1.single.multi.gtf.gz
+-rw-r--r-- 1 mroder rguigo    1994897 Apr  3 23:06 splitmapping.Larva.1.single.unique.gtf.gz
+-rw-r--r-- 1 mroder rguigo    8743553 Apr  3 23:06 splitmapping.Larva.2.single.multi.gtf.gz
+-rw-r--r-- 1 mroder rguigo    2073350 Apr  3 23:06 splitmapping.Larva.2.single.unique.gtf.gz
+-rw-r--r-- 1 mroder rguigo  547717890 Apr  3 23:06 transcriptome.Larva.paired.multi.gtf.gz
+-rw-r--r-- 1 mroder rguigo  297177984 Apr  3 23:06 transcriptome.Larva.paired.unique.gtf.gz
+
+$ ls -lh /users/rg/mroder/grape/pipelines/BenchDM/var/BenchDMRun
+total 5.1G
+-rw-r--r-- 1 mroder rguigo 721M Apr  3 23:05 Larva.1.unique.merged.gem.map.gz
+-rw-r--r-- 1 mroder rguigo 733M Apr  3 23:05 Larva.2.unique.merged.gem.map.gz
+-rw-r--r-- 1 mroder rguigo 716M Apr  3 23:06 Larva.combined.bed.gz
+-rw-r--r-- 1 mroder rguigo 991M Apr  3 23:05 Larva.merged.bam
+-rw-r--r-- 1 mroder rguigo 208K Apr  3 23:06 clusters.BenchDM.multi.genome.cluster.gtf.gz
+-rw-r--r-- 1 mroder rguigo   20 Apr  3 23:06 clusters.BenchDM.multi.junctions.cluster.gtf.gz
+-rw-r--r-- 1 mroder rguigo 3.4M Apr  3 23:06 clusters.BenchDM.multi.split.cluster.gtf.gz
+-rw-r--r-- 1 mroder rguigo 1.6M Apr  3 23:06 clusters.BenchDM.unique.genome.cluster.gtf.gz
+-rw-r--r-- 1 mroder rguigo 638K Apr  3 23:06 clusters.BenchDM.unique.junctions.cluster.gtf.gz
+-rw-r--r-- 1 mroder rguigo 796K Apr  3 23:06 clusters.BenchDM.unique.split.cluster.gtf.gz
+-rw-r--r-- 1 mroder rguigo  60M Apr  3 23:05 genome.Larva.paired.multi.gtf.gz
+-rw-r--r-- 1 mroder rguigo 6.4M Apr  3 23:05 genome.Larva.paired.pseudo.gtf.gz
+-rw-r--r-- 1 mroder rguigo 472M Apr  3 23:05 genome.Larva.paired.unique.gtf.gz
+-rw-r--r-- 1 mroder rguigo   20 Apr  3 23:06 junctions.Larva.1.single.multi.gtf.gz
+-rw-r--r-- 1 mroder rguigo  40M Apr  3 23:06 junctions.Larva.1.single.unique.gtf.gz
+-rw-r--r-- 1 mroder rguigo   20 Apr  3 23:06 junctions.Larva.2.single.multi.gtf.gz
+-rw-r--r-- 1 mroder rguigo  40M Apr  3 23:06 junctions.Larva.2.single.unique.gtf.gz
+-rw-r--r-- 1 mroder rguigo 8.0M Apr  3 23:06 splitmapping.Larva.1.single.multi.gtf.gz
+-rw-r--r-- 1 mroder rguigo 2.0M Apr  3 23:06 splitmapping.Larva.1.single.unique.gtf.gz
+-rw-r--r-- 1 mroder rguigo 8.4M Apr  3 23:06 splitmapping.Larva.2.single.multi.gtf.gz
+-rw-r--r-- 1 mroder rguigo 2.0M Apr  3 23:06 splitmapping.Larva.2.single.unique.gtf.gz
+-rw-r--r-- 1 mroder rguigo 523M Apr  3 23:06 transcriptome.Larva.paired.multi.gtf.gz
+-rw-r--r-- 1 mroder rguigo 284M Apr  3 23:06 transcriptome.Larva.paired.unique.gtf.gz

@@ -1,0 +1,53 @@
+Getting info for lane: Larva
+Reads identified as paired
+Processing transcript files transcriptome/lane1_Larva_read1_qseq.gem.map.gz and transcriptome/lane1_Larva_read2_qseq.gem.map.gz
+Processing genome files genome/lane1_Larva_read1_qseq.gem.map.gz and genome/lane1_Larva_read2_qseq.gem.map.gz
+Different mismatch strings
+HWUSI-EAS621:1:108:5289:17963#0/1	CCGATGGGTGCTGATATGCCCGAGTGACTTTTGCTTTTCGCAACGAGATTGCCA	fffffffffffffffffffffffffffffffffffffeffffffffdfffdefd	0:0:1	CG33232-RD:R365T53T54@136/2
+HWUSI-EAS621:1:108:5289:17963#0/1	CCGATGGGTGCTGATATGCCCGAGTGACTTTTGCTTTTCGCAACGAGATTGCCA	fffffffffffffffffffffffffffffffffffffeffffffffdfffdefd	0:0:1	chr3L:R2484561T53G54@136/2
+
+Different mismatch strings
+HWUSI-EAS621:1:108:6592:18277#0/1	TCGAGCCCCACTTGAACCTGATCAACAAGCCGCTGGCGGCCAAGAAGCCGGTGA	fffffffffffffffefffffffefffefefffffffffffffcdedffffbfd	0:1:0	CG12714-RB:F860A51@69/1
+HWUSI-EAS621:1:108:6592:18277#0/1	TCGAGCCCCACTTGAACCTGATCAACAAGCCGCTGGCGGCCAAGAAGCCGGTGA	fffffffffffffffefffffffefffefefffffffffffffcdedffffbfd	0:1:0	chrX:R13005663A53@69/1
+
+Different mismatch strings
+HWUSI-EAS621:1:12:5576:4391#0/1	CTGGGATGTGGGGTCGTGGCATGCAAGCTGGGATGATGATTCGCCTCGTAGCGG	ffffffffffffffffffffcffffefeffffaef\eeaeffefdfdfddcefc	0:0:1	CG10019-RB:R966C53A54@135/2
+HWUSI-EAS621:1:12:5576:4391#0/1	CTGGGATGTGGGGTCGTGGCATGCAAGCTGGGATGATGATTCGCCTCGTAGCGG	ffffffffffffffffffffcffffefeffffaef\eeaeffefdfdfddcefc	0:0:1	chr2L:R3747115C53T54@135/2
+
+Different mismatch strings
+HWUSI-EAS621:1:21:11793:10657#0/1	CCGATGGGTGCTGATATGCCCGAGTGACTTTTGCTTTTCGCAACGAGATTGCCA	ffffffffffffffffffffffffdffffffffefffffdfffffeffffcfff	0:0:1	CG33232-RD:R365T53T54@138/2
+HWUSI-EAS621:1:21:11793:10657#0/1	CCGATGGGTGCTGATATGCCCGAGTGACTTTTGCTTTTCGCAACGAGATTGCCA	ffffffffffffffffffffffffdffffffffefffffdfffffeffffcfff	0:0:1	chr3L:R2484561T53G54@138/2
+
+Different mismatch strings
+HWUSI-EAS621:1:23:6118:14112#0/2	TGGCACATGGCTCCTGCTCCTGCTGCTCCTTGTAGCAGACGCATGCGCGCGGCC	ddddddddddddddddddddd^YdYdddddd\cdddddddddadYaddddcdd^	0:0:1	CG3095-RA:F345C1G39@134/2
+HWUSI-EAS621:1:23:6118:14112#0/2	TGGCACATGGCTCCTGCTCCTGCTGCTCCTTGTAGCAGACGCATGCGCGCGGCC	ddddddddddddddddddddd^YdYdddddd\cdddddddddadYaddddcdd^	0:0:1	chrX:F1564848G1G39@134/2
+
+Different mismatch strings
+HWUSI-EAS621:1:32:13611:17595#0/1	ATGGATGCGGTTGTGGTGGTGGACATCTCGTTAATCGCACGTTGTTGGTCGCTT	fffdffffefdffffcacc`dddd^dceedfecffffd`ffafffe`eaecace	0:0:1	CG3989-RA:R218T9A51@134/2
+HWUSI-EAS621:1:32:13611:17595#0/1	ATGGATGCGGTTGTGGTGGTGGACATCTCGTTAATCGCACGTTGTTGGTCGCTT	fffdffffefdffffcacc`dddd^dceedfecffffd`ffafffe`eaecace	0:0:1	chrU:R9897683C1C12@138/2
+
+Different mismatch strings
+HWUSI-EAS621:1:49:15140:20317#0/2	TTAATGTACTTTGAAGAAGATCATGCCATCGAGTTTGTGTACAAGGAGCCCAAG	fffffcfffffffffffffffffffffffffffffffffffffffdffffffef	0:0:1	CG6630-RA:F5877G1A2@138/2
+HWUSI-EAS621:1:49:15140:20317#0/2	TTAATGTACTTTGAAGAAGATCATGCCATCGAGTTTGTGTACAAGGAGCCCAAG	fffffcfffffffffffffffffffffffffffffffffffffffdffffffef	0:0:1	chr2L:R7477075A2G3@138/2
+
+Different mismatch strings
+HWUSI-EAS621:1:74:6944:1884#0/2	GGAAACTGGGGCTAGGGCGGTAGCCACTCCCACAACGGCGAGAATCATCACACG	fffffffffefffffffffdcceeeedfeefffdffdddedd`d`ccbaddddd	0:0:1	CG8697-RA:R52A53A54@134/2
+HWUSI-EAS621:1:74:6944:1884#0/2	GGAAACTGGGGCTAGGGCGGTAGCCACTCCCACAACGGCGAGAATCATCACACG	fffffffffefffffffffdcceeeedfeefffdffdddedd`d`ccbaddddd	0:0:1	chr2R:F4321914C52T53@134/2
+
+Different mismatch strings
+HWUSI-EAS621:1:91:13506:4663#0/2	TGCAGATATGCGCCTACTGCGAGGAGGGCATCTGCGTGTGCGAACACCTCGAGT	cc\c`ccc\^ccb``caTcc\VZaKb^^[`ccaa^c_`^^aabYbaacacZ\PR	0:1:0	CG16850-RA:F1160A54@49/1
+HWUSI-EAS621:1:91:13506:4663#0/2	TGCAGATATGCGCCTACTGCGAGGAGGGCATCTGCGTGTGCGAACACCTCGAGT	cc\c`ccc\^ccb``caTcc\VZaKb^^[`ccaa^c_`^^aabYbaacacZ\PR	0:1:0	chr2L:F13476381G54@49/1
+
+Different mismatch strings
+HWUSI-EAS621:1:93:17179:11255#0/2	CTCGTTCATTATGCCCAGACCTGGTGAACTGGTGGAGTTGGATCTCTGCTGCTG	fffffeffffffffffffffeeLedfffffffdf\efffffffefffcedffdd	0:0:1	CG8874-RA:R1606T52C54@136/2
+HWUSI-EAS621:1:93:17179:11255#0/2	CTCGTTCATTATGCCCAGACCTGGTGAACTGGTGGAGTTGGATCTCTGCTGCTG	fffffeffffffffffffffeeLedfffffffdf\efffffffefffcedffdd	0:0:1	chr3R:F5198255A51A52@138/2
+
+eq_trans	8167835
+diffmismatches2	2039
+equalTransGenmismatches1	5
+equalmatchesboth	31620
+equalTranGensmismatches2	5
+diffmismatches1	1999
+equalmismatchesboth	31610
+not_unique	11659690
+noequalmatches	1988
