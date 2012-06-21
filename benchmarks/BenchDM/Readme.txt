@@ -13,7 +13,7 @@ Launch R and import the ggplot2 library like this:
 Then copy paste the code from the following sections into R.
 
 library(ggplot2)
-features <- read.csv("/Users/maik/grape.buildout/benchmarks/BenchDM/input/execute_3.log", sep="\t")
+features <- read.csv("/Users/mroder/big/grape/grape.buildout/trunk/benchmarks/BenchDM/input/execute_3.log", sep="\t")
 #features <- subset(features, Seconds <=20000)
  
 # Show Memory percentage over time
@@ -44,16 +44,16 @@ qplot(Seconds/60/60, value, data=emp) + facet_grid(variable ~ .)
  
 
 library(ggplot2)
-processes <- read.csv("/Users/maik/grape.buildout/benchmarks/BenchDM/intermediate/seconds_program_3.txt", sep="\t")
+processes <- read.csv("/Users/mroder/big/grape/grape.buildout/trunk/benchmarks/BenchDM/intermediate/seconds_program_3.txt", sep="\t")
 qplot(Seconds/60/60, program, data=processes) + facet_grid(process ~ .)
 
 library(ggplot2)
-cumulative <- read.csv("/Users/maik/grape.buildout/benchmarks/BenchDM/intermediate/process_cumulative_seconds_3.txt", sep="\t")
+cumulative <- read.csv("/Users/mroder/big/grape/grape.buildout/trunk/benchmarks/BenchDM/intermediate/process_cumulative_seconds_3.txt", sep="\t")
 ordered <- within(cumulative, {process <- reorder(process, cumulative_seconds)})
 qplot(cumulative_seconds / 60 / 60, process, data=ordered)
 
 library(ggplot2)
-cumulative <- read.csv("/Users/maik/grape.buildout/benchmarks/BenchDM/intermediate/process_cumulative_seconds_3.txt", sep="\t")
+cumulative <- read.csv("/Users/mroder/big/grape/grape.buildout/trunk/benchmarks/BenchDM/intermediate/process_cumulative_seconds_3.txt", sep="\t")
 non_overlap <- subset(cumulative, process != 'overlap' & process != 'gzip' & process != '')
 ordered <- within(non_overlap, {process <- reorder(process, cumulative_seconds)})
 qplot(cumulative_seconds / 60 / 60, process, data=ordered)
