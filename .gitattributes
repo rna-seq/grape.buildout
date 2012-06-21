@@ -9,6 +9,8 @@ accessions/Test/db.cfg -text
 benchmarks/BenchDM/D.melanogaster.genome.log -text
 benchmarks/BenchDM/GEMIndices.txt -text
 benchmarks/BenchDM/Readme.txt -text
+benchmarks/BenchDM/csvreader_program_cumulative_seconds.py -text
+benchmarks/BenchDM/csvreader_seconds_program.py -text
 benchmarks/BenchDM/execute.log -text
 benchmarks/BenchDM/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.junctions.log -text
 benchmarks/BenchDM/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.transcriptome.log -text
