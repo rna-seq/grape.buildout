@@ -1,6 +1,8 @@
 Next release
 ============
 
+- Install Cufflinks version 2.0.1
+
 1.3 (2012-05-18)
 ================i
 
