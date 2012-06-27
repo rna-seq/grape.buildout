@@ -1,4 +1,4 @@
-Grape RNAseq Analysis Pipeline Environment version 1.3
+Grape RNAseq Analysis Pipeline Environment version 1.4
 ------------------------------------------------------
 
 See the INSTALL.txt file for installation instructions.
@@ -29,4 +29,4 @@ Please read the copyright notice in the file LICENSE.txt!
 We need your feedback! Send your comments, suggestions, and questions to
 maikroeder@gmail.com
 
-Maik Röder Spring 2012
+Maik Röder, June 2012

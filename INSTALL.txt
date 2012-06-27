@@ -18,10 +18,10 @@ http://big.crg.cat/services/grape
 Install
 =======
 
-After download the package, unpack it:
+After downloading the package, unpack it:
 
-tar xfvz grape.buildout-1.1.2.tar.gz
-cd grape.buildout-1.1.2
+tar xfvz grape.buildout-1.4.tar.gz
+cd grape.buildout-1.4
 
 If you want to test Grape with your own test dataset, go to the Quick pipeline
 folder:
