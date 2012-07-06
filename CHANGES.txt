@@ -1,28 +1,25 @@
-Next release
-============
+1.5 (2012-07-06)
+================
+
+- Installs and integrates FastQC
+
+- Default parameters to make configuration easier. When no project
+  parameters are given, use read_length. When no project user is
+  given, use anonymous
 
 1.4 (2012-06-27)
 ================
 
-- Upgrade to pipeline 6.1
+- Calculate gene and exon RPKM now from the Flux Capacitor results.
 
-   - Calculate gene and exon RPKM now from the Flux Capacitor results.
+- Add script using FastQC, A quality control tool for high throughput sequence data.
 
-   - Use FastQC, A quality control tool for high throughput sequence data.
-
-   - Novel transcripts now come from Cufflinks
-
-- Upgrade to grape.recipe.pipeline 1.1.6
-
-   - Installs Cufflinks 2.0.1 binaries
+- Installs Cufflinks 2.0.1 binaries, and use it to find Novel transcripts
 
 1.3 (2012-05-18)
-================i
+================
 
-- Upgrade to grape.recipe.pipeline version 1.1.5 with different Flux 
-  installation procedure
-
-- Upgrade to pipeline version 6.0
+- Different Flux installation procedure, using flux instead of flux.sh
 
 - Upgrade to Flux-Capacitor 1.0 RC2
 
@@ -36,8 +33,7 @@ Next release
 
 - Use hexagonit.recipe.download for installing dependencies
 
-- Use grape.recipe.pipeline version 1.1.3, which has improved validation
-  for the configurations files and a new README.txt
+- Improved validation of configurations files
 
 - Add a pointer to the installation instructions to the README.txt
 
@@ -45,6 +41,7 @@ Next release
 ==================
 
 - Moved the installation instructions to INSTALL.txt
+
 - Added README.txt to pipelines/Quick
 
 1.1.1 (2012-03-30)
@@ -55,20 +52,16 @@ Next release
 1.1 (2012-03-29)
 ================
 
-- Added a pipelines for quickly running Grape for several species:
-  Homo sapiens, Mus musculus and Drosophila Melanogaster
-
-- Use grape.recipe.pipeline version 1.1, which included the quick run mode
+- Include a quick run mode, and added pipelines for quickly running Grape
+  for several species:  Homo sapiens, Mus musculus and Drosophila
+  Melanogaster
 
 1.0 (2012-03-29)
 ================
 
 - First official release
 
-Internal
---------
-
-- Fix package versions to be used in depencies.cfg
+- Fix package versions to be used in dependencies.cfg
 
 - Adding .eggs and .downloads folder for buildout cache
 
