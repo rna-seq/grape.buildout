@@ -1,4 +1,4 @@
-Grape RNAseq Analysis Pipeline Environment version 1.4
+Grape RNAseq Analysis Pipeline Environment version 1.5
 ------------------------------------------------------
 
 See the INSTALL.txt file for installation instructions.
