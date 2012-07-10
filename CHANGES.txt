@@ -1,6 +1,9 @@
 1.6 (2012-07-10)
 ================
 
+- Upgrade to raisin.recipe.load version 1.1.2. Raisin can now be installed even if
+  some annotation information is missing
+
 - Upgrade to pipeline 6.3 which includes several bug fixes. Now it correctly gets
   all the scores in qualities and ambiguous. Parsing reads is fixed, and HiSEq read IDs
   are now handled.
