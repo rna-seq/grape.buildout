@@ -1,5 +1,5 @@
-Grape RNAseq Analysis Pipeline Environment version 1.5
-------------------------------------------------------
+Grape RNAseq Analysis Pipeline Environment buildout
+---------------------------------------------------
 
 See the INSTALL.txt file for installation instructions.
 
