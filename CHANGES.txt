@@ -10,10 +10,9 @@
 
 - When defining accessions, labels written in Python are not supported any more.
 
-Raisin web server
------------------
-
-- Links to tabs are now shorter for the default tab
+- In the Raisin web application, links are now shorter when pointing to pages with tabs.
+  For example, it is not necessary to add /tab/experiments to URLs any more, if the 
+  experiments tab is the default tab.
 
 1.6 (2012-07-10)
 ================
