@@ -1,9 +1,6 @@
 1.7 (2012-07-25)
 ================
 
-Grape Pipeline
---------------
-
 - Fix a bug that prevented the pipeline from building the inclusion exclusion table
 
 - Speed up the recursive mapping part of the pipeline
@@ -11,10 +8,10 @@ Grape Pipeline
 - The output from the Flux capacitor is not deleted any more, making it available for
   further analysis
 
+- When defining accessions, labels written in Python are not supported any more.
+
 Raisin web server
 -----------------
-
-- Remove RestrictedPython labeling, promoting the use of explicit labels
 
 - Links to tabs are now shorter for the default tab
 
