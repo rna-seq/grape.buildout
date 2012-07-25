@@ -29,4 +29,4 @@ Please read the copyright notice in the file LICENSE.txt!
 We need your feedback! Send your comments, suggestions, and questions to
 maikroeder@gmail.com
 
-Maik Röder, June 2012
+Maik Röder, July 2012
