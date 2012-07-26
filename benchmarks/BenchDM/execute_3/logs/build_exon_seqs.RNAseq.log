@@ -1,7 +1,0 @@
-Extracting the exon sequences for /users/rg/dgonzalez/ReferenceAnnotations/D.melanogaster/flyBase.exons.genes_real.transcripts.gtf
-Processing /users/rg/dgonzalez/ReferenceAnnotations/D.melanogaster/flyBase.exons.genes_real.transcripts.gtf
-extracting only exons from /users/rg/dgonzalez/ReferenceAnnotations/D.melanogaster/flyBase.exons.genes_real.transcripts.gtf
-Reading /users/rg/dgonzalez/ReferenceAnnotations/D.melanogaster/flyBase.exons.genes_real.transcripts.gtf
-WARNING: Skipping entries located in haplotypes
-Printing exon sequences in /users/rg/mroder/grape/pipelines/BenchDM/parts/BenchDMRun/GEMIndices/flyBase.exons.genes_real.transcripts.D.melanogaster.genome.exons.fa
-done

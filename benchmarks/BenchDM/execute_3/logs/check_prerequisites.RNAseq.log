@@ -1,6 +1,0 @@
-Checking prerequisites
-gem-mapper	present
-gem-split-mapper	present
-gem-do-index	present
-overlap	present
-flux.sh	present
