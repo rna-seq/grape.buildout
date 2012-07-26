@@ -1,5 +1,5 @@
-Grape RNAseq Analysis Pipeline Environment buildout
----------------------------------------------------
+Grape RNAseq Analysis Pipeline Environment Buildout
+===================================================
 
 See the INSTALL.txt file for installation instructions.
 
@@ -22,7 +22,7 @@ the Google chart tools for display.
 
 For further information and downloading, please refer to the home page:
 
-http://big.crg.cat/services/grape
+[Grape Homepage](http://big.crg.cat/services/grape)
 
 Please read the copyright notice in the file LICENSE.txt!
 
