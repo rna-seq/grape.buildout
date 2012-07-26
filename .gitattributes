@@ -11,6 +11,10 @@ dashboards/static/css/forms.css -text
 dashboards/static/css/reset.css -text
 dashboards/static/css/styles.css -text
 dashboards/static/css/typography.css -text
+docs/Makefile -text
+docs/make.bat -text
+docs/source/conf.py -text
+docs/source/index.rst -text
 pipelines/BenchDM/README.txt -text
 pipelines/BenchDM/benchmark.py -text
 pipelines/BenchDM/bootstrap.py -text
