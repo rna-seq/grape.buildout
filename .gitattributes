@@ -1,6 +1,7 @@
 * text=auto !eol
 /CHANGES.txt -text
 /INSTALL.txt -text
+/README.md -text
 /README.txt -text
 accessions/BenchDM/db.cfg -text
 accessions/BenchHS/db.cfg -text
