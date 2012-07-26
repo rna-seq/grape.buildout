@@ -30,3 +30,5 @@ We need your feedback! Send your comments, suggestions, and questions to
 maikroeder@gmail.com
 
 Maik Röder, July 2012
+
+Copyright (C) 2011-2012 Centre for Genomic Regulation (CRG)
