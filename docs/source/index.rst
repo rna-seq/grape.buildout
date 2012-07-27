@@ -4,37 +4,29 @@ Grape Buildout
 This buildout configures Grape pipelines, used for processing 
 and analyzing RNA-Seq data.
 
-`Grape Homepage <http://big.crg.cat/services/grape)>`_
+    * Download it from the `Grape Homepage <http://big.crg.cat/services/grape>`_
 
-To install it, check out :ref:`installation`
+To install it, check out the installation instructions:
 
-If you want to use Grape with your datasets, then go to the pipelines folder and
-create a sub folder with your project name
+    * :ref:`installation`
 
-    $ cd pipelines/MyProjectName
+You have two options to evaluate Grape, one for a predefined dataset, and one for
+the case that you have a dataset for one of the species we provide genomes 
+and annotations for.
+    
+    * :ref:`test_pipeline_run`
 
-then follow :ref:`custom_pipeline_run`
+    * :ref:`quick_pipeline_run`
 
-If you want to test Grape with a minimal test dataset, go to the Test pipeline
-folder::
+In order to take full advantage of Grape, you need to learn how to configure 
+and run it for all your RNA-Seq datasets.
 
-    $ cd pipelines/Test
+    * :ref:`custom_pipeline_run`
 
-Then follow :ref:`test_pipeline_run`
+The next step is to visualize the results in a web browser and share your results
+using the Raisin web server:
 
-If you want to test Grape with your own test dataset, go to the Quick pipeline
-folder::
-
-    $ cd pipelines/Quick
-
-Then follow :ref:`quick_pipeline_run`
-
-
-If you want to install the Raisin web server, go the the devel server folder::
-
-    $ cd servers/devel
-
-Then follow :ref:`run_raisin_web_server`
+    * :ref:`run_raisin_web_server`
 
 Contents:
 
@@ -42,9 +34,9 @@ Contents:
    :maxdepth: 2
 
    installation
-   custom_pipeline_run
    test_pipeline_run
    quick_pipeline_run
+   custom_pipeline_run
    run_raisin_web_server   
 
 Indices and tables

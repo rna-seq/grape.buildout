@@ -1,5 +1,7 @@
-Test Grape
-----------
+.. _test_pipeline_run:
+
+Test Grape with a predefined minimal test dataset
+=================================================
 
 Before using the Grape buildout, you need to have access to a MySQL database.
 

@@ -1,11 +1,11 @@
 .. _installation:
 
-Installing grape.buildout
--------------------------
+Installing the Grape Buildout
+=============================
 
 Download grape.buildout::
 
-`Grape Homepage <http://big.crg.cat/services/grape)>`_
+`Grape Homepage <http://big.crg.cat/services/grape>`_
 
 After downloading the package, unpack it::
 

@@ -1,5 +1,7 @@
-Get Started Quickly With Grape
-==============================
+.. _quick_pipeline_run:
+
+Quickly test Grape with one of your your own datasets
+=================================================
 
 You can try out Grape with an example set of reads for the following species:
 
@@ -9,7 +11,7 @@ You can try out Grape with an example set of reads for the following species:
 
 Just download the genome and annotation for your species and follow the 
 instructions in the README.txt:
-
+    
 For Homo Sapiens:
 
     $ cd pipelines/Quick

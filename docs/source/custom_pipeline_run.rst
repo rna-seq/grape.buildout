@@ -1,6 +1,7 @@
-Custom Pipeline
-===============
+.. _custom_pipeline_run:
 
+Customize Grape for your own datasets
+=====================================
 
 Choosing a project name
 -----------------------
@@ -192,21 +193,21 @@ You needs to have read write access.
 
 Then you need to modify your MySQL configuration file: ~/.my.cnf
 
-	[client]
-	host=mysqlserver
-	port=3306
-	user=yourusername
-	password=123
+    [client]
+    host=mysqlserver
+    port=3306
+    user=yourusername
+    password=123
 
 Run the buildout
 ----------------
 
 Run virtualenv:
 
-	cd grape
-	cd pipelines
-	cd MyProject
-	virtualenv --no-site-packages .
+    cd grape
+    cd pipelines
+    cd MyProject
+    virtualenv --no-site-packages .
 
 If you get an error, you may have to remove your .pydistutils.cfg file.
 
@@ -214,51 +215,51 @@ If you get an error, you may have to remove your .pydistutils.cfg file.
 
 Run the bootstrap.py file with the python binary that has been made available by virtualenv in the bin folder:
 
-	cd grape
-	cd pipelines
-	cd MyProject
-	./bin/python bootstrap.py
+    cd grape
+    cd pipelines
+    cd MyProject
+    ./bin/python bootstrap.py
 
 Run the buildout:
 
-	cd grape
-	cd pipelines
-	cd MyProject
-	./bin/buildout
+    cd grape
+    cd pipelines
+    cd MyProject
+    ./bin/buildout
 
 The parts folder now contains everything you need to run the two pipelines:
 
-	cd grape
-	cd pipelines
-	cd MyProject
-	cd parts/
-	tree
-	.
-	|-- Female
-	|   |-- GEMIndices -> /users/yourusername/Drosophilas/Dwill/Pipeline/pipelines/MyProject/var/GEMIndices
-	|   |-- bin -> /users/yourusername/Drosophilas/Dwill/Pipeline/pipelines/MyProject/var/pipeline/bin
-	|   |-- clean.sh
-	|   |-- execute.sh
-	|   |-- lib -> /users/yourusername/Drosophilas/Dwill/Pipeline/pipelines/MyProject/var/pipeline/lib
-	|   |-- read.list.txt
-	|   |-- readData
-	|   |   |-- lane8_W_female_read1_qseq.fastq -> /users/myusername/sequencing_drosophilas_saltans/RNAseq/fastq/lane8_W_female_read1_qseq.fastq
-	|   |   `-- lane8_W_female_read2_qseq.fastq -> /users/myusername/sequencing_drosophilas_saltans/RNAseq/fastq/lane8_W_female_read2_qseq.fastq
-	|   |-- results -> /users/yourusername/Drosophilas/Dwill/Pipeline/pipelines/MyProject/var/Female
-	|   `-- start.sh
-	|-- Male
-	|   |-- GEMIndices -> /users/yourusername/Drosophilas/Dwill/Pipeline/pipelines/MyProject/var/GEMIndices
-	|   |-- bin -> /users/yourusername/Drosophilas/Dwill/Pipeline/pipelines/MyProject/var/pipeline/bin
-	|   |-- clean.sh
-	|   |-- execute.sh
-	|   |-- lib -> /users/yourusername/Drosophilas/Dwill/Pipeline/pipelines/MyProject/var/pipeline/lib
-	|   |-- read.list.txt
-	|   |-- readData
-	|   |   |-- lane8_W_male_read1_qseq.fastq -> /users/myusername/sequencing_drosophilas_saltans/RNAseq/fastq/lane8_W_male_read1_qseq.fastq
-	|   |   `-- lane8_W_male_read2_qseq.fastq -> /users/myusername/sequencing_drosophilas_saltans/RNAseq/fastq/lane8_W_male_read2_qseq.fastq
-	|   |-- results -> /users/yourusername/Drosophilas/Dwill/Pipeline/pipelines/MyProject/var/Male
-	|   `-- start.sh
-	`-- buildout
+    cd grape
+    cd pipelines
+    cd MyProject
+    cd parts/
+    tree
+    .
+    |-- Female
+    |   |-- GEMIndices -> /users/yourusername/Drosophilas/Dwill/Pipeline/pipelines/MyProject/var/GEMIndices
+    |   |-- bin -> /users/yourusername/Drosophilas/Dwill/Pipeline/pipelines/MyProject/var/pipeline/bin
+    |   |-- clean.sh
+    |   |-- execute.sh
+    |   |-- lib -> /users/yourusername/Drosophilas/Dwill/Pipeline/pipelines/MyProject/var/pipeline/lib
+    |   |-- read.list.txt
+    |   |-- readData
+    |   |   |-- lane8_W_female_read1_qseq.fastq -> /users/myusername/sequencing_drosophilas_saltans/RNAseq/fastq/lane8_W_female_read1_qseq.fastq
+    |   |   `-- lane8_W_female_read2_qseq.fastq -> /users/myusername/sequencing_drosophilas_saltans/RNAseq/fastq/lane8_W_female_read2_qseq.fastq
+    |   |-- results -> /users/yourusername/Drosophilas/Dwill/Pipeline/pipelines/MyProject/var/Female
+    |   `-- start.sh
+    |-- Male
+    |   |-- GEMIndices -> /users/yourusername/Drosophilas/Dwill/Pipeline/pipelines/MyProject/var/GEMIndices
+    |   |-- bin -> /users/yourusername/Drosophilas/Dwill/Pipeline/pipelines/MyProject/var/pipeline/bin
+    |   |-- clean.sh
+    |   |-- execute.sh
+    |   |-- lib -> /users/yourusername/Drosophilas/Dwill/Pipeline/pipelines/MyProject/var/pipeline/lib
+    |   |-- read.list.txt
+    |   |-- readData
+    |   |   |-- lane8_W_male_read1_qseq.fastq -> /users/myusername/sequencing_drosophilas_saltans/RNAseq/fastq/lane8_W_male_read1_qseq.fastq
+    |   |   `-- lane8_W_male_read2_qseq.fastq -> /users/myusername/sequencing_drosophilas_saltans/RNAseq/fastq/lane8_W_male_read2_qseq.fastq
+    |   |-- results -> /users/yourusername/Drosophilas/Dwill/Pipeline/pipelines/MyProject/var/Male
+    |   `-- start.sh
+    `-- buildout
 
 Run the first pipeline
 ----------------------
