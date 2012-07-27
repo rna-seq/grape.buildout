@@ -14,8 +14,12 @@ dashboards/static/css/typography.css -text
 docs/Makefile -text
 docs/make.bat -text
 docs/source/conf.py -text
+docs/source/custom_pipeline_run.rst -text
 docs/source/index.rst -text
 docs/source/installation.rst -text
+docs/source/quick_pipeline_run.rst -text
+docs/source/run_raisin_web_server.rst -text
+docs/source/test_pipeline_run.rst -text
 pipelines/BenchDM/README.txt -text
 pipelines/BenchDM/benchmark.py -text
 pipelines/BenchDM/bootstrap.py -text
