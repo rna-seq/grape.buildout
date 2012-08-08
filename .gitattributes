@@ -39,5 +39,7 @@ profiles/BenchDM/db.cfg -text
 profiles/BenchHS/db.cfg -text
 profiles/BenchMM/db.cfg -text
 profiles/Test/db.cfg -text
+profiles/Test2/db.cfg -text
+profiles/TestBam/db.cfg -text
 servers/devel/README.txt -text
 /version.txt -text
