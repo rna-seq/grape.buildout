@@ -1,3 +1,35 @@
+1.8 (2012-09-17)
+================
+
+- Use new Cufflinks, version 2.0.2
+
+- Upgrade to Grape pipeline 6.5
+
+    - Allow for the running of the start script with only species, genome, annotation
+      and read length specified appart from a list of one or two files.
+
+- Set the number of CPUs used by fastqc to one.
+
+- new dependency on grape.recipe.pipeline to share validation code with the Raisin
+
+- Fix a bug that prevented the correct running of the Flux when the read Ids
+  came from HiSeq
+
+- Add verbose to the mysqlimport statement in the build_exon_junctions.RNAseq.pl
+
+- Install the pre version of GEM in grape.recipe.pipeline 1.1.9, with binaries prefixed
+  with "next".
+
+- Download packages from PyPI instead of from the SVN
+
+- Raisin web server
+
+    - The download paths and the project folders are now configured in the buildout.cfg
+
+    - Remove pickle caching code
+
+    - Remove code previously used for dumping resources
+
 1.7 (2012-07-25)
 ================
 
