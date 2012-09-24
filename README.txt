@@ -14,7 +14,7 @@ enables the users to perform
 
 * quality checks
 * read mapping
-* eneration of expression and splicing statistics
+* generation of expression and splicing statistics
 
 The results are stored in a MySQL database and become immediately available
 through a RESTful back end server that is connected to a web application using 
