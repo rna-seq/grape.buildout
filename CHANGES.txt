@@ -1,14 +1,6 @@
 1.8 (2012-10-09)
 ================
 
-- improve .gitignore
-
-- add .downloads and .eggs folders
-
-- change location of dumps folder
-
-- pin MySQL-python = 1.2.3
-
 - Use new Cufflinks, version 2.0.2
 
 - Upgrade to Grape pipeline 6.5
@@ -30,6 +22,8 @@
 
 - Download packages from PyPI instead of from the SVN
 
+- add .downloads and .eggs folders
+
 - Raisin web server
 
     - The download paths and the project folders are now configured in the buildout.cfg
@@ -37,6 +31,12 @@
     - Remove pickle caching code
 
     - Remove code previously used for dumping resources
+
+    - Move dumps folder to the top
+
+- improve .gitignore
+
+- pin MySQL-python = 1.2.3
 
 1.7 (2012-07-25)
 ================
