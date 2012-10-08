@@ -1,2 +1,4 @@
-servers/downloads/*
-servers/eggs/*
+.downloads/*
+.eggs/*
+.installed.cfg
+.mr.developer.cfg
