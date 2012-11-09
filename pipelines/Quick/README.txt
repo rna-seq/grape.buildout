@@ -58,46 +58,31 @@ password=123
 
 == Run the buildout ==
 
-You don't need to install Python, Python 2.6.6 should be available on your system.
-
-You also don't need to install virtualenv, because it is available on our system as well:
-
-    easy_install virtualenv
-
-Run virtualenv:
+Install the virtualenv Python package, and run it::
 
 <pre>
-cd grape
-cd pipelines
-cd Quick
+cd grape/pipelines/Quick
 virtualenv --no-site-packages .
 </pre>
 
 Run the bootstrap.py file with the python binary that has been made available by virtualenv in the bin folder:
 
 <pre>
-cd grape
-cd pipelines
-cd Quick
+cd grape/pipelines/Quick
 ./bin/python bootstrap.py
 </pre>
 
 Run the buildout:
 
 <pre>
-cd grape
-cd pipelines
-cd Quick
+cd grape/pipelines/Quick
 ./bin/buildout
 </pre>
 
 The parts folder now contains everything you need to run the two pipelines:
 
 <pre>
-cd grape
-cd pipelines
-cd Quick
-cd parts/
+cd grape/pipelines/Quick/parts
 tree
 .
 |-- Run
@@ -113,32 +98,20 @@ can be generated.
 Go to the parts folder and run the start script:
 
 <pre>
-cd grape
-cd pipelines
-cd Quick
-cd parts/
-cd parts/Run
+cd grape/pipelines/Quick/parts/Run
 ./start.sh
 </pre>
 
 If you get errors, you can store them into an error.log file like this:
 
 <pre>
-cd grape
-cd pipelines
-cd Quick
-cd parts/
-cd parts/Run
+cd grape/pipelines/Quick/parts/Run
 ./start.sh 2> error.log
 </pre>
 
 In case everything worked ok, you can run the execute script:
 
 <pre>
-cd grape
-cd pipelines
-cd Quick
-cd parts/
-cd parts/Run
+cd grape/pipelines/Quick/parts/Run
 ./execute.sh
 </pre>
