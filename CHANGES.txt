@@ -1,3 +1,10 @@
+1.9 (2012-11-09)
+================
+
+- Use new pipeline Grape version 6.5.1
+
+- Use grape.recipe.pipeline 1.1.11
+
 1.8 (2012-10-09)
 ================
 
