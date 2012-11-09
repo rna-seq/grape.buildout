@@ -8,8 +8,8 @@ Put the MySQL database connection information into your home folder::
 
   $ vim ~/.my.cnf
 
-This is the example configuration that you can adapt to your system. Change the
-host to your MySQL host::
+This is the example configuration that you can adapt to your system. 
+Change the host to your MySQL host::
 
   [client]
   host=localhost
@@ -22,9 +22,9 @@ access to the following two databases on this host::
   - Test_RNAseqPipeline
   - Test_RNAseqPipelineCommon
 
-Check out the buildout from svn::
+Check out the buildout from git::
 
-  $ svn co --username rnaguest --password rnaguest svn://svn.crg.es/big/grape/grape.buildout/trunk grape.buildout
+  $ git clone https://github.com/rna-seq/grape.buildout.git
   $ cd grape.buildout
 
 Edit the dependencies.cfg file to point to the location of the Java and Perl 
@@ -34,8 +34,9 @@ binaries:
   java = /soft/bin/java
   perl = /soft/bin/perl
 
-Get the testdata:
-
+Get the test data::
+  
+  $ cd grape.buildout/pipelines/Test
   $ wget -m 'ftp://ftp.encode.crg.cat/pub/rnaseq/pipeline/testdata' --directory-prefix=src/testdata --no-directories
 
 Create a virtual environment and run the buildout::
@@ -44,39 +45,16 @@ Create a virtual environment and run the buildout::
   $ bin/python bootstrap.py
   $ bin/buildout
 
-After running buildout, the parts folder contains the fully configured RNASeq
-pipeline inside the TestRun folder:
+After running buildout, the parts folder contains the fully configured RNASeq pipeline inside the TestRun folder::
 
-[+] parts
-    [+] TestRun
+    [+] parts
+        [+] TestRun
 
-Go the TestRun RNASeq pipeline and start it:
+Go the TestRun RNASeq pipeline and start it::
  
   $ cd parts/TestRun
   $ ./start.sh
 
-Then execute the pipeline
+Then execute the pipeline::
 
   $ ./execute.sh
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
