@@ -36,32 +36,23 @@ password=123
 
 Run virtualenv, which you should have installed for Python:
 
-cd grape
-cd pipelines
-cd BenchDM
+cd grape/pipelines/BenchDM
 virtualenv --no-site-packages .
 
 Run the bootstrap.py file with the python binary that has been made available 
 by virtualenv in the bin folder:
 
-cd grape
-cd pipelines
-cd BenchDM
+cd grape/pipelines/BenchDM
 ./bin/python bootstrap.py
 
 Run the buildout:
 
-cd grape
-cd pipelines
-cd BenchDM
+cd grape/pipelines/BenchDM
 ./bin/buildout
 
 The parts folder now contains everything you need to run the two pipelines:
 
-cd grape
-cd pipelines
-cd BenchDM
-cd parts/
+cd grape/pipelines/BenchDM/parts/
 tree
 .
 |-- BenchDMRun
@@ -76,34 +67,16 @@ and annotation can be generated.
 
 Go to the parts folder and run the start script:
 
-cd grape
-cd pipelines
-cd BenchDM
-cd parts/
-cd parts/BenchDMRun
+cd grape/pipelines/BenchDM/parts/BenchDMRun
 ./start.sh
 
 If you get errors, you can store them into an error.log file like this:
 
-cd grape
-cd pipelines
-cd BenchDM
-cd parts/
-cd parts/BenchDMRun
+cd grape/pipelines/BenchDM/parts/BenchDMRun
 ./start.sh 2> error.log
 
 In case everything worked ok, you can run the execute script:
 
-cd grape
-cd pipelines
-cd BenchDM
-cd parts/
-cd parts/BenchDMRun
+cd grape/pipelines/BenchDM/parts/BenchDMRun
 ./execute.sh
 
-= Profiling =
-
-cd grape
-cd pipelines
-cd BenchDM
-./bin/easy_install psutil
