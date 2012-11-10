@@ -1,5 +1,8 @@
-1.9 (2012-11-09)
+1.9 (2012-11-11)
 ================
+
+- Servers now have a project_downloads and project_downloads_folder
+  section
 
 - Use new package versions for the pipelines:
 
