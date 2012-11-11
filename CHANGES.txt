@@ -2,7 +2,7 @@
 ================
 
 - Servers now have a project_downloads and project_downloads_folder
-  section
+  section that can be configured in servers/devel/buildout.cfg
 
 - Use new package versions for the pipelines:
 
