@@ -22,6 +22,8 @@
 
     - raisin.restish version 1.3
 
+    - raisin.restyler version 1.3
+
     - grape.recipe.pipeline version 1.1.12
 
 1.8 (2012-10-09)
