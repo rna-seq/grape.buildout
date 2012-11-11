@@ -4,7 +4,7 @@ Source
 
 The development version of Grape is available here:
 
-svn co --username rnaguest --password rnaguest svn://svn.crg.es/big/grape/grape.buildout/trunk grape.buildout
+https://github.com/rna-seq/grape.buildout.git
 
 ========
 Releases
@@ -20,8 +20,8 @@ Install
 
 After downloading the package, unpack it:
 
-tar xfvz grape.buildout-1.5.tar.gz
-cd grape.buildout-1.5
+tar xfvz grape.buildout-1.9.tar.gz
+cd grape.buildout-1.9
 
 If you want to test Grape with your own test dataset, go to the Quick pipeline
 folder:
