@@ -18,10 +18,11 @@ host to your MySQL host::
     password=rnaguest
 
 Ask your database administrator for a login of the rnaguest user and read/write
-access to the following two databases on this host::
+access to the following two databases on this host:
 
-    - Test_RNAseqPipeline
-    - Test_RNAseqPipelineCommon
+* Test_RNAseqPipeline
+
+* Test_RNAseqPipelineCommon
 
 Check out the buildout from svn::
 
@@ -29,13 +30,13 @@ Check out the buildout from svn::
     $ cd grape.buildout
 
 Edit the dependencies.cfg file to point to the location of the Java and Perl 
-binaries:
+binaries::
 
     [settings]
     java = /soft/bin/java
     perl = /soft/bin/perl
 
-Get the testdata:
+Get the testdata::
 
     $ wget -m 'ftp://ftp.encode.crg.cat/pub/rnaseq/pipeline/testdata' --directory-prefix=src/testdata --no-directories
 
@@ -46,17 +47,17 @@ Create a virtual environment and run the buildout::
     $ bin/buildout
 
 After running buildout, the parts folder contains the fully configured RNASeq
-pipeline inside the TestRun folder:
+pipeline inside the TestRun folder::
 
     [+] parts
         [+] TestRun
 
-Go the TestRun RNASeq pipeline and start it:
+Go the TestRun RNASeq pipeline and start it::
  
     $ cd parts/TestRun
     $ ./start.sh
 
-Then execute the pipeline
+Then execute the pipeline::
 
     $ ./execute.sh
 
