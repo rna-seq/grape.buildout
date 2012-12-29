@@ -1,0 +1,32 @@
+# This file can contain preferences for zopeskel.
+# To do so, uncomment the lines that look like:
+#    variable_name = Default Value
+
+[DEFAULT]
+# Expert Mode? (What question mode would you like? (easy/expert/all)?)
+expert_mode = easy
+
+# Version (Version number for project)
+version = 1.9.1
+
+# Author (Name of author for project)
+author = Maik Röder
+
+# Author Email (Email of author for project)
+author_email = maikroeder@gmail.com
+
+# Project URL (URL of the homepage for this project)
+url = http://big.crg.cat/services/grape
+
+# Project License (Name of license for the project)
+license_name = gpl
+
+# Zip-Safe? (Can this project be used as a zipped egg? (true/false))
+zip_safe = False
+
+# Description (One-line description of the project)
+description = A Buildout for the Grape RNA-Seq pipeline
+
+# Keywords (List of keywords, space-separated)
+keywords = RNA-Seq pipeline ngs transcriptome bioinformatics
+
