@@ -26,7 +26,7 @@ access to the following two databases on this host:
 
 Check out the buildout from svn::
 
-    $ svn co --username rnaguest --password rnaguest svn://svn.crg.es/big/grape/grape.buildout/trunk grape.buildout
+    $ git clone https://github.com/rna-seq/grape.buildout.git
     $ cd grape.buildout
 
 Edit the dependencies.cfg file to point to the location of the Java and Perl 
