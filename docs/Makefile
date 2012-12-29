@@ -1,9 +1,11 @@
 # Makefile for Sphinx documentation
-#
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
+SPHINXOPTS    =
+ifndef SPHINXBUILD
 SPHINXBUILD   = sphinx-build
+endif
 PAPER         =
 BUILDDIR      = build
 
@@ -77,17 +79,17 @@ qthelp:
 	@echo
 	@echo "Build finished; now you can run "qcollectiongenerator" with the" \
 	      ".qhcp project file in $(BUILDDIR)/qthelp, like this:"
-	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/grapebuildout.qhcp"
+	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/grape.buildout.qhcp"
 	@echo "To view the help file:"
-	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/grapebuildout.qhc"
+	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/grape.buildout.qhc"
 
 devhelp:
 	$(SPHINXBUILD) -b devhelp $(ALLSPHINXOPTS) $(BUILDDIR)/devhelp
 	@echo
 	@echo "Build finished."
 	@echo "To view the help file:"
-	@echo "# mkdir -p $$HOME/.local/share/devhelp/grapebuildout"
-	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/grapebuildout"
+	@echo "# mkdir -p $$HOME/.local/share/devhelp/grape.buildout"
+	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/grape.buildout"
 	@echo "# devhelp"
 
 epub:
@@ -151,3 +153,7 @@ doctest:
 	$(SPHINXBUILD) -b doctest $(ALLSPHINXOPTS) $(BUILDDIR)/doctest
 	@echo "Testing of doctests in the sources finished, look at the " \
 	      "results in $(BUILDDIR)/doctest/output.txt."
+
+# Need it to avoid error
+bin/sphinx-build:
+	@echo "Doc updated"
