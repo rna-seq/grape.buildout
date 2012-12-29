@@ -21,14 +21,14 @@ Layout
 
 There are a number of top level folders containing configuration files, like accessions,
 and  profiles. We'll come back to these later, but right now we will create a custom 
-folder for our project inside the pipelines folder.
+folder for our project inside the pipelines folder::
 
     $ cd grape
     $ cd pipelines
     $ mkdir MyProject
     $ cd MyProject
 
-Now copy some files over from the Test folder:
+Now copy some files over from the Test folder::
 
     $ cp ../Test/bootstrap.py .
     $ cp ../Test/buildout.cfg .
@@ -36,14 +36,14 @@ Now copy some files over from the Test folder:
 Configure the buildout.cfg
 --------------------------
 
-The content of the buildout.cfg needs to be adapted to your project:
+The content of the buildout.cfg needs to be adapted to your project::
 
     [buildout]
     extends = ../dependencies.cfg
               ../../accessions/Test/db.cfg
               ../../profiles/Test/db.cfg
     
-Change this to:
+Change this to::
 
     [buildout]
     extends = ../dependencies.cfg
@@ -66,7 +66,7 @@ We'll cover how to configure this file after taking care of the profile.
 Adding a configuration file for the profile
 -------------------------------------------
 
-Add a project folder to the top level profiles folder, and add a db.cfg file:
+Add a project folder to the top level profiles folder, and add a db.cfg file::
 
     cd grape
     cd profiles
@@ -77,14 +77,14 @@ Add a project folder to the top level profiles folder, and add a db.cfg file:
 Configuring the profile
 -----------------------
 
-Let's copy over the configuration for the profile of the Test project.
+Let's copy over the configuration for the profile of the Test project::
 
     cd grape
     cd profiles
     cd MyProject
     cp ../Test/db.cfg .
 
-We adapt this file to our case:
+We adapt this file to our case::
 
     [runs]
     parts = Male
@@ -121,13 +121,13 @@ What we have done in this configuration is:
 Configuring the accessions
 --------------------------
 
-Let's copy over the configuration for the profile of the MyProject project.
+Let's copy over the configuration for the profile of the MyProject project::
 
     cd grape
     cd accessions
     cd MyProject
 
-Edit the db.cfg file we created earlier.
+Edit the db.cfg file we created earlier::
 
     [Female]
     file_location = /users/myusername/sequencing_drosophilas_saltans/RNAseq/fastq/lane8_W_female_read1_qseq.fastq
@@ -191,7 +191,7 @@ The rnaseqweb user needs read access in order to show the statistical results.
 
 You needs to have read write access.
 
-Then you need to modify your MySQL configuration file: ~/.my.cnf
+Then you need to modify your MySQL configuration file: ~/.my.cnf::
 
     [client]
     host=mysqlserver
@@ -202,7 +202,7 @@ Then you need to modify your MySQL configuration file: ~/.my.cnf
 Run the buildout
 ----------------
 
-Run virtualenv:
+Run virtualenv::
 
     cd grape
     cd pipelines
@@ -213,21 +213,21 @@ If you get an error, you may have to remove your .pydistutils.cfg file.
 
     .pydistutils.cfg
 
-Run the bootstrap.py file with the python binary that has been made available by virtualenv in the bin folder:
+Run the bootstrap.py file with the python binary that has been made available by virtualenv in the bin folder::
 
     cd grape
     cd pipelines
     cd MyProject
     ./bin/python bootstrap.py
 
-Run the buildout:
+Run the buildout::
 
     cd grape
     cd pipelines
     cd MyProject
     ./bin/buildout
 
-The parts folder now contains everything you need to run the two pipelines:
+The parts folder now contains everything you need to run the two pipelines::
 
     cd grape
     cd pipelines
@@ -268,7 +268,7 @@ Now it is time to run the first pipeline so that the index files for the genome 
 annotation can be generated. Once these files are present we can run all the other 
 pipelines in parallel.
 
-Go to the parts folder and run the start script:
+Go to the parts folder and run the start script::
 
     cd grape
     cd pipelines
@@ -277,7 +277,7 @@ Go to the parts folder and run the start script:
     cd parts/Female
     ./start.sh
 
-If you get errors, you can store them into an error.log file like this:
+If you get errors, you can store them into an error.log file like this::
 
     cd grape
     cd pipelines
@@ -286,7 +286,7 @@ If you get errors, you can store them into an error.log file like this:
     cd parts/Female
     ./start.sh 2> error.log
 
-In case everything worked ok, you can run the execute script:
+In case everything worked ok, you can run the execute script::
 
     cd grape
     cd pipelines
@@ -300,7 +300,7 @@ Run the other pipeline
 
 The second pipeline is run exactly like the first one:
 
-Go to the parts folder and run the start script:
+Go to the parts folder and run the start script::
 
     cd grape
     cd pipelines
@@ -309,7 +309,7 @@ Go to the parts folder and run the start script:
     cd parts/Male
     ./start.sh
 
-If you get errors, you can store them into an error.log file like this:
+If you get errors, you can store them into an error.log file like this::
 
     cd grape
     cd pipelines
@@ -318,7 +318,7 @@ If you get errors, you can store them into an error.log file like this:
     cd parts/Male
     ./start.sh 2> error.log
 
-In case everything worked ok, you can run the execute script:
+In case everything worked ok, you can run the execute script::
 
     cd grape
     cd pipelines
