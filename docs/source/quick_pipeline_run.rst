@@ -1,7 +1,7 @@
 .. _quick_pipeline_run:
 
 Quickly test Grape with one of your your own datasets
-=================================================
+=====================================================
 
 You can try out Grape with an example set of reads for the following species:
 
@@ -12,7 +12,7 @@ You can try out Grape with an example set of reads for the following species:
 Just download the genome and annotation for your species and follow the 
 instructions in the README.txt:
     
-For Homo Sapiens:
+For Homo Sapiens::
 
     $ cd pipelines/Quick
     $ wget http://genome.crg.es/~mroder/grape/gencode.v7.annotation.ok.gtf
@@ -20,7 +20,7 @@ For Homo Sapiens:
     $ cp /path/to/a/set/of/read/files/*.fastq.gz .
     $ cat README.txt
 
-For Mus musculus
+For Mus musculus::
 
     $ cd pipelines/Quick
     $ wget http://genome.crg.es/~mroder/grape/mm9_ucsc_UCSC_genes.gtf
@@ -28,7 +28,7 @@ For Mus musculus
     $ cp /path/to/a/set/of/read/files/*.fastq.gz .
     $ cat README.txt
 
-For Drosophila Melanogaster:
+For Drosophila Melanogaster::
 
     $ cd pipelines/Quick
     $ wget http://genome.crg.es/~mroder/grape/flyBase.exons.genes_real.transcripts.gtf
@@ -48,7 +48,7 @@ The permissions you need to ask for are:
 
     * yourusername: read and write
 
-Then you need to modify your MySQL configuration file: ~/.my.cnf
+Then you need to modify your MySQL configuration file: ~/.my.cnf::
 
     [client]
     host=mysqlhost
@@ -65,28 +65,28 @@ You also don't need to install virtualenv, because it is available on our system
 
     $ easy_install virtualenv
 
-Run virtualenv:
+Run virtualenv::
 
     $ cd grape
     $ cd pipelines
     $ cd Quick
     $ virtualenv --no-site-packages .
 
-Run the bootstrap.py file with the python binary that has been made available by virtualenv in the bin folder:
+Run the bootstrap.py file with the python binary that has been made available by virtualenv in the bin folder::
 
     $ cd grape
     $ cd pipelines
     $ cd Quick
     $ ./bin/python bootstrap.py
 
-Run the buildout:
+Run the buildout::
 
     $ cd grape
     $ cd pipelines
     $ cd Quick
     $ ./bin/buildout
 
-The parts folder now contains everything you need to run the two pipelines:
+The parts folder now contains everything you need to run the two pipelines::
 
     $ cd grape
     $ cd pipelines
@@ -105,7 +105,7 @@ Run the pipeline
 Now it is time to run the first pipeline so that the index files for the genome and annotation
 can be generated.
 
-Go to the parts folder and run the start script:
+Go to the parts folder and run the start script::
 
     $ cd grape
     $ cd pipelines
@@ -114,7 +114,7 @@ Go to the parts folder and run the start script:
     $ cd Run
     $ ./start.sh
 
-If you get errors, you can store them into an error.log file like this:
+If you get errors, you can store them into an error.log file like this::
 
     $ cd grape
     $ cd pipelines
@@ -123,7 +123,7 @@ If you get errors, you can store them into an error.log file like this:
     $ cd Run
     $ ./start.sh 2> error.log
 
-In case everything worked ok, you can run the execute script:
+In case everything worked ok, you can run the execute script::
 
     $ cd grape
     $ cd pipelines
