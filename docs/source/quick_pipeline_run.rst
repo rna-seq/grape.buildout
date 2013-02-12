@@ -77,7 +77,7 @@ Run the bootstrap.py file with the python binary that has been made available by
     $ cd grape
     $ cd pipelines
     $ cd Quick
-    $ ./bin/python bootstrap.py
+    $ ./bin/python ../../bootstrap.py
 
 Run the buildout::
 

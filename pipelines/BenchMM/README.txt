@@ -43,7 +43,7 @@ by virtualenv in the bin folder:
 cd grape
 cd pipelines
 cd BenchMM
-./bin/python bootstrap.py
+./bin/python ../../bootstrap.py
 
 Run the buildout:
 

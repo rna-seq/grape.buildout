@@ -43,8 +43,8 @@ Get the testdata::
 Create a virtual environment and run the buildout::
 
     $ /path/to/your/python/bin/virtualenv --no-site-packages .
-    $ bin/python bootstrap.py
-    $ bin/buildout
+    $ ./bin/python ../../bootstrap.py
+    $ ./bin/buildout
 
 After running buildout, the parts folder contains the fully configured RNASeq
 pipeline inside the TestRun folder::

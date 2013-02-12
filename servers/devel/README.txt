@@ -15,7 +15,7 @@ Go to the devel folder and run virtualenv:
 
 Run the bootstrap.py file in your project:
 
-    ./bin/python bootstrap.py
+    ./bin/python ../../bootstrap.py
 
 This will install everything necessary in preparation for running the buildout
 like this:

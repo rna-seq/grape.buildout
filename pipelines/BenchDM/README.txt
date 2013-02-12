@@ -43,7 +43,7 @@ Run the bootstrap.py file with the python binary that has been made available
 by virtualenv in the bin folder:
 
 cd grape/pipelines/BenchDM
-./bin/python bootstrap.py
+./bin/python ../../bootstrap.py
 
 Run the buildout:
 
