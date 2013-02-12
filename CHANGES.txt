@@ -1,4 +1,21 @@
-1.9.2 (2012-01-09)
+1.9.3 (2013-02-12)
+==================
+
+- Use a single bootstrap.py, and update the documentation
+
+- Update bootstrap.py for the latest version of zc.buildout
+
+- Fix configuration checks for bam files
+
+    - grape.recipe.pipeline == 1.1.14
+
+- Upgrade to allow plus sign in parameter values
+
+    - raisin.pyramid = 1.2.1
+
+    - raisin.resource = 1.4.1
+
+1.9.2 (2013-01-09)
 ==================
 
 - Upgrade to pipeline 6.5.3
