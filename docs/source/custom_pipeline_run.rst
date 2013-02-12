@@ -28,22 +28,10 @@ folder for our project inside the pipelines folder::
     $ mkdir MyProject
     $ cd MyProject
 
-Now copy some files over from the Test folder::
-
-    $ cp ../Test/bootstrap.py .
-    $ cp ../Test/buildout.cfg .
-
 Configure the buildout.cfg
 --------------------------
 
-The content of the buildout.cfg needs to be adapted to your project::
-
-    [buildout]
-    extends = ../dependencies.cfg
-              ../../accessions/Test/db.cfg
-              ../../profiles/Test/db.cfg
-    
-Change this to::
+Write a buildout.cfg file for your project::
 
     [buildout]
     extends = ../dependencies.cfg
@@ -218,7 +206,7 @@ Run the bootstrap.py file with the python binary that has been made available by
     cd grape
     cd pipelines
     cd MyProject
-    ./bin/python bootstrap.py
+    ./bin/python ../../bootstrap.py
 
 Run the buildout::
 
