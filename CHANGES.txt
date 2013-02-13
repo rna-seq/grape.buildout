@@ -1,3 +1,12 @@
+1.9.4 (2013-02-13)
+==================
+
+- Upgrade to grape.recipe.pipeline 1.1.15
+
+    - Make TEMPLATE parameter optional
+
+    - Detect wrong template for fastq and bam files
+
 1.9.3 (2013-02-12)
 ==================
 

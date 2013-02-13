@@ -29,6 +29,6 @@ Please read the copyright notice in the file LICENSE.txt!
 We need your feedback! Send your comments, suggestions, and questions to
 maikroeder@gmail.com
 
-Maik Röder, July 2012
+Maik Röder, February 2013
 
-Copyright (C) 2011-2012 Centre for Genomic Regulation (CRG)
+Copyright (C) 2011-2013 Centre for Genomic Regulation (CRG)
