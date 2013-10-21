@@ -1,3 +1,12 @@
+1.9.5 (2013-10-21)
+==================
+
+- update bootstrap.py from ttp://downloads.buildout.org/1/bootstrap.py
+
+- Upgrade to grape.recipe.pipeline 1.1.16
+
+    - Better error message when the type parameter in the accession is neither fastq nor bam
+
 1.9.4 (2013-02-13)
 ==================
 
